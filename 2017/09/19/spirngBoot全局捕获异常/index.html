@@ -69,13 +69,17 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="随散笔记">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="## 需求  现在习惯使用ajax的方式发起请求，所以经常需要服务端返回一个json或者字符串。 控制全局的异常处理。 如果在单个方法中使用try，catch把方法包裹起来，工作量大，而且会异常的抛出而导致@Transactional注解的方法事务不会回滚。 说明:使用@ControllerAdvice注解 使用@ExceptionHandler注解 1@ControllerAdvice 该注解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot学习——全局异常处理设置（返回JSON）">
+<meta property="og:url" content="http://yoursite.com/2017/09/19/spirngBoot全局捕获异常/index.html">
 <meta property="og:site_name" content="随散笔记">
+<meta property="og:description" content="## 需求  现在习惯使用ajax的方式发起请求，所以经常需要服务端返回一个json或者字符串。 控制全局的异常处理。 如果在单个方法中使用try，catch把方法包裹起来，工作量大，而且会异常的抛出而导致@Transactional注解的方法事务不会回滚。 说明:使用@ControllerAdvice注解 使用@ExceptionHandler注解 1@ControllerAdvice 该注解">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-09-19T08:15:03.970Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="随散笔记">
+<meta name="twitter:title" content="SpringBoot学习——全局异常处理设置（返回JSON）">
+<meta name="twitter:description" content="## 需求  现在习惯使用ajax的方式发起请求，所以经常需要服务端返回一个json或者字符串。 控制全局的异常处理。 如果在单个方法中使用try，catch把方法包裹起来，工作量大，而且会异常的抛出而导致@Transactional注解的方法事务不会回滚。 说明:使用@ControllerAdvice注解 使用@ExceptionHandler注解 1@ControllerAdvice 该注解">
 
 
 
@@ -105,13 +109,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/09/19/spirngBoot全局捕获异常/"/>
 
 
 
 
 
-  <title>随散笔记</title>
+  <title>SpringBoot学习——全局异常处理设置（返回JSON） | 随散笔记</title>
   
 
 
@@ -130,8 +134,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -204,9 +207,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -236,9 +239,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/09/19/spirngBoot全局捕获异常/" itemprop="url">SpringBoot学习——全局异常处理设置（返回JSON）</a></h1>
+          <h1 class="post-title" itemprop="name headline">SpringBoot学习——全局异常处理设置（返回JSON）</h1>
         
 
         <div class="post-meta">
@@ -288,9 +289,7 @@
       
 
       
-        
-          
-            <hr>
+        <hr>
 <pre><code>## 需求
 
 现在习惯使用ajax的方式发起请求，所以经常需要服务端返回一个json或者字符串。
@@ -307,8 +306,6 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSON;</div><div class="line"><span class="keyword">import</span> com.alibaba.fastjson.serializer.SerializerFeature;</div><div class="line"><span class="keyword">import</span> com.alibaba.fastjson.support.config.FastJsonConfig;</div><div class="line"><span class="keyword">import</span> com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter4;</div><div class="line"><span class="keyword">import</span> com.company.project.core.Result;</div><div class="line"><span class="keyword">import</span> com.company.project.core.ResultCode;</div><div class="line"><span class="keyword">import</span> com.company.project.core.ServiceException;</div><div class="line"><span class="keyword">import</span> org.apache.commons.codec.digest.DigestUtils;</div><div class="line"><span class="keyword">import</span> org.apache.commons.lang3.StringUtils;</div><div class="line"><span class="keyword">import</span> org.slf4j.Logger;</div><div class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</div><div class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Value;</div><div class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</div><div class="line"><span class="keyword">import</span> org.springframework.http.converter.HttpMessageConverter;</div><div class="line"><span class="keyword">import</span> org.springframework.web.method.HandlerMethod;</div><div class="line"><span class="keyword">import</span> org.springframework.web.servlet.HandlerExceptionResolver;</div><div class="line"><span class="keyword">import</span> org.springframework.web.servlet.ModelAndView;</div><div class="line"><span class="keyword">import</span> org.springframework.web.servlet.NoHandlerFoundException;</div><div class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.CorsRegistry;</div><div class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.InterceptorRegistry;</div><div class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;</div><div class="line"><span class="keyword">import</span> org.springframework.web.servlet.handler.HandlerInterceptorAdapter;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.servlet.ServletException;</div><div class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</div><div class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.nio.charset.Charset;</div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.Collections;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="meta">@Configuration</span></div><div class="line">public class WebMvcConfigurer extends WebMvcConfigurerAdapter &#123;</div><div class="line"></div><div class="line">    private final Logger logger = LoggerFactory.getLogger(WebMvcConfigurer.<span class="keyword">class</span>);</div><div class="line"><span class="meta">    @Value("$&#123;spring.profiles.active&#125;")</span></div><div class="line">    private String env;//当前激活的配置文件</div><div class="line"></div><div class="line">    //使用阿里 FastJson 作为JSON MessageConverter</div><div class="line"><span class="meta">    @Override</span></div><div class="line">    public void configureMessageConverters(List&lt;HttpMessageConverter&lt;?&gt;&gt; converters) &#123;</div><div class="line">        FastJsonHttpMessageConverter4 converter = new FastJsonHttpMessageConverter4();</div><div class="line">        FastJsonConfig config = new FastJsonConfig();</div><div class="line">        config.setSerializerFeatures(SerializerFeature.WriteMapNullValue,//保留空的字段</div><div class="line">                SerializerFeature.WriteNullStringAsEmpty,//String null -&gt; ""</div><div class="line">                SerializerFeature.WriteNullNumberAsZero);//Number null -&gt; 0</div><div class="line">        converter.setFastJsonConfig(config);</div><div class="line">        converter.setDefaultCharset(Charset.forName(<span class="string">"UTF-8"</span>));</div><div class="line">        converters.add(converter);</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    //统一异常处理</div><div class="line"><span class="meta">    @Override</span></div><div class="line">    public void configureHandlerExceptionResolvers(List&lt;HandlerExceptionResolver&gt; exceptionResolvers) &#123;</div><div class="line">        exceptionResolvers.add(new HandlerExceptionResolver() &#123;</div><div class="line">            public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception e) &#123;</div><div class="line">                Result result = new Result();</div><div class="line">                <span class="keyword">if</span> (e instanceof ServiceException) &#123;//业务失败的异常，如“账号或密码错误”</div><div class="line">                    result.setCode(ResultCode.FAIL).setMessage(e.getMessage());</div><div class="line">                    logger.info(e.getMessage());</div><div class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (e instanceof NoHandlerFoundException) &#123;</div><div class="line">                    result.setCode(ResultCode.NOT_FOUND).setMessage(<span class="string">"接口 ["</span> + request.getRequestURI() + <span class="string">"] 不存在"</span>);</div><div class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (e instanceof ServletException) &#123;</div><div class="line">                    result.setCode(ResultCode.FAIL).setMessage(e.getMessage());</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    result.setCode(ResultCode.INTERNAL_SERVER_ERROR).setMessage(<span class="string">"接口 ["</span> + request.getRequestURI() + <span class="string">"] 内部错误，请联系管理员"</span>);</div><div class="line">                    String message;</div><div class="line">                    <span class="keyword">if</span> (handler instanceof HandlerMethod) &#123;</div><div class="line">                        HandlerMethod handlerMethod = (HandlerMethod) handler;</div><div class="line">                        message = String.format(<span class="string">"接口 [%s] 出现异常，方法：%s.%s，异常摘要：%s"</span>,</div><div class="line">                                request.getRequestURI(),</div><div class="line">                                handlerMethod.getBean().getClass().getName(),</div><div class="line">                                handlerMethod.getMethod().getName(),</div><div class="line">                                e.getMessage());</div><div class="line">                    &#125; <span class="keyword">else</span> &#123;</div><div class="line">                        message = e.getMessage();</div><div class="line">                    &#125;</div><div class="line">                    logger.error(message, e);</div><div class="line">                &#125;</div><div class="line">                responseResult(response, result);</div><div class="line">                <span class="keyword">return</span> new ModelAndView();</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //解决跨域问题</div><div class="line"><span class="meta">    @Override</span></div><div class="line">    public void addCorsMappings(CorsRegistry registry) &#123;</div><div class="line">        //registry.addMapping(<span class="string">"/**"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //添加拦截器</div><div class="line"><span class="meta">    @Override</span></div><div class="line">    public void addInterceptors(InterceptorRegistry registry) &#123;</div><div class="line">        //接口签名认证拦截器，该签名认证比较简单，实际项目中可以使用Json Web Token或其他更好的方式替代。</div><div class="line">        <span class="keyword">if</span> (!<span class="string">"dev"</span>.equals(env)) &#123; //开发环境忽略签名认证</div><div class="line">            registry.addInterceptor(new HandlerInterceptorAdapter() &#123;</div><div class="line"><span class="meta">                @Override</span></div><div class="line">                public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception &#123;</div><div class="line">                    //验证签名</div><div class="line">                    boolean <span class="keyword">pass</span> = validateSign(request);</div><div class="line">                    <span class="keyword">if</span> (<span class="keyword">pass</span>) &#123;</div><div class="line">                        <span class="keyword">return</span> true;</div><div class="line">                    &#125; <span class="keyword">else</span> &#123;</div><div class="line">                        logger.warn(<span class="string">"签名认证失败，请求接口：&#123;&#125;，请求IP：&#123;&#125;，请求参数：&#123;&#125;"</span>,</div><div class="line">                                request.getRequestURI(), getIpAddress(request), JSON.toJSONString(request.getParameterMap()));</div><div class="line"></div><div class="line">                        Result result = new Result();</div><div class="line">                        result.setCode(ResultCode.UNAUTHORIZED).setMessage(<span class="string">"签名认证失败"</span>);</div><div class="line">                        responseResult(response, result);</div><div class="line">                        <span class="keyword">return</span> false;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private void responseResult(HttpServletResponse response, Result result) &#123;</div><div class="line">        response.setCharacterEncoding(<span class="string">"UTF-8"</span>);</div><div class="line">        response.setHeader(<span class="string">"Content-type"</span>, <span class="string">"application/json;charset=UTF-8"</span>);</div><div class="line">        response.setStatus(<span class="number">200</span>);</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            response.getWriter().write(JSON.toJSONString(result));</div><div class="line">        &#125; catch (IOException ex) &#123;</div><div class="line">            logger.error(ex.getMessage());</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 一个简单的签名认证，规则：</div><div class="line">     * <span class="number">1.</span> 将请求参数按ascii码排序</div><div class="line">     * <span class="number">2.</span> 拼接为a=value&amp;b=value...这样的字符串（不包含sign）</div><div class="line">     * <span class="number">3.</span> 混合密钥（secret）进行md5获得签名，与请求的签名进行比较</div><div class="line">     */</div><div class="line">    private boolean validateSign(HttpServletRequest request) &#123;</div><div class="line">        String requestSign = request.getParameter(<span class="string">"sign"</span>);//获得请求签名，如sign=<span class="number">19e907700</span>db7ad91318424a97c54ed57</div><div class="line">        <span class="keyword">if</span> (StringUtils.isEmpty(requestSign)) &#123;</div><div class="line">            <span class="keyword">return</span> false;</div><div class="line">        &#125;</div><div class="line">        List&lt;String&gt; keys = new ArrayList&lt;String&gt;(request.getParameterMap().keySet());</div><div class="line">        keys.remove(<span class="string">"sign"</span>);//排除sign参数</div><div class="line">        Collections.sort(keys);//排序</div><div class="line"></div><div class="line">        StringBuilder sb = new StringBuilder();</div><div class="line">        <span class="keyword">for</span> (String key : keys) &#123;</div><div class="line">            sb.append(key).append(<span class="string">"="</span>).append(request.getParameter(key)).append(<span class="string">"&amp;"</span>);//拼接字符串</div><div class="line">        &#125;</div><div class="line">        String linkString = sb.toString();</div><div class="line">        linkString = StringUtils.substring(linkString, <span class="number">0</span>, linkString.length() - <span class="number">1</span>);//去除最后一个<span class="string">'&amp;'</span></div><div class="line"></div><div class="line">        String secret = <span class="string">"Potato"</span>;//密钥，自己修改</div><div class="line">        String sign = DigestUtils.md5Hex(linkString + secret);//混合密钥md5</div><div class="line"></div><div class="line">        <span class="keyword">return</span> StringUtils.equals(sign, requestSign);//比较</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private String getIpAddress(HttpServletRequest request) &#123;</div><div class="line">        String ip = request.getHeader(<span class="string">"x-forwarded-for"</span>);</div><div class="line">        <span class="keyword">if</span> (ip == null || ip.length() == <span class="number">0</span> || <span class="string">"unknown"</span>.equalsIgnoreCase(ip)) &#123;</div><div class="line">            ip = request.getHeader(<span class="string">"Proxy-Client-IP"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (ip == null || ip.length() == <span class="number">0</span> || <span class="string">"unknown"</span>.equalsIgnoreCase(ip)) &#123;</div><div class="line">            ip = request.getHeader(<span class="string">"WL-Proxy-Client-IP"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (ip == null || ip.length() == <span class="number">0</span> || <span class="string">"unknown"</span>.equalsIgnoreCase(ip)) &#123;</div><div class="line">            ip = request.getHeader(<span class="string">"HTTP_CLIENT_IP"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (ip == null || ip.length() == <span class="number">0</span> || <span class="string">"unknown"</span>.equalsIgnoreCase(ip)) &#123;</div><div class="line">            ip = request.getHeader(<span class="string">"HTTP_X_FORWARDED_FOR"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (ip == null || ip.length() == <span class="number">0</span> || <span class="string">"unknown"</span>.equalsIgnoreCase(ip)) &#123;</div><div class="line">            ip = request.getRemoteAddr();</div><div class="line">        &#125;</div><div class="line">        // 如果是多级代理，那么取第一个ip为客户端ip</div><div class="line">        <span class="keyword">if</span> (ip != null &amp;&amp; ip.indexOf(<span class="string">","</span>) != <span class="number">-1</span>) &#123;</div><div class="line">            ip = ip.substring(<span class="number">0</span>, ip.indexOf(<span class="string">","</span>)).trim();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> ip;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>随时扣作者QQ:23 9549 9549</p>
 
-          
-        
       
     </div>
     
@@ -325,188 +322,28 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/19/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="liwenqiang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="随散笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/09/19/hello-world/" itemprop="url">MySql数据主从同步(Liunx)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-19T14:17:55+08:00">
-                2017-09-19
-              </time>
+              <a href="/2017/09/19/hello-world/" rel="next" title="MySql数据主从同步(Liunx)">
+                <i class="fa fa-chevron-left"></i> MySql数据主从同步(Liunx)
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>主服务器IP:192.168.1.60</p>
-<p>从服务IP:192.168.1.61</p>
-<p>Linux:centOS</p>
-<p>Mysql版本：5.1.58</p>
-<h2 id="点击进入"><a href="#点击进入" class="headerlink" title="点击进入"></a>点击进入</h2><h6 id="真实项目案例"><a href="#真实项目案例" class="headerlink" title="真实项目案例"></a><a href="http://116.228.10.14:38080/evaluation_web/#/login" target="_blank" rel="external">真实项目案例</a></h6><p>##主从配置原理介绍</p>
-<p>mysql的 主从同步 是一个异步的复制过程，从一个 Master复制到另一个 Slave上。<br>在 Master 与 Slave 之间的实现整个复制过程主要由三个线程来完成，<br>其中两个线程(Sql线程和IO线程)在 Slave 端，<br>另外一个线程(IO线程)在 Master 端。　</p>
-<p><img src="http://hi.csdn.net/attachment/201202/28/0_1330439010P7lI.gif" alt="cmd-markdown-logo"></p>
-<blockquote>
-<p>PS:<code>操作系统和mysql版本必须相同 两台主机网络相通</code></p>
-</blockquote>
-<h2 id="下面介绍Master配置"><a href="#下面介绍Master配置" class="headerlink" title="下面介绍Master配置"></a>下面介绍Master配置</h2><ul>
-<li><p>1<br>vi /etc/my.cnf(默认路径)。根据mysql路径不同而变。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Server-id = <span class="number">1</span>  <span class="comment">##这是数据库ID,此ID是唯一的，主库默认为1，其他从库以此ID进行递增，ID值不能重复，否则会同步出错；</span></div><div class="line"></div><div class="line">log-bin = mysql-bin <span class="comment">## 二进制日志文件，此项为必填项，否则不能同步数据；</span></div><div class="line"></div><div class="line">binlog-do-db = testcreate  <span class="comment">#需要同步的数据库，如果需要同步多个数据库；</span></div><div class="line"></div><div class="line"><span class="comment">##则继续添加此项。可选项</span></div><div class="line"></div><div class="line">binlog-do-db = testcreate1</div><div class="line"></div><div class="line">binlog-do-db = testcreate2</div><div class="line"></div><div class="line">binlog-ignore-db = mysql 不需要同步的数据库；</div></pre></td></tr></table></figure>
-</li>
-<li><p>2</p>
-</li>
-</ul>
-<p>运行 service mysqld restart ##重启mysql<br>进入Master Mysql终端命令（mysql -u uname -ppassword）你的mysql用户名和密码</p>
-<ul>
-<li><p>3<br>配置完成后需要建立同步用的数据库账户<br>进入Master Mysql终端命令：<br>grantreplication slave on <em>.</em> to ‘testcreate’@’192.168.1.61’ identified by ‘123456’;</p>
-<p>说明：’testcreate’：同步的数据库；</p>
-<p> ‘192.168.1.61’：同步的数据库地址；</p>
-<p>  ‘123456’ ：同步的数据库密码，在从库配置时需要设置。</p>
-</li>
-</ul>
-<ul>
-<li>4<br>显示主库信息 进入Master Mysql终端命令： showmaster status;<br>显示以下内容代表Master配置成功<br><img src="http://images.cnblogs.com/cnblogs_com/hustcat/mysql/mysql03-2.JPG" alt="cmd-markdown-logo"></li>
-</ul>
-<h2 id="下面介绍Slave配置"><a href="#下面介绍Slave配置" class="headerlink" title="下面介绍Slave配置"></a>下面介绍Slave配置</h2><p>从服务器的配置基本与主库配置差不多，选择的从库服务器为：192.168.1.61</p>
-<ol>
-<li><p>配置从库服务my.cnf文件</p>
-<p>vietc/my.cnf 对其进行如下修改：</p>
-</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Server-id = <span class="number">2</span> <span class="comment">#这里ID改为2 因为主库为1;</span></div><div class="line"></div><div class="line">log-bin = mysql-bin  <span class="comment">####必填项，用于数据同步 ; </span></div><div class="line"></div><div class="line">master-host = <span class="number">192.168</span><span class="number">.1</span><span class="number">.60</span>  <span class="comment">####主库IP;</span></div><div class="line"></div><div class="line">master-user = test  <span class="comment">####同步用的账户;</span></div><div class="line"></div><div class="line">master-password = <span class="number">123456</span>  <span class="comment">####同步账户密码，主库时的设置;</span></div><div class="line"></div><div class="line">master-port = <span class="number">3306</span> <span class="comment">##同步数据库的端口号。</span></div></pre></td></tr></table></figure>
-<ul>
-<li>2</li>
-</ul>
-<p>运行 service mysqld restart ##重启mysql<br>进入Master Mysql终端命令（mysql -u uname -ppassword）你的mysql用户名和密码<br>运行：showslave status\G;  显示如图：</p>
-<p><img src="http://hi.csdn.net/attachment/201112/22/0_1324568301n48v.gif" alt="cmd-markdown-logo"></p>
-<ul>
-<li>3</li>
-</ul>
-<p>如果slave_io_running和slave_sql_running都为yes则表示从服务器配置成功。</p>
-<p>如果遇到关于position相关的错误，就需要再手动设置以下File/Postion的信息</p>
-<p>mysql&gt;Changemaster to master_host = ‘192.168.1.60’</p>
-<p>master_user= ‘test’</p>
-<p>master_password=’123456’</p>
-<p>master_log_file=’mysql-bin.000001’,  主库的文件信息</p>
-<p>master_log_pos=’106’;主库的Position信息</p>
-<ul>
-<li>4 测试</li>
-</ul>
-<p>这个是我测得真实案例：</p>
-<p><img src="http://img.blog.csdn.net/20160506174112818" alt="cmd-markdown-logo"><br><img src="http://img.blog.csdn.net/20160506175740091" alt="cmd-markdown-logo"><br><img src="http://img.blog.csdn.net/20160506174908673" alt="cmd-markdown-logo"></p>
-<p>遇到问题请参照介绍博客：<a href="http://blog.csdn.net/alangmei/article/details/21075055" target="_blank" rel="external">http://blog.csdn.net/alangmei/article/details/21075055</a></p>
-<p>随时扣作者QQ:23 9549 9549</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -516,10 +353,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -527,6 +365,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -547,8 +389,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           
             <p class="site-author-name" itemprop="name">liwenqiang</p>
@@ -591,6 +442,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#说明"><span class="nav-number">1.</span> <span class="nav-text">说明:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#该注解是spring2-3以后新增的一个注解，主要是用来Controller的一些公共的需求的低侵入性增强提供辅助，作用于-RequestMapping标注的方法上。"><span class="nav-number">2.</span> <span class="nav-text">该注解是spring2.3以后新增的一个注解，主要是用来Controller的一些公共的需求的低侵入性增强提供辅助，作用于@RequestMapping标注的方法上。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#该注解是配合-ExceptionHandler一起使用的注解，自定义错误处理器，可自己组装json字符串，并返回到页面。"><span class="nav-number">3.</span> <span class="nav-text">该注解是配合@ExceptionHandler一起使用的注解，自定义错误处理器，可自己组装json字符串，并返回到页面。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">4.</span> <span class="nav-text">代码:</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
