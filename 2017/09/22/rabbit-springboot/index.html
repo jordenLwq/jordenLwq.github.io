@@ -94,17 +94,19 @@
 
 
 
-<meta name="description" content="有风雨能够扎得住，有压力能够顶得住， 有责任能够扛得住，有诱惑能够忍得住。">
+<meta name="description" content="RabbitMq是什么1  消息队列（MQ）是一种应用程序对应用程序的通信方法。应用程序通过读写出入队列的消息（针对应用程序的数据）来通信，而无需专用连接来链接它们。消息传递指的是程序之间通过在消息中发送数据进行通信，而不是通过直接调用彼此来通信，直接调用通常是用于诸如远程过程调用的技术。排队指的是应用程序通过 队列来通信 RabbitMq能够解决什么问题1 解决了在高并发情况下的消息传递 2 在">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringBoot整合RabbitMq RPC通讯，电商项目各模块的消息通讯">
 <meta property="og:url" content="https://github.com/playerlwq/2017/09/22/rabbit-springboot/index.html">
 <meta property="og:site_name" content="随散笔记">
-<meta property="og:description" content="有风雨能够扎得住，有压力能够顶得住， 有责任能够扛得住，有诱惑能够忍得住。">
+<meta property="og:description" content="RabbitMq是什么1  消息队列（MQ）是一种应用程序对应用程序的通信方法。应用程序通过读写出入队列的消息（针对应用程序的数据）来通信，而无需专用连接来链接它们。消息传递指的是程序之间通过在消息中发送数据进行通信，而不是通过直接调用彼此来通信，直接调用通常是用于诸如远程过程调用的技术。排队指的是应用程序通过 队列来通信 RabbitMq能够解决什么问题1 解决了在高并发情况下的消息传递 2 在">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-09-22T07:11:30.700Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/playerlwq/imgRepository-/master/rabbitmq.png">
+<meta property="og:updated_time" content="2017-09-22T08:43:34.998Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringBoot整合RabbitMq RPC通讯，电商项目各模块的消息通讯">
-<meta name="twitter:description" content="有风雨能够扎得住，有压力能够顶得住， 有责任能够扛得住，有诱惑能够忍得住。">
+<meta name="twitter:description" content="RabbitMq是什么1  消息队列（MQ）是一种应用程序对应用程序的通信方法。应用程序通过读写出入队列的消息（针对应用程序的数据）来通信，而无需专用连接来链接它们。消息传递指的是程序之间通过在消息中发送数据进行通信，而不是通过直接调用彼此来通信，直接调用通常是用于诸如远程过程调用的技术。排队指的是应用程序通过 队列来通信 RabbitMq能够解决什么问题1 解决了在高并发情况下的消息传递 2 在">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/playerlwq/imgRepository-/master/rabbitmq.png">
 
 
 
@@ -205,7 +207,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -215,7 +217,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -289,7 +291,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-22T14:28:52+08:00">
                 2017-09-22
@@ -339,7 +341,21 @@
       
 
       
-        
+        <h2 id="RabbitMq是什么"><a href="#RabbitMq是什么" class="headerlink" title="RabbitMq是什么"></a>RabbitMq是什么</h2><pre><code>1  消息队列（MQ）是一种应用程序对应用程序的通信方法。应用程序通过读写出入队列的消息（针对应用程序的数据）来通信，而无需专用连接来链接它们。消息传递指的是程序之间通过在消息中发送数据进行通信，而不是通过直接调用彼此来通信，直接调用通常是用于诸如远程过程调用的技术。排队指的是应用程序通过 队列来通信
+</code></pre><h2 id="RabbitMq能够解决什么问题"><a href="#RabbitMq能够解决什么问题" class="headerlink" title="RabbitMq能够解决什么问题"></a>RabbitMq能够解决什么问题</h2><pre><code>1 解决了在高并发情况下的消息传递
+2 在项目中，不需要即时返回的操作可以进行异步处理。而这种异步处理大大的减轻了服务器的压力，从而提高了服务器的吞吐量
+</code></pre><h2 id="项目结构目录"><a href="#项目结构目录" class="headerlink" title="项目结构目录"></a>项目结构目录</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">这个是我测试的工程，maven多模块构建项目。电商项目应该也是这样的。本人没有做电商项目，知其一，不知其二。</div><div class="line"></div><div class="line">就不解释项目结构了，见明示意。第一个是父模块。第二个是消息接收模块。第三是消息发送模块</div></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/playerlwq/imgRepository-/master/rabbitmq.png" alt="cmd-markdown-logo">    </p>
+<h2 id="安装和配置RabbitMQ-环境-（windows-和liunx-）-本人是在docker环境下配置"><a href="#安装和配置RabbitMQ-环境-（windows-和liunx-）-本人是在docker环境下配置" class="headerlink" title="安装和配置RabbitMQ 环境 （windows 和liunx ） 本人是在docker环境下配置"></a>安装和配置RabbitMQ 环境 （windows 和liunx ） 本人是在docker环境下配置</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"> <span class="number">1</span> yum install docker <span class="comment">## 安装docker</span></div><div class="line"> <span class="number">2</span> 配置阿里云镜像加速器</div><div class="line"> <span class="number">3</span> pull rabbitMQ </div><div class="line"> </div><div class="line">docker run -d --name rabbitmq --publish <span class="number">5671</span>:<span class="number">5671</span>  --publish <span class="number">5672</span>:<span class="number">5672</span> --publish <span class="number">4369</span>:<span class="number">4369</span> --publish <span class="number">25672</span>:<span class="number">25672</span> --publish <span class="number">15671</span>:<span class="number">15671</span> --publish <span class="number">15672</span>:<span class="number">15672</span> rabbitmq:management</div><div class="line"> </div><div class="line"><span class="number">4</span>  配置防火墙  <span class="number">15671</span>是监控端口</div></pre></td></tr></table></figure>
+<h2 id="添加pom-依赖"><a href="#添加pom-依赖" class="headerlink" title="添加pom 依赖"></a>添加pom 依赖</h2><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;  </div><div class="line">  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;  </div><div class="line">  &lt;artifactId&gt;spring-boot-starter-amqp&lt;/artifactId&gt;  </div><div class="line">  &lt;/dependency&gt;</div></pre></td></tr></table></figure>
+<h2 id="application-properties-配置-发送和接收是一样的"><a href="#application-properties-配置-发送和接收是一样的" class="headerlink" title="application.properties 配置  发送和接收是一样的"></a>application.properties 配置  发送和接收是一样的</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">server.port=<span class="number">8091</span></div><div class="line">spring.application.name=springboot-rabbit-sender</div><div class="line">spring.rabbitmq.host=<span class="number">47.93</span><span class="number">.226</span><span class="number">.82</span></div><div class="line">spring.rabbitmq.port=<span class="number">5672</span></div><div class="line">spring.rabbitmq.username=guest</div><div class="line">spring.rabbitmq.password=guest</div></pre></td></tr></table></figure>
+<h2 id="发送工程的配置"><a href="#发送工程的配置" class="headerlink" title="发送工程的配置"></a>发送工程的配置</h2><p>  配置队列</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">package com.github.lwq.sender.mq.config;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.springframework.amqp.core.Queue;</div><div class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</div><div class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</div><div class="line"></div><div class="line"><span class="meta">@Configuration</span></div><div class="line">public class SenderConfig &#123;</div><div class="line"></div><div class="line">		/**</div><div class="line">		 * 测试队列</div><div class="line">		 */</div><div class="line"><span class="meta">		@Bean</span></div><div class="line">		public Queue emailActiveQueue()&#123;</div><div class="line">			<span class="keyword">return</span> new Queue(<span class="string">"emailActiveQueue"</span>);</div><div class="line">		&#125;</div><div class="line">		/*</div><div class="line">		*支付队列</div><div class="line">		*/</div><div class="line"><span class="meta">		@Bean</span></div><div class="line">		public Queue pay()&#123;</div><div class="line">			<span class="keyword">return</span> new Queue(<span class="string">"pay"</span>);</div><div class="line">		&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="发送测试"><a href="#发送测试" class="headerlink" title="发送测试"></a>发送测试</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">package springboot_rabbit_sender;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.junit.Test;</div><div class="line"><span class="keyword">import</span> org.junit.runner.RunWith;</div><div class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</div><div class="line"><span class="keyword">import</span> org.springframework.boot.test.SpringApplicationConfiguration;</div><div class="line"><span class="keyword">import</span> org.springframework.context.annotation.ComponentScan;</div><div class="line"><span class="keyword">import</span> org.springframework.test.context.junit4.SpringJUnit4ClassRunner;</div><div class="line"><span class="keyword">import</span> org.springframework.test.context.web.WebAppConfiguration;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.github.lwq.sender.mq.queue.EmailActiveQueueSender;</div><div class="line"></div><div class="line"></div><div class="line"><span class="meta">@RunWith(SpringJUnit4ClassRunner.class) // SpringJUnit支持，由此引入Spring-Test框架支持！ </span></div><div class="line"><span class="meta">@SpringApplicationConfiguration(classes = Tester.class) // 指定我们SpringBoot工程的Application启动类</span></div><div class="line"><span class="meta">@WebAppConfiguration // 由于是Web项目，Junit需要模拟ServletContext，因此我们需要给我们的测试类加上@WebAppConfiguration。</span></div><div class="line"><span class="meta">@ComponentScan("com.github.lwq.sender")</span></div><div class="line">public class Tester &#123;</div><div class="line"></div><div class="line">	</div><div class="line"><span class="meta">    @Autowired</span></div><div class="line">    EmailActiveQueueSender sender;</div><div class="line">    </div><div class="line"><span class="meta">    @Test</span></div><div class="line">    public void hello() throws Exception &#123;</div><div class="line">        sender.sendpay();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="接收消息"><a href="#接收消息" class="headerlink" title="接收消息"></a>接收消息</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.springframework.amqp.rabbit.annotation.RabbitHandler;</div><div class="line"><span class="keyword">import</span> org.springframework.amqp.rabbit.annotation.RabbitListener;</div><div class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</div><div class="line"></div><div class="line"><span class="meta">@Component</span></div><div class="line"></div><div class="line">public class EmailActiveReceive &#123;</div><div class="line">	</div><div class="line"><span class="meta">	@RabbitListener(queues ="emailActiveQueue")</span></div><div class="line"><span class="meta">    @RabbitHandler</span></div><div class="line">    public void emailActiveQueue(String hello) &#123;</div><div class="line">        System.err.println(<span class="string">"Receiver : "</span> + hello);</div><div class="line">    &#125;</div><div class="line">	</div><div class="line"><span class="meta">	@RabbitListener(queues ="pay")</span></div><div class="line"><span class="meta">    @RabbitHandler</span></div><div class="line">    public void pay(String hello) &#123;</div><div class="line">        /***</div><div class="line">            可以进行响应的操作 </div><div class="line">        */</div><div class="line">        System.err.println(<span class="string">"收款到账 : "</span> + hello +<span class="string">" 已经发送邮件，交给人工处理"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="启动工程"><a href="#启动工程" class="headerlink" title="启动工程"></a>启动工程</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">package com.github.lwq.receive;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</div><div class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</div><div class="line"></div><div class="line"><span class="meta">@SpringBootApplication</span></div><div class="line">public class ApplicationReceiveStart &#123;</div><div class="line"></div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		SpringApplication.run(ApplicationReceiveStart.<span class="keyword">class</span>, args);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="随时扣作者QQ-23-9549-9549"><a href="#随时扣作者QQ-23-9549-9549" class="headerlink" title="随时扣作者QQ:23 9549 9549"></a><a href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=2395499549&amp;website=www.oicqzone.com" target="_blank" rel="external">随时扣作者QQ:23 9549 9549</a></h3><h3 id="在线聊天作者"><a href="#在线聊天作者" class="headerlink" title="在线聊天作者"></a><a href="tencent://message/?Menu=yes&amp;uin=2395499549&amp;Service=300&amp;sigT=45a1e5847943b64c6ff3990f8a9e644d2b31356cb0b4ac6b24663a3c8dd0f8aa12a595b1714f9d45" target="_blank" rel="external">在线聊天作者</a></h3><p>测试完成~~ 小demo 以后更新</p>
+
       
     </div>
     
@@ -427,8 +443,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -444,7 +469,7 @@
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
                 <span class="site-state-item-count">5</span>
-                <span class="site-state-item-name">Artikel</span>
+                <span class="site-state-item-name">posts</span>
               </a>
             </div>
           
@@ -541,6 +566,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RabbitMq是什么"><span class="nav-number">1.</span> <span class="nav-text">RabbitMq是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RabbitMq能够解决什么问题"><span class="nav-number">2.</span> <span class="nav-text">RabbitMq能够解决什么问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目结构目录"><span class="nav-number">3.</span> <span class="nav-text">项目结构目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装和配置RabbitMQ-环境-（windows-和liunx-）-本人是在docker环境下配置"><span class="nav-number">4.</span> <span class="nav-text">安装和配置RabbitMQ 环境 （windows 和liunx ） 本人是在docker环境下配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加pom-依赖"><span class="nav-number">5.</span> <span class="nav-text">添加pom 依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#application-properties-配置-发送和接收是一样的"><span class="nav-number">6.</span> <span class="nav-text">application.properties 配置  发送和接收是一样的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发送工程的配置"><span class="nav-number">7.</span> <span class="nav-text">发送工程的配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发送测试"><span class="nav-number">8.</span> <span class="nav-text">发送测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接收消息"><span class="nav-number">9.</span> <span class="nav-text">接收消息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动工程"><span class="nav-number">10.</span> <span class="nav-text">启动工程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#随时扣作者QQ-23-9549-9549"><span class="nav-number">10.1.</span> <span class="nav-text">随时扣作者QQ:23 9549 9549</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在线聊天作者"><span class="nav-number">10.2.</span> <span class="nav-text">在线聊天作者</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -566,7 +607,7 @@
 
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
