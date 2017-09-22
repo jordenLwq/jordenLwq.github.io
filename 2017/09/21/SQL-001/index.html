@@ -76,7 +76,7 @@
 <meta property="og:site_name" content="随散笔记">
 <meta property="og:description" content="一： 什么是存储过程？有哪些优缺点？ 123* 存储过程是一个预编译的代码块，执行效率比较高* 一个存储过程替代大量T_SQL语句 ，可以降低网络通信量，提高通信速率* 可以一定程度上确保数据安全  二： 什么事务？ 事务是数据库维护数据一致性的单位，在每个事务结束时，都能保持数据一致性。  三： 什么是存储过程？有哪些优缺点？ MySQL数据库几个基本的索引类型：普通索引、唯一索引、主键索引（">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-09-21T07:01:09.750Z">
+<meta property="og:updated_time" content="2017-09-22T03:06:13.384Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据库面试相关题目">
 <meta name="twitter:description" content="一： 什么是存储过程？有哪些优缺点？ 123* 存储过程是一个预编译的代码块，执行效率比较高* 一个存储过程替代大量T_SQL语句 ，可以降低网络通信量，提高通信速率* 可以一定程度上确保数据安全  二： 什么事务？ 事务是数据库维护数据一致性的单位，在每个事务结束时，都能保持数据一致性。  三： 什么是存储过程？有哪些优缺点？ MySQL数据库几个基本的索引类型：普通索引、唯一索引、主键索引（">
@@ -306,8 +306,7 @@
 </code></pre><p>  如果问起其他的函数。就回答这个：<br>    二：日期时间函数<br>        一 CURDATE(),CURRENT_DATE() 返回当前日期</p>
 <p>五： 数据库优化问题。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">一：硬件优化，提高机器性能，增加硬件等; </div><div class="line">二：优化查询语句，将限定性强的where条件放前</div><div class="line">三：优化索引，建立有效的索引</div><div class="line"></div><div class="line"></div><div class="line">如何继续问这个优化问题，你就说不怎么了解，你知道一个大数据下</div><div class="line">数据库分库分表的问题</div><div class="line">可以举一个最简单的问题：</div><div class="line">上海的公交卡的信息记录</div><div class="line">上海假设就 两千万的人做公交，每天上下班也算上</div><div class="line"></div><div class="line">那么日积月累一个月就是<span class="number">30</span>*两千万。一个数据库根本就不可能</div><div class="line">，你就可以这么说。按照每天分表。</div><div class="line">昨天是<span class="number">20170921</span>一个数据库</div><div class="line">今天是<span class="number">20170921</span>一个数据库</div><div class="line">每天是<span class="number">20170922</span>一个数据库</div><div class="line">这个就是分库。</div><div class="line">  </div><div class="line">分表也是同样的道理</div><div class="line">分表就是表拆开：</div><div class="line"> 经常用的字段一个表 不经常用的放另外一个表。用id关联</div></pre></td></tr></table></figure>
-<p>随时扣作者QQ:23 9549 9549</p>
-
+<h3 id="随时扣作者QQ-23-9549-9549"><a href="#随时扣作者QQ-23-9549-9549" class="headerlink" title="随时扣作者QQ:23 9549 9549"></a><a href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=2395499549&amp;website=www.oicqzone.com" target="_blank" rel="external">随时扣作者QQ:23 9549 9549</a></h3><h3 id="在线聊天作者"><a href="#在线聊天作者" class="headerlink" title="在线聊天作者"></a><a href="tencent://message/?Menu=yes&amp;uin=2395499549&amp;Service=300&amp;sigT=45a1e5847943b64c6ff3990f8a9e644d2b31356cb0b4ac6b24663a3c8dd0f8aa12a595b1714f9d45" target="_blank" rel="external">在线聊天作者</a></h3>
       
     </div>
     
@@ -395,8 +394,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           
             <p class="site-author-name" itemprop="name">Jorder.lwq</p>
@@ -439,6 +447,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#随时扣作者QQ-23-9549-9549"><span class="nav-number">1.</span> <span class="nav-text">随时扣作者QQ:23 9549 9549</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在线聊天作者"><span class="nav-number">2.</span> <span class="nav-text">在线聊天作者</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
