@@ -94,24 +94,17 @@
 
 
 
-<meta name="description" content="主服务器IP:192.168.1.60 从服务IP:192.168.1.61 Linux:centOS Mysql版本：5.1.58 点击进入真实项目案例##主从配置原理介绍 mysql的 主从同步 是一个异步的复制过程，从一个 Master复制到另一个 Slave上。在 Master 与 Slave 之间的实现整个复制过程主要由三个线程来完成，其中两个线程(Sql线程和IO线程)在 Slave">
+<meta name="description" content="为什么要使用swaggerui 在线文档。1  如果项目才有前后分离的架构方式。ajax交互是必不可免的。当然这就会后台就会提供接口文档这个swaggerui还有可以在线测试 swaggerui基于boostart文档方式。swaggerui也就是最好的选择 废话不多说，直接上代码1： pom.xml。 123456789101112131415161718192021222324252627&amp;l">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySql数据主从同步(Liunx)">
-<meta property="og:url" content="https://github.com/playerlwq/2017/09/19/hello-world/index.html">
+<meta property="og:title" content="Springboot配置swaggerui restFul接口文档">
+<meta property="og:url" content="https://github.com/playerlwq/2017/09/27/springboot-swagger2/index.html">
 <meta property="og:site_name" content="随散笔记">
-<meta property="og:description" content="主服务器IP:192.168.1.60 从服务IP:192.168.1.61 Linux:centOS Mysql版本：5.1.58 点击进入真实项目案例##主从配置原理介绍 mysql的 主从同步 是一个异步的复制过程，从一个 Master复制到另一个 Slave上。在 Master 与 Slave 之间的实现整个复制过程主要由三个线程来完成，其中两个线程(Sql线程和IO线程)在 Slave">
+<meta property="og:description" content="为什么要使用swaggerui 在线文档。1  如果项目才有前后分离的架构方式。ajax交互是必不可免的。当然这就会后台就会提供接口文档这个swaggerui还有可以在线测试 swaggerui基于boostart文档方式。swaggerui也就是最好的选择 废话不多说，直接上代码1： pom.xml。 123456789101112131415161718192021222324252627&amp;l">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://hi.csdn.net/attachment/201202/28/0_1330439010P7lI.gif">
-<meta property="og:image" content="http://images.cnblogs.com/cnblogs_com/hustcat/mysql/mysql03-2.JPG">
-<meta property="og:image" content="http://hi.csdn.net/attachment/201112/22/0_1324568301n48v.gif">
-<meta property="og:image" content="http://img.blog.csdn.net/20160506174112818">
-<meta property="og:image" content="http://img.blog.csdn.net/20160506175740091">
-<meta property="og:image" content="http://img.blog.csdn.net/20160506174908673">
-<meta property="og:updated_time" content="2017-09-22T03:06:29.884Z">
+<meta property="og:updated_time" content="2017-09-27T06:02:55.773Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySql数据主从同步(Liunx)">
-<meta name="twitter:description" content="主服务器IP:192.168.1.60 从服务IP:192.168.1.61 Linux:centOS Mysql版本：5.1.58 点击进入真实项目案例##主从配置原理介绍 mysql的 主从同步 是一个异步的复制过程，从一个 Master复制到另一个 Slave上。在 Master 与 Slave 之间的实现整个复制过程主要由三个线程来完成，其中两个线程(Sql线程和IO线程)在 Slave">
-<meta name="twitter:image" content="http://hi.csdn.net/attachment/201202/28/0_1330439010P7lI.gif">
+<meta name="twitter:title" content="Springboot配置swaggerui restFul接口文档">
+<meta name="twitter:description" content="为什么要使用swaggerui 在线文档。1  如果项目才有前后分离的架构方式。ajax交互是必不可免的。当然这就会后台就会提供接口文档这个swaggerui还有可以在线测试 swaggerui基于boostart文档方式。swaggerui也就是最好的选择 废话不多说，直接上代码1： pom.xml。 123456789101112131415161718192021222324252627&amp;l">
 
 
 
@@ -140,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/playerlwq/2017/09/19/hello-world/"/>
+  <link rel="canonical" href="https://github.com/playerlwq/2017/09/27/springboot-swagger2/"/>
 
 
 
 
 
-  <title>MySql数据主从同步(Liunx) | 随散笔记</title>
+  <title>Springboot配置swaggerui restFul接口文档 | 随散笔记</title>
   
 
 
@@ -269,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/playerlwq/2017/09/19/hello-world/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/playerlwq/2017/09/27/springboot-swagger2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jorder.lwq">
@@ -286,7 +279,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">MySql数据主从同步(Liunx)</h1>
+          <h1 class="post-title" itemprop="name headline">Springboot配置swaggerui restFul接口文档</h1>
         
 
         <div class="post-meta">
@@ -298,8 +291,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-19T14:17:55+08:00">
-                2017-09-19
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-27T13:58:40+08:00">
+                2017-09-27
               </time>
             
 
@@ -317,8 +310,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/09/19/hello-world/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/09/19/hello-world/" itemprop="commentCount"></span>
+                <a href="/2017/09/27/springboot-swagger2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/09/27/springboot-swagger2/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -346,63 +339,11 @@
       
 
       
-        <p>主服务器IP:192.168.1.60</p>
-<p>从服务IP:192.168.1.61</p>
-<p>Linux:centOS</p>
-<p>Mysql版本：5.1.58</p>
-<h2 id="点击进入"><a href="#点击进入" class="headerlink" title="点击进入"></a>点击进入</h2><h6 id="真实项目案例"><a href="#真实项目案例" class="headerlink" title="真实项目案例"></a><a href="http://116.228.10.14:38080/evaluation_web/#/login" target="_blank" rel="external">真实项目案例</a></h6><p>##主从配置原理介绍</p>
-<p>mysql的 主从同步 是一个异步的复制过程，从一个 Master复制到另一个 Slave上。<br>在 Master 与 Slave 之间的实现整个复制过程主要由三个线程来完成，<br>其中两个线程(Sql线程和IO线程)在 Slave 端，<br>另外一个线程(IO线程)在 Master 端。　</p>
-<p><img src="http://hi.csdn.net/attachment/201202/28/0_1330439010P7lI.gif" alt="cmd-markdown-logo"></p>
-<blockquote>
-<p>PS:<code>操作系统和mysql版本必须相同 两台主机网络相通</code></p>
-</blockquote>
-<h2 id="下面介绍Master配置"><a href="#下面介绍Master配置" class="headerlink" title="下面介绍Master配置"></a>下面介绍Master配置</h2><ul>
-<li><p>1<br>vi /etc/my.cnf(默认路径)。根据mysql路径不同而变。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Server-id = <span class="number">1</span>  <span class="comment">##这是数据库ID,此ID是唯一的，主库默认为1，其他从库以此ID进行递增，ID值不能重复，否则会同步出错；</span></div><div class="line"></div><div class="line">log-bin = mysql-bin <span class="comment">## 二进制日志文件，此项为必填项，否则不能同步数据；</span></div><div class="line"></div><div class="line">binlog-do-db = testcreate  <span class="comment">#需要同步的数据库，如果需要同步多个数据库；</span></div><div class="line"></div><div class="line"><span class="comment">##则继续添加此项。可选项</span></div><div class="line"></div><div class="line">binlog-do-db = testcreate1</div><div class="line"></div><div class="line">binlog-do-db = testcreate2</div><div class="line"></div><div class="line">binlog-ignore-db = mysql 不需要同步的数据库；</div></pre></td></tr></table></figure>
-</li>
-<li><p>2</p>
-</li>
-</ul>
-<p>运行 service mysqld restart ##重启mysql<br>进入Master Mysql终端命令（mysql -u uname -ppassword）你的mysql用户名和密码</p>
-<ul>
-<li><p>3<br>配置完成后需要建立同步用的数据库账户<br>进入Master Mysql终端命令：<br>grantreplication slave on <em>.</em> to ‘testcreate’@’192.168.1.61’ identified by ‘123456’;</p>
-<p>说明：’testcreate’：同步的数据库；</p>
-<p> ‘192.168.1.61’：同步的数据库地址；</p>
-<p>  ‘123456’ ：同步的数据库密码，在从库配置时需要设置。</p>
-</li>
-</ul>
-<ul>
-<li>4<br>显示主库信息 进入Master Mysql终端命令： showmaster status;<br>显示以下内容代表Master配置成功<br><img src="http://images.cnblogs.com/cnblogs_com/hustcat/mysql/mysql03-2.JPG" alt="cmd-markdown-logo"></li>
-</ul>
-<h2 id="下面介绍Slave配置"><a href="#下面介绍Slave配置" class="headerlink" title="下面介绍Slave配置"></a>下面介绍Slave配置</h2><p>从服务器的配置基本与主库配置差不多，选择的从库服务器为：192.168.1.61</p>
-<ol>
-<li><p>配置从库服务my.cnf文件</p>
-<p>vietc/my.cnf 对其进行如下修改：</p>
-</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Server-id = <span class="number">2</span> <span class="comment">#这里ID改为2 因为主库为1;</span></div><div class="line"></div><div class="line">log-bin = mysql-bin  <span class="comment">####必填项，用于数据同步 ; </span></div><div class="line"></div><div class="line">master-host = <span class="number">192.168</span><span class="number">.1</span><span class="number">.60</span>  <span class="comment">####主库IP;</span></div><div class="line"></div><div class="line">master-user = test  <span class="comment">####同步用的账户;</span></div><div class="line"></div><div class="line">master-password = <span class="number">123456</span>  <span class="comment">####同步账户密码，主库时的设置;</span></div><div class="line"></div><div class="line">master-port = <span class="number">3306</span> <span class="comment">##同步数据库的端口号。</span></div></pre></td></tr></table></figure>
-<ul>
-<li>2</li>
-</ul>
-<p>运行 service mysqld restart ##重启mysql<br>进入Master Mysql终端命令（mysql -u uname -ppassword）你的mysql用户名和密码<br>运行：showslave status\G;  显示如图：</p>
-<p><img src="http://hi.csdn.net/attachment/201112/22/0_1324568301n48v.gif" alt="cmd-markdown-logo"></p>
-<ul>
-<li>3</li>
-</ul>
-<p>如果slave_io_running和slave_sql_running都为yes则表示从服务器配置成功。</p>
-<p>如果遇到关于position相关的错误，就需要再手动设置以下File/Postion的信息</p>
-<p>mysql&gt;Changemaster to master_host = ‘192.168.1.60’</p>
-<p>master_user= ‘test’</p>
-<p>master_password=’123456’</p>
-<p>master_log_file=’mysql-bin.000001’,  主库的文件信息</p>
-<p>master_log_pos=’106’;主库的Position信息</p>
-<ul>
-<li>4 测试</li>
-</ul>
-<p>这个是我测得真实案例：</p>
-<p><img src="http://img.blog.csdn.net/20160506174112818" alt="cmd-markdown-logo"><br><img src="http://img.blog.csdn.net/20160506175740091" alt="cmd-markdown-logo"><br><img src="http://img.blog.csdn.net/20160506174908673" alt="cmd-markdown-logo"></p>
-<p>遇到问题请参照介绍博客：<a href="http://blog.csdn.net/alangmei/article/details/21075055" target="_blank" rel="external">http://blog.csdn.net/alangmei/article/details/21075055</a></p>
-<h3 id="随时扣作者QQ-23-9549-9549"><a href="#随时扣作者QQ-23-9549-9549" class="headerlink" title="随时扣作者QQ:23 9549 9549"></a><a href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=2395499549&amp;website=www.oicqzone.com" target="_blank" rel="external">随时扣作者QQ:23 9549 9549</a></h3><h3 id="在线聊天作者"><a href="#在线聊天作者" class="headerlink" title="在线聊天作者"></a><a href="tencent://message/?Menu=yes&amp;uin=2395499549&amp;Service=300&amp;sigT=45a1e5847943b64c6ff3990f8a9e644d2b31356cb0b4ac6b24663a3c8dd0f8aa12a595b1714f9d45" target="_blank" rel="external">在线聊天作者</a></h3>
+        <h2 id="为什么要使用swaggerui-在线文档。"><a href="#为什么要使用swaggerui-在线文档。" class="headerlink" title="为什么要使用swaggerui 在线文档。"></a>为什么要使用swaggerui 在线文档。</h2><pre><code>1  如果项目才有前后分离的架构方式。ajax交互是必不可免的。当然这就会后台就会提供接口文档这个swaggerui还有可以在线测试 swaggerui基于boostart文档方式。swaggerui也就是最好的选择
+</code></pre><h2 id="废话不多说，直接上代码"><a href="#废话不多说，直接上代码" class="headerlink" title="废话不多说，直接上代码"></a>废话不多说，直接上代码</h2><p>1： pom.xml。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;!--  Spring Boot  版本--&gt;</div><div class="line">   &lt;parent&gt;</div><div class="line">       &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">       &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</div><div class="line">       &lt;version&gt;1.5.4.RELEASE&lt;/version&gt;</div><div class="line">   &lt;/parent&gt;</div><div class="line">   </div><div class="line"></div><div class="line">   </div><div class="line">       &lt;!--生成api--&gt;</div><div class="line">	&lt;dependency&gt;</div><div class="line">		&lt;groupId&gt;io.springfox&lt;/groupId&gt;</div><div class="line">		&lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt;</div><div class="line">		&lt;version&gt;2.7.0&lt;/version&gt;</div><div class="line">	&lt;/dependency&gt;</div><div class="line">	&lt;!-- &lt;dependency&gt;</div><div class="line">		&lt;groupId&gt;io.springfox&lt;/groupId&gt;</div><div class="line">		&lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt;</div><div class="line">		&lt;version&gt;2.7.0&lt;/version&gt;</div><div class="line">	&lt;/dependency&gt; --&gt;</div><div class="line"></div><div class="line">	&lt;dependency&gt;</div><div class="line">		&lt;groupId&gt;com.drore.cloud&lt;/groupId&gt;</div><div class="line">		&lt;artifactId&gt;swagger-bootstrap-ui&lt;/artifactId&gt;</div><div class="line">		&lt;version&gt;1.4&lt;/version&gt;</div><div class="line">	&lt;/dependency&gt;</div></pre></td></tr></table></figure>
+<p>2：配置swaggerui 自动化配置<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;</div><div class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;</div><div class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</div><div class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</div><div class="line"><span class="keyword">import</span> springfox.documentation.builders.ApiInfoBuilder;</div><div class="line"><span class="keyword">import</span> springfox.documentation.builders.PathSelectors;</div><div class="line"><span class="keyword">import</span> springfox.documentation.builders.RequestHandlerSelectors;</div><div class="line"><span class="keyword">import</span> springfox.documentation.service.ApiInfo;</div><div class="line"><span class="keyword">import</span> springfox.documentation.service.Contact;</div><div class="line"><span class="keyword">import</span> springfox.documentation.spi.DocumentationType;</div><div class="line"><span class="keyword">import</span> springfox.documentation.spring.web.plugins.Docket;</div><div class="line"><span class="keyword">import</span> springfox.documentation.swagger2.annotations.EnableSwagger2;</div><div class="line"></div><div class="line"><span class="meta">@Configuration</span></div><div class="line"><span class="meta">@EnableSwagger2</span></div><div class="line"><span class="meta">@ConditionalOnProperty(prefix = "common",name="enable", matchIfMissing=true)</span></div><div class="line">public class SwaggerConfiguration &#123;</div><div class="line">    ApiInfo apiInfo() &#123;</div><div class="line">        <span class="keyword">return</span> new ApiInfoBuilder()</div><div class="line">                .title(<span class="string">"项目API"</span>)</div><div class="line">                .description(<span class="string">"提供服务端restful在线接口文档，若需求变更,请刷新页面重新获取信息。"</span>)</div><div class="line">                .termsOfServiceUrl(<span class="string">""</span>)</div><div class="line">                .version(<span class="string">"1.0.0"</span>)</div><div class="line">                .contact(new Contact(<span class="string">"lwq"</span>,<span class="string">""</span>,<span class="string">"wqli@ewininfo.com"</span>))</div><div class="line">                .termsOfServiceUrl(<span class="string">"http://localhost:8089/"</span>)</div><div class="line">                .build();</div><div class="line">        </div><div class="line">    &#125;</div><div class="line"><span class="meta">    @Bean</span></div><div class="line"><span class="meta">    @ConditionalOnMissingBean()//容器中如果没有Docket这个类,那么自动配置这个Docket</span></div><div class="line">    public Docket createRestApi() &#123;</div><div class="line">    	<span class="keyword">return</span> new Docket(DocumentationType.SWAGGER_2)</div><div class="line">                .apiInfo(apiInfo())</div><div class="line">                .select()// 选择那些路径和api会生成document</div><div class="line">                .apis(RequestHandlerSelectors.basePackage(<span class="string">"com.company.project.web"</span>))// 对所有包进行监控</div><div class="line">                .paths(PathSelectors.any())// 对所有路径进行监控</div><div class="line">                .build();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="访问http-ip-port-项目名称-doc-html-可以查看"><a href="#访问http-ip-port-项目名称-doc-html-可以查看" class="headerlink" title="访问http://ip:port/项目名称/doc.html 可以查看"></a>访问<a href="http://ip:port/项目名称/doc.html" target="_blank" rel="external">http://ip:port/项目名称/doc.html</a> 可以查看</h2>
       
     </div>
     
@@ -426,15 +367,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/09/27/springboot-durid/" rel="next" title="Springboot配置durid SQL 监控">
+                <i class="fa fa-chevron-left"></i> Springboot配置durid SQL 监控
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/09/19/spirngBoot全局捕获异常/" rel="prev" title="SpringBoot学习——全局异常处理设置（返回JSON）">
-                SpringBoot学习——全局异常处理设置（返回JSON） <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -464,8 +405,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/09/19/hello-world/"
-           data-title="MySql数据主从同步(Liunx)" data-url="https://github.com/playerlwq/2017/09/19/hello-world/">
+      <div class="ds-thread" data-thread-key="2017/09/27/springboot-swagger2/"
+           data-title="Springboot配置swaggerui restFul接口文档" data-url="https://github.com/playerlwq/2017/09/27/springboot-swagger2/">
       </div>
     
   </div>
@@ -622,7 +563,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#点击进入"><span class="nav-number">1.</span> <span class="nav-text">点击进入</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#真实项目案例"><span class="nav-number">1.0.0.0.1.</span> <span class="nav-text">真实项目案例</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下面介绍Master配置"><span class="nav-number">2.</span> <span class="nav-text">下面介绍Master配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下面介绍Slave配置"><span class="nav-number">3.</span> <span class="nav-text">下面介绍Slave配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#随时扣作者QQ-23-9549-9549"><span class="nav-number">3.1.</span> <span class="nav-text">随时扣作者QQ:23 9549 9549</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在线聊天作者"><span class="nav-number">3.2.</span> <span class="nav-text">在线聊天作者</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要使用swaggerui-在线文档。"><span class="nav-number">1.</span> <span class="nav-text">为什么要使用swaggerui 在线文档。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#废话不多说，直接上代码"><span class="nav-number">2.</span> <span class="nav-text">废话不多说，直接上代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#访问http-ip-port-项目名称-doc-html-可以查看"><span class="nav-number">3.</span> <span class="nav-text">访问http://ip:port/项目名称/doc.html 可以查看</span></a></li></ol></div>
             
 
           </div>
