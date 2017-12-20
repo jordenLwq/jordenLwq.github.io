@@ -263,6 +263,154 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2017/12/20/docker-mysql-slave/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jorden.lwq">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jorden.lwq">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/20/docker-mysql-slave/" itemprop="url">Docker配置mysql主从配置</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-20T15:41:12+08:00">
+                2017-12-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/20/docker-mysql-slave/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/20/docker-mysql-slave/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p> 一： 注意事项</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">* 一，mysql版本必须相同</div><div class="line">* 二 ，互相ping通</div><div class="line">* 三， 同一操作系统</div></pre></td></tr></table></figure>
+<p>docker 安装mysql<br> 方法一<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">创建Dockerfile</div><div class="line">首先，创建目录mysql,用于存放后面的相关东西。</div><div class="line">	mkdir -p ~/mysql/data ~/mysql/logs ~/mysql/conf</div><div class="line">	</div><div class="line">	data目录将映射为mysql容器配置的数据文件存放路径</div><div class="line"></div><div class="line">	logs目录将映射为mysql容器的日志目录</div><div class="line"></div><div class="line">	conf目录里的配置文件将映射为mysql容器的配置文件</div><div class="line"></div><div class="line">	进入创建的mysql目录，创建Dockerfile</div></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre></td><td class="code"><pre><div class="line">Dockerfile示例</div><div class="line"></div><div class="line">FROM debian:jessie</div><div class="line"></div><div class="line"><span class="comment"># add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added</span></div><div class="line">RUN groupadd -r mysql &amp;&amp; useradd -r -g mysql mysql</div><div class="line"></div><div class="line"><span class="comment"># add gosu for easy step-down from root</span></div><div class="line">ENV GOSU_VERSION <span class="number">1.7</span></div><div class="line">RUN set -x \</div><div class="line">    &amp;&amp; apt-get update &amp;&amp; apt-get install -y --no-install-recommends ca-certificates wget &amp;&amp; rm -rf /var/lib/apt/lists/* \</div><div class="line">    &amp;&amp; wget -O /usr/local/bin/gosu <span class="string">"https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)"</span> \</div><div class="line">    &amp;&amp; wget -O /usr/local/bin/gosu.asc <span class="string">"https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc"</span> \</div><div class="line">    &amp;&amp; export GNUPGHOME=<span class="string">"$(mktemp -d)"</span> \</div><div class="line">    &amp;&amp; gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \</div><div class="line">    &amp;&amp; gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \</div><div class="line">    &amp;&amp; rm -r <span class="string">"$GNUPGHOME"</span> /usr/local/bin/gosu.asc \</div><div class="line">    &amp;&amp; chmod +x /usr/local/bin/gosu \</div><div class="line">    &amp;&amp; gosu nobody true \</div><div class="line">    &amp;&amp; apt-get purge -y --auto-remove ca-certificates wget</div><div class="line"></div><div class="line">RUN mkdir /docker-entrypoint-initdb.d</div><div class="line"></div><div class="line"><span class="comment"># FATAL ERROR: please install the following Perl modules before executing /usr/local/mysql/scripts/mysql_install_db:</span></div><div class="line"><span class="comment"># File::Basename</span></div><div class="line"><span class="comment"># File::Copy</span></div><div class="line"><span class="comment"># Sys::Hostname</span></div><div class="line"><span class="comment"># Data::Dumper</span></div><div class="line">RUN apt-get update &amp;&amp; apt-get install -y perl pwgen --no-install-recommends &amp;&amp; rm -rf /var/lib/apt/lists/*</div><div class="line"></div><div class="line"><span class="comment"># gpg: key 5072E1F5: public key "MySQL Release Engineering &lt;mysql-build@oss.oracle.com&gt;" imported</span></div><div class="line">RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys A4A9406876FCBD3C456770C88C718D3B5072E1F5</div><div class="line"></div><div class="line">ENV MYSQL_MAJOR <span class="number">5.6</span></div><div class="line">ENV MYSQL_VERSION <span class="number">5.6</span><span class="number">.31</span><span class="number">-1</span>debian8</div><div class="line"></div><div class="line">RUN echo <span class="string">"deb http://repo.mysql.com/apt/debian/ jessie mysql-$&#123;MYSQL_MAJOR&#125;"</span> &gt; /etc/apt/sources.list.d/mysql.list</div><div class="line"></div><div class="line"><span class="comment"># the "/var/lib/mysql" stuff here is because the mysql-server postinst doesn't have an explicit way to disable the mysql_install_db codepath besides having a database already "configured" (ie, stuff in /var/lib/mysql/mysql)</span></div><div class="line"><span class="comment"># also, we set debconf keys to make APT a little quieter</span></div><div class="line">RUN &#123; \</div><div class="line">        echo mysql-community-server mysql-community-server/data-dir select <span class="string">''</span>; \</div><div class="line">        echo mysql-community-server mysql-community-server/root-<span class="keyword">pass</span> password <span class="string">''</span>; \</div><div class="line">        echo mysql-community-server mysql-community-server/re-root-<span class="keyword">pass</span> password <span class="string">''</span>; \</div><div class="line">        echo mysql-community-server mysql-community-server/remove-test-db select false; \</div><div class="line">    &#125; | debconf-set-selections \</div><div class="line">    &amp;&amp; apt-get update &amp;&amp; apt-get install -y mysql-server=<span class="string">"$&#123;MYSQL_VERSION&#125;"</span> &amp;&amp; rm -rf /var/lib/apt/lists/* \</div><div class="line">    &amp;&amp; rm -rf /var/lib/mysql &amp;&amp; mkdir -p /var/lib/mysql /var/run/mysqld \</div><div class="line">    &amp;&amp; chown -R mysql:mysql /var/lib/mysql /var/run/mysqld \</div><div class="line"><span class="comment"># ensure that /var/run/mysqld (used for socket and lock files) is writable regardless of the UID our mysqld instance ends up having at runtime</span></div><div class="line">    &amp;&amp; chmod <span class="number">777</span> /var/run/mysqld</div><div class="line"></div><div class="line"><span class="comment"># comment out a few problematic configuration values</span></div><div class="line"><span class="comment"># don't reverse lookup hostnames, they are usually another container</span></div><div class="line">RUN sed -Ei <span class="string">'s/^(bind-address|log)/#&amp;/'</span> /etc/mysql/my.cnf \</div><div class="line">    &amp;&amp; echo <span class="string">'skip-host-cache\nskip-name-resolve'</span> | awk <span class="string">'&#123; print &#125; $1 == "[mysqld]" &amp;&amp; c == 0 &#123; c = 1; system("cat") &#125;'</span> /etc/mysql/my.cnf &gt; /tmp/my.cnf \</div><div class="line">    &amp;&amp; mv /tmp/my.cnf /etc/mysql/my.cnf</div><div class="line"></div><div class="line">VOLUME /var/lib/mysql</div><div class="line"></div><div class="line">COPY docker-entrypoint.sh /usr/local/bin/</div><div class="line">RUN ln -s usr/local/bin/docker-entrypoint.sh /entrypoint.sh <span class="comment"># backwards compat</span></div><div class="line">ENTRYPOINT [<span class="string">"docker-entrypoint.sh"</span>]</div><div class="line"></div><div class="line">EXPOSE <span class="number">3306</span></div><div class="line">CMD [<span class="string">"mysqld"</span>]</div></pre></td></tr></table></figure>
+<p>通过Dockerfile创建一个镜像，替换成你自己的名字</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker build -t mysql .</div></pre></td></tr></table></figure>
+<p>创建完成后，我们可以在本地的镜像列表里查找到刚刚创建的镜像</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">docker images |grep mysql</div><div class="line">mysql               <span class="number">5.6</span>                 <span class="number">2</span>c0964ec182a        <span class="number">3</span> weeks ago         <span class="number">329</span> MB</div></pre></td></tr></table></figure>
+<p>方法二、docker pull mysql</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"> docker pull mysql:<span class="number">5.6</span></div><div class="line"> </div><div class="line"> docker run -p <span class="number">3306</span>:<span class="number">3306</span> --name mymysql -v $PWD/conf/my.cnf:/etc/mysql/my.cnf -v $PWD/logs:/logs -v $PWD/data:/mysql_data -e MYSQL_ROOT_PASSWORD=<span class="number">123456</span> -d mysql:<span class="number">5.6</span></div><div class="line"> </div><div class="line">命令说明：</div><div class="line"></div><div class="line">    -p <span class="number">3306</span>:<span class="number">3306</span>：将容器的<span class="number">3306</span>端口映射到主机的<span class="number">3306</span>端口</div><div class="line"></div><div class="line">    -v $PWD/conf/my.cnf:/etc/mysql/my.cnf：将主机当前目录下的conf/my.cnf挂载到容器的/etc/mysql/my.cnf</div><div class="line"></div><div class="line">    -v $PWD/logs:/logs：将主机当前目录下的logs目录挂载到容器的/logs</div><div class="line"></div><div class="line">    -v $PWD/data:/mysql_data：将主机当前目录下的data目录挂载到容器的/mysql_data</div><div class="line"></div><div class="line">    -e MYSQL_ROOT_PASSWORD=<span class="number">123456</span>：初始化root用户的密码</div></pre></td></tr></table></figure>
+<p>查看容器启动情况</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker ps</div></pre></td></tr></table></figure>
+<p>新建两个文件<br>my_master.cnf</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"> [mysqld]</div><div class="line"></div><div class="line">server_id = <span class="number">1</span></div><div class="line"></div><div class="line">log-bin=mysql-bin</div><div class="line">server-id=<span class="number">2</span></div><div class="line">binlog-ignore-db=information_schema</div><div class="line">binlog-ignore-db=cluster</div><div class="line">binlog-ignore-db=mysql</div><div class="line">binlog-do-db=test</div><div class="line"> </div><div class="line"></div><div class="line">!includedir /etc/mysql/conf.d/</div><div class="line"></div><div class="line">!includedir /etc/mysql/mysql.conf.d/</div></pre></td></tr></table></figure>
+<p>my_slave.cnf</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">[mysqld]</div><div class="line"></div><div class="line">log-bin=mysql-bin</div><div class="line">server-id=<span class="number">3</span></div><div class="line">binlog-ignore-db=information_schema</div><div class="line">binlog-ignore-db=cluster</div><div class="line">binlog-ignore-db=mysql</div><div class="line">replicate-do-db=test</div><div class="line">replicate-ignore-db=mysql</div><div class="line">log-slave-updates</div><div class="line">slave-skip-errors=all</div><div class="line">slave-net-timeout=<span class="number">60</span></div><div class="line"></div><div class="line">!includedir /etc/mysql/conf.d/</div><div class="line"></div><div class="line">!includedir /etc/mysql/mysql.conf.d/</div></pre></td></tr></table></figure>
+<p>##参数的意义可以查看我之前写的文章</p>
+<p>运行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// master </div><div class="line">docker run   -d -p <span class="number">3305</span>:<span class="number">3306</span> -e MYSQL_ROOT_PASSWORD=anech -v my.cnf:/etc/mysql/my.cnf  master_mysql</div><div class="line"></div><div class="line">// salve</div><div class="line">docker run   -d -p <span class="number">3307</span>:<span class="number">3306</span> -e MYSQL_ROOT_PASSWORD=anech -v /salve/my.cnf:/etc/mysql/my.cnf  slave_mysql</div></pre></td></tr></table></figure>
+<h3 id="随时扣作者QQ-23-9549-9549"><a href="#随时扣作者QQ-23-9549-9549" class="headerlink" title="随时扣作者QQ:23 9549 9549"></a><a href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=2395499549&amp;website=www.oicqzone.com" target="_blank" rel="external">随时扣作者QQ:23 9549 9549</a></h3><h3 id="在线聊天作者"><a href="#在线聊天作者" class="headerlink" title="在线聊天作者"></a><a href="tencent://message/?Menu=yes&amp;uin=2395499549&amp;Service=300&amp;sigT=45a1e5847943b64c6ff3990f8a9e644d2b31356cb0b4ac6b24663a3c8dd0f8aa12a595b1714f9d45" target="_blank" rel="external">在线聊天作者</a></h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2017/12/06/Ribbon-001/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1506,191 +1654,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2017/12/06/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jorden.lwq">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jorden.lwq">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/06/hello-world/" itemprop="url">MySql数据主从同步(Liunx)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
-                2017-12-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/12/06/hello-world/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/06/hello-world/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>主服务器IP:192.168.1.60</p>
-<p>从服务IP:192.168.1.61</p>
-<p>Linux:centOS</p>
-<p>Mysql版本：5.1.58</p>
-<h2 id="点击进入"><a href="#点击进入" class="headerlink" title="点击进入"></a>点击进入</h2><h6 id="真实项目案例"><a href="#真实项目案例" class="headerlink" title="真实项目案例"></a><a href="http://116.228.10.14:38080/evaluation_web/#/login" target="_blank" rel="external">真实项目案例</a></h6><p>##主从配置原理介绍</p>
-<p>mysql的 主从同步 是一个异步的复制过程，从一个 Master复制到另一个 Slave上。<br>在 Master 与 Slave 之间的实现整个复制过程主要由三个线程来完成，<br>其中两个线程(Sql线程和IO线程)在 Slave 端，<br>另外一个线程(IO线程)在 Master 端。　</p>
-<p><img src="http://hi.csdn.net/attachment/201202/28/0_1330439010P7lI.gif" alt="cmd-markdown-logo"></p>
-<blockquote>
-<p>PS:<code>操作系统和mysql版本必须相同 两台主机网络相通</code></p>
-</blockquote>
-<h2 id="下面介绍Master配置"><a href="#下面介绍Master配置" class="headerlink" title="下面介绍Master配置"></a>下面介绍Master配置</h2><ul>
-<li><p>1<br>vi /etc/my.cnf(默认路径)。根据mysql路径不同而变。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Server-id = <span class="number">1</span>  <span class="comment">##这是数据库ID,此ID是唯一的，主库默认为1，其他从库以此ID进行递增，ID值不能重复，否则会同步出错；</span></div><div class="line"></div><div class="line">log-bin = mysql-bin <span class="comment">## 二进制日志文件，此项为必填项，否则不能同步数据；</span></div><div class="line"></div><div class="line">binlog-do-db = testcreate  <span class="comment">#需要同步的数据库，如果需要同步多个数据库；</span></div><div class="line"></div><div class="line"><span class="comment">##则继续添加此项。可选项</span></div><div class="line"></div><div class="line">binlog-do-db = testcreate1</div><div class="line"></div><div class="line">binlog-do-db = testcreate2</div><div class="line"></div><div class="line">binlog-ignore-db = mysql 不需要同步的数据库；</div></pre></td></tr></table></figure>
-</li>
-<li><p>2</p>
-</li>
-</ul>
-<p>运行 service mysqld restart ##重启mysql<br>进入Master Mysql终端命令（mysql -u uname -ppassword）你的mysql用户名和密码</p>
-<ul>
-<li><p>3<br>配置完成后需要建立同步用的数据库账户<br>进入Master Mysql终端命令：<br>grantreplication slave on <em>.</em> to ‘testcreate’@’192.168.1.61’ identified by ‘123456’;</p>
-<p>说明：’testcreate’：同步的数据库；</p>
-<p> ‘192.168.1.61’：同步的数据库地址；</p>
-<p>  ‘123456’ ：同步的数据库密码，在从库配置时需要设置。</p>
-</li>
-</ul>
-<ul>
-<li>4<br>显示主库信息 进入Master Mysql终端命令： showmaster status;<br>显示以下内容代表Master配置成功<br><img src="http://images.cnblogs.com/cnblogs_com/hustcat/mysql/mysql03-2.JPG" alt="cmd-markdown-logo"></li>
-</ul>
-<h2 id="下面介绍Slave配置"><a href="#下面介绍Slave配置" class="headerlink" title="下面介绍Slave配置"></a>下面介绍Slave配置</h2><p>从服务器的配置基本与主库配置差不多，选择的从库服务器为：192.168.1.61</p>
-<ol>
-<li><p>配置从库服务my.cnf文件</p>
-<p>vietc/my.cnf 对其进行如下修改：</p>
-</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Server-id = <span class="number">2</span> <span class="comment">#这里ID改为2 因为主库为1;</span></div><div class="line"></div><div class="line">log-bin = mysql-bin  <span class="comment">####必填项，用于数据同步 ; </span></div><div class="line"></div><div class="line">master-host = <span class="number">192.168</span><span class="number">.1</span><span class="number">.60</span>  <span class="comment">####主库IP;</span></div><div class="line"></div><div class="line">master-user = test  <span class="comment">####同步用的账户;</span></div><div class="line"></div><div class="line">master-password = <span class="number">123456</span>  <span class="comment">####同步账户密码，主库时的设置;</span></div><div class="line"></div><div class="line">master-port = <span class="number">3306</span> <span class="comment">##同步数据库的端口号。</span></div></pre></td></tr></table></figure>
-<ul>
-<li>2</li>
-</ul>
-<p>运行 service mysqld restart ##重启mysql<br>进入Master Mysql终端命令（mysql -u uname -ppassword）你的mysql用户名和密码<br>运行：showslave status\G;  显示如图：</p>
-<p><img src="http://hi.csdn.net/attachment/201112/22/0_1324568301n48v.gif" alt="cmd-markdown-logo"></p>
-<ul>
-<li>3</li>
-</ul>
-<p>如果slave_io_running和slave_sql_running都为yes则表示从服务器配置成功。</p>
-<p>如果遇到关于position相关的错误，就需要再手动设置以下File/Postion的信息</p>
-<p>mysql&gt;Changemaster to master_host = ‘192.168.1.60’</p>
-<p>master_user= ‘test’</p>
-<p>master_password=’123456’</p>
-<p>master_log_file=’mysql-bin.000001’,  主库的文件信息</p>
-<p>master_log_pos=’106’;主库的Position信息</p>
-<ul>
-<li>4 测试</li>
-</ul>
-<p>这个是我测得真实案例：</p>
-<p><img src="http://img.blog.csdn.net/20160506174112818" alt="cmd-markdown-logo"><br><img src="http://img.blog.csdn.net/20160506175740091" alt="cmd-markdown-logo"><br><img src="http://img.blog.csdn.net/20160506174908673" alt="cmd-markdown-logo"></p>
-<p>遇到问题请参照介绍博客：<a href="http://blog.csdn.net/alangmei/article/details/21075055" target="_blank" rel="external">http://blog.csdn.net/alangmei/article/details/21075055</a></p>
-<h3 id="随时扣作者QQ-23-9549-9549"><a href="#随时扣作者QQ-23-9549-9549" class="headerlink" title="随时扣作者QQ:23 9549 9549"></a><a href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=2395499549&amp;website=www.oicqzone.com" target="_blank" rel="external">随时扣作者QQ:23 9549 9549</a></h3><h3 id="在线聊天作者"><a href="#在线聊天作者" class="headerlink" title="在线聊天作者"></a><a href="tencent://message/?Menu=yes&amp;uin=2395499549&amp;Service=300&amp;sigT=45a1e5847943b64c6ff3990f8a9e644d2b31356cb0b4ac6b24663a3c8dd0f8aa12a595b1714f9d45" target="_blank" rel="external">在线聊天作者</a></h3>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1741,7 +1704,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">Artikel</span>
               </a>
             </div>

@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Jorder, lWQ" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="一： 注意事项 123* 一，mysql版本必须相同* 二 ，互相ping通* 三， 同一操作系统 docker 安装mysql 方法一123456789101112创建Dockerfile首先，创建目录mysql,用于存放后面的相关东西。	mkdir -p ~/mysql/data ~/mysql/logs ~/mysql/conf		data目录将映射为mysql容器配置的数据文件存放路径">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker配置mysql主从配置">
+<meta property="og:url" content="https://github.com/jordenlwq/2017/12/20/docker-mysql-slave/index.html">
+<meta property="og:site_name" content="Jorden.lwq">
+<meta property="og:description" content="一： 注意事项 123* 一，mysql版本必须相同* 二 ，互相ping通* 三， 同一操作系统 docker 安装mysql 方法一123456789101112创建Dockerfile首先，创建目录mysql,用于存放后面的相关东西。	mkdir -p ~/mysql/data ~/mysql/logs ~/mysql/conf		data目录将映射为mysql容器配置的数据文件存放路径">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-12-20T07:52:36.672Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker配置mysql主从配置">
+<meta name="twitter:description" content="一： 注意事项 123* 一，mysql版本必须相同* 二 ，互相ping通* 三， 同一操作系统 docker 安装mysql 方法一123456789101112创建Dockerfile首先，创建目录mysql,用于存放后面的相关东西。	mkdir -p ~/mysql/data ~/mysql/logs ~/mysql/conf		data目录将映射为mysql容器配置的数据文件存放路径">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":1},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/jordenlwq/2017/12/20/docker-mysql-slave/"/>
+
+
+
+
+
+  <title>Docker配置mysql主从配置 | Jorden.lwq</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jorden.lwq</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">lwq ❤ lxq</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2017/12/20/docker-mysql-slave/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jorden.lwq">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jorden.lwq">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Docker配置mysql主从配置</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-20T15:41:12+08:00">
+                2017-12-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/20/docker-mysql-slave/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/20/docker-mysql-slave/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p> 一： 注意事项</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">* 一，mysql版本必须相同</div><div class="line">* 二 ，互相ping通</div><div class="line">* 三， 同一操作系统</div></pre></td></tr></table></figure>
+<p>docker 安装mysql<br> 方法一<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">创建Dockerfile</div><div class="line">首先，创建目录mysql,用于存放后面的相关东西。</div><div class="line">	mkdir -p ~/mysql/data ~/mysql/logs ~/mysql/conf</div><div class="line">	</div><div class="line">	data目录将映射为mysql容器配置的数据文件存放路径</div><div class="line"></div><div class="line">	logs目录将映射为mysql容器的日志目录</div><div class="line"></div><div class="line">	conf目录里的配置文件将映射为mysql容器的配置文件</div><div class="line"></div><div class="line">	进入创建的mysql目录，创建Dockerfile</div></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre></td><td class="code"><pre><div class="line">Dockerfile示例</div><div class="line"></div><div class="line">FROM debian:jessie</div><div class="line"></div><div class="line"><span class="comment"># add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added</span></div><div class="line">RUN groupadd -r mysql &amp;&amp; useradd -r -g mysql mysql</div><div class="line"></div><div class="line"><span class="comment"># add gosu for easy step-down from root</span></div><div class="line">ENV GOSU_VERSION <span class="number">1.7</span></div><div class="line">RUN set -x \</div><div class="line">    &amp;&amp; apt-get update &amp;&amp; apt-get install -y --no-install-recommends ca-certificates wget &amp;&amp; rm -rf /var/lib/apt/lists/* \</div><div class="line">    &amp;&amp; wget -O /usr/local/bin/gosu <span class="string">"https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)"</span> \</div><div class="line">    &amp;&amp; wget -O /usr/local/bin/gosu.asc <span class="string">"https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc"</span> \</div><div class="line">    &amp;&amp; export GNUPGHOME=<span class="string">"$(mktemp -d)"</span> \</div><div class="line">    &amp;&amp; gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \</div><div class="line">    &amp;&amp; gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \</div><div class="line">    &amp;&amp; rm -r <span class="string">"$GNUPGHOME"</span> /usr/local/bin/gosu.asc \</div><div class="line">    &amp;&amp; chmod +x /usr/local/bin/gosu \</div><div class="line">    &amp;&amp; gosu nobody true \</div><div class="line">    &amp;&amp; apt-get purge -y --auto-remove ca-certificates wget</div><div class="line"></div><div class="line">RUN mkdir /docker-entrypoint-initdb.d</div><div class="line"></div><div class="line"><span class="comment"># FATAL ERROR: please install the following Perl modules before executing /usr/local/mysql/scripts/mysql_install_db:</span></div><div class="line"><span class="comment"># File::Basename</span></div><div class="line"><span class="comment"># File::Copy</span></div><div class="line"><span class="comment"># Sys::Hostname</span></div><div class="line"><span class="comment"># Data::Dumper</span></div><div class="line">RUN apt-get update &amp;&amp; apt-get install -y perl pwgen --no-install-recommends &amp;&amp; rm -rf /var/lib/apt/lists/*</div><div class="line"></div><div class="line"><span class="comment"># gpg: key 5072E1F5: public key "MySQL Release Engineering &lt;mysql-build@oss.oracle.com&gt;" imported</span></div><div class="line">RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys A4A9406876FCBD3C456770C88C718D3B5072E1F5</div><div class="line"></div><div class="line">ENV MYSQL_MAJOR <span class="number">5.6</span></div><div class="line">ENV MYSQL_VERSION <span class="number">5.6</span><span class="number">.31</span><span class="number">-1</span>debian8</div><div class="line"></div><div class="line">RUN echo <span class="string">"deb http://repo.mysql.com/apt/debian/ jessie mysql-$&#123;MYSQL_MAJOR&#125;"</span> &gt; /etc/apt/sources.list.d/mysql.list</div><div class="line"></div><div class="line"><span class="comment"># the "/var/lib/mysql" stuff here is because the mysql-server postinst doesn't have an explicit way to disable the mysql_install_db codepath besides having a database already "configured" (ie, stuff in /var/lib/mysql/mysql)</span></div><div class="line"><span class="comment"># also, we set debconf keys to make APT a little quieter</span></div><div class="line">RUN &#123; \</div><div class="line">        echo mysql-community-server mysql-community-server/data-dir select <span class="string">''</span>; \</div><div class="line">        echo mysql-community-server mysql-community-server/root-<span class="keyword">pass</span> password <span class="string">''</span>; \</div><div class="line">        echo mysql-community-server mysql-community-server/re-root-<span class="keyword">pass</span> password <span class="string">''</span>; \</div><div class="line">        echo mysql-community-server mysql-community-server/remove-test-db select false; \</div><div class="line">    &#125; | debconf-set-selections \</div><div class="line">    &amp;&amp; apt-get update &amp;&amp; apt-get install -y mysql-server=<span class="string">"$&#123;MYSQL_VERSION&#125;"</span> &amp;&amp; rm -rf /var/lib/apt/lists/* \</div><div class="line">    &amp;&amp; rm -rf /var/lib/mysql &amp;&amp; mkdir -p /var/lib/mysql /var/run/mysqld \</div><div class="line">    &amp;&amp; chown -R mysql:mysql /var/lib/mysql /var/run/mysqld \</div><div class="line"><span class="comment"># ensure that /var/run/mysqld (used for socket and lock files) is writable regardless of the UID our mysqld instance ends up having at runtime</span></div><div class="line">    &amp;&amp; chmod <span class="number">777</span> /var/run/mysqld</div><div class="line"></div><div class="line"><span class="comment"># comment out a few problematic configuration values</span></div><div class="line"><span class="comment"># don't reverse lookup hostnames, they are usually another container</span></div><div class="line">RUN sed -Ei <span class="string">'s/^(bind-address|log)/#&amp;/'</span> /etc/mysql/my.cnf \</div><div class="line">    &amp;&amp; echo <span class="string">'skip-host-cache\nskip-name-resolve'</span> | awk <span class="string">'&#123; print &#125; $1 == "[mysqld]" &amp;&amp; c == 0 &#123; c = 1; system("cat") &#125;'</span> /etc/mysql/my.cnf &gt; /tmp/my.cnf \</div><div class="line">    &amp;&amp; mv /tmp/my.cnf /etc/mysql/my.cnf</div><div class="line"></div><div class="line">VOLUME /var/lib/mysql</div><div class="line"></div><div class="line">COPY docker-entrypoint.sh /usr/local/bin/</div><div class="line">RUN ln -s usr/local/bin/docker-entrypoint.sh /entrypoint.sh <span class="comment"># backwards compat</span></div><div class="line">ENTRYPOINT [<span class="string">"docker-entrypoint.sh"</span>]</div><div class="line"></div><div class="line">EXPOSE <span class="number">3306</span></div><div class="line">CMD [<span class="string">"mysqld"</span>]</div></pre></td></tr></table></figure>
+<p>通过Dockerfile创建一个镜像，替换成你自己的名字</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker build -t mysql .</div></pre></td></tr></table></figure>
+<p>创建完成后，我们可以在本地的镜像列表里查找到刚刚创建的镜像</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">docker images |grep mysql</div><div class="line">mysql               <span class="number">5.6</span>                 <span class="number">2</span>c0964ec182a        <span class="number">3</span> weeks ago         <span class="number">329</span> MB</div></pre></td></tr></table></figure>
+<p>方法二、docker pull mysql</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"> docker pull mysql:<span class="number">5.6</span></div><div class="line"> </div><div class="line"> docker run -p <span class="number">3306</span>:<span class="number">3306</span> --name mymysql -v $PWD/conf/my.cnf:/etc/mysql/my.cnf -v $PWD/logs:/logs -v $PWD/data:/mysql_data -e MYSQL_ROOT_PASSWORD=<span class="number">123456</span> -d mysql:<span class="number">5.6</span></div><div class="line"> </div><div class="line">命令说明：</div><div class="line"></div><div class="line">    -p <span class="number">3306</span>:<span class="number">3306</span>：将容器的<span class="number">3306</span>端口映射到主机的<span class="number">3306</span>端口</div><div class="line"></div><div class="line">    -v $PWD/conf/my.cnf:/etc/mysql/my.cnf：将主机当前目录下的conf/my.cnf挂载到容器的/etc/mysql/my.cnf</div><div class="line"></div><div class="line">    -v $PWD/logs:/logs：将主机当前目录下的logs目录挂载到容器的/logs</div><div class="line"></div><div class="line">    -v $PWD/data:/mysql_data：将主机当前目录下的data目录挂载到容器的/mysql_data</div><div class="line"></div><div class="line">    -e MYSQL_ROOT_PASSWORD=<span class="number">123456</span>：初始化root用户的密码</div></pre></td></tr></table></figure>
+<p>查看容器启动情况</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker ps</div></pre></td></tr></table></figure>
+<p>新建两个文件<br>my_master.cnf</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"> [mysqld]</div><div class="line"></div><div class="line">server_id = <span class="number">1</span></div><div class="line"></div><div class="line">log-bin=mysql-bin</div><div class="line">server-id=<span class="number">2</span></div><div class="line">binlog-ignore-db=information_schema</div><div class="line">binlog-ignore-db=cluster</div><div class="line">binlog-ignore-db=mysql</div><div class="line">binlog-do-db=test</div><div class="line"> </div><div class="line"></div><div class="line">!includedir /etc/mysql/conf.d/</div><div class="line"></div><div class="line">!includedir /etc/mysql/mysql.conf.d/</div></pre></td></tr></table></figure>
+<p>my_slave.cnf</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">[mysqld]</div><div class="line"></div><div class="line">log-bin=mysql-bin</div><div class="line">server-id=<span class="number">3</span></div><div class="line">binlog-ignore-db=information_schema</div><div class="line">binlog-ignore-db=cluster</div><div class="line">binlog-ignore-db=mysql</div><div class="line">replicate-do-db=test</div><div class="line">replicate-ignore-db=mysql</div><div class="line">log-slave-updates</div><div class="line">slave-skip-errors=all</div><div class="line">slave-net-timeout=<span class="number">60</span></div><div class="line"></div><div class="line">!includedir /etc/mysql/conf.d/</div><div class="line"></div><div class="line">!includedir /etc/mysql/mysql.conf.d/</div></pre></td></tr></table></figure>
+<p>##参数的意义可以查看我之前写的文章</p>
+<p>运行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// master </div><div class="line">docker run   -d -p <span class="number">3305</span>:<span class="number">3306</span> -e MYSQL_ROOT_PASSWORD=anech -v my.cnf:/etc/mysql/my.cnf  master_mysql</div><div class="line"></div><div class="line">// salve</div><div class="line">docker run   -d -p <span class="number">3307</span>:<span class="number">3306</span> -e MYSQL_ROOT_PASSWORD=anech -v /salve/my.cnf:/etc/mysql/my.cnf  slave_mysql</div></pre></td></tr></table></figure>
+<h3 id="随时扣作者QQ-23-9549-9549"><a href="#随时扣作者QQ-23-9549-9549" class="headerlink" title="随时扣作者QQ:23 9549 9549"></a><a href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=2395499549&amp;website=www.oicqzone.com" target="_blank" rel="external">随时扣作者QQ:23 9549 9549</a></h3><h3 id="在线聊天作者"><a href="#在线聊天作者" class="headerlink" title="在线聊天作者"></a><a href="tencent://message/?Menu=yes&amp;uin=2395499549&amp;Service=300&amp;sigT=45a1e5847943b64c6ff3990f8a9e644d2b31356cb0b4ac6b24663a3c8dd0f8aa12a595b1714f9d45" target="_blank" rel="external">在线聊天作者</a></h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/06/Ribbon-001/" rel="next" title="SpringCould Ribbon负载均衡和Eureka集群">
+                <i class="fa fa-chevron-left"></i> SpringCould Ribbon负载均衡和Eureka集群
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/12/20/docker-mysql-slave/"
+           data-title="Docker配置mysql主从配置" data-url="https://github.com/jordenlwq/2017/12/20/docker-mysql-slave/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Jorden.lwq" />
+          <p class="site-author-name" itemprop="name">Jorden.lwq</p>
+           
+              <p class="site-description motion-element" itemprop="description">有风雨能够扎得住，有压力能够顶得住， 有责任能够扛得住，有诱惑能够忍得住。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jordenlwq" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=2395499549&website=www.oicqzone.com" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      QQ
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.sojson.com/" target="_blank" title="JSON在线解析">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      JSON在线解析
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#随时扣作者QQ-23-9549-9549"><span class="nav-number">1.</span> <span class="nav-text">随时扣作者QQ:23 9549 9549</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在线聊天作者"><span class="nav-number">2.</span> <span class="nav-text">在线聊天作者</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jorden.lwq</span>
+</div>
+
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Gemini
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
