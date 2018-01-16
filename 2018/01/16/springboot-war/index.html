@@ -94,17 +94,17 @@
 
 
 
-<meta name="description" content="为什么要使用durid SQL 监控1 简单的操作数据库通常涉及datasource,connection,preparedstatement ,ResultSet等东西，如果我要监控这些，必然要建些代理类。 废话不多说，直接上代码1： pom.xml。 1234567891011121314&amp;lt;!--  Spring Boot  版本--&amp;gt;   &amp;lt;parent&amp;gt;">
+<meta name="description" content="1234567891011121314添加 pom插件 	&amp;lt;finalName&amp;gt;jorden&amp;lt;/finalName&amp;gt;						 &amp;lt;plugins&amp;gt;            &amp;lt;!-- maven打包的时候告诉maven不需要web.xml,否刚会报找不到web.xml错误 --&amp;gt;            &amp;lt;plugin&amp;gt;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Springboot配置durid SQL 监控">
-<meta property="og:url" content="https://github.com/jordenlwq/2017/12/06/springboot-durid/index.html">
+<meta property="og:title" content="关于SpringBoot打包war文件部署到Tomcat">
+<meta property="og:url" content="https://github.com/jordenlwq/2018/01/16/springboot-war/index.html">
 <meta property="og:site_name" content="Jorden.lwq">
-<meta property="og:description" content="为什么要使用durid SQL 监控1 简单的操作数据库通常涉及datasource,connection,preparedstatement ,ResultSet等东西，如果我要监控这些，必然要建些代理类。 废话不多说，直接上代码1： pom.xml。 1234567891011121314&amp;lt;!--  Spring Boot  版本--&amp;gt;   &amp;lt;parent&amp;gt;">
+<meta property="og:description" content="1234567891011121314添加 pom插件 	&amp;lt;finalName&amp;gt;jorden&amp;lt;/finalName&amp;gt;						 &amp;lt;plugins&amp;gt;            &amp;lt;!-- maven打包的时候告诉maven不需要web.xml,否刚会报找不到web.xml错误 --&amp;gt;            &amp;lt;plugin&amp;gt;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-09-27T05:57:53.429Z">
+<meta property="og:updated_time" content="2018-01-16T07:18:30.358Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Springboot配置durid SQL 监控">
-<meta name="twitter:description" content="为什么要使用durid SQL 监控1 简单的操作数据库通常涉及datasource,connection,preparedstatement ,ResultSet等东西，如果我要监控这些，必然要建些代理类。 废话不多说，直接上代码1： pom.xml。 1234567891011121314&amp;lt;!--  Spring Boot  版本--&amp;gt;   &amp;lt;parent&amp;gt;">
+<meta name="twitter:title" content="关于SpringBoot打包war文件部署到Tomcat">
+<meta name="twitter:description" content="1234567891011121314添加 pom插件 	&amp;lt;finalName&amp;gt;jorden&amp;lt;/finalName&amp;gt;						 &amp;lt;plugins&amp;gt;            &amp;lt;!-- maven打包的时候告诉maven不需要web.xml,否刚会报找不到web.xml错误 --&amp;gt;            &amp;lt;plugin&amp;gt;">
 
 
 
@@ -133,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/jordenlwq/2017/12/06/springboot-durid/"/>
+  <link rel="canonical" href="https://github.com/jordenlwq/2018/01/16/springboot-war/"/>
 
 
 
 
 
-  <title>Springboot配置durid SQL 监控 | Jorden.lwq</title>
+  <title>关于SpringBoot打包war文件部署到Tomcat | Jorden.lwq</title>
   
 
 
@@ -262,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2017/12/06/springboot-durid/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2018/01/16/springboot-war/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jorden.lwq">
@@ -279,7 +279,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Springboot配置durid SQL 监控</h1>
+          <h1 class="post-title" itemprop="name headline">关于SpringBoot打包war文件部署到Tomcat</h1>
         
 
         <div class="post-meta">
@@ -291,8 +291,8 @@
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
-                2017-12-06
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-16T15:12:52+08:00">
+                2018-01-16
               </time>
             
 
@@ -310,8 +310,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/12/06/springboot-durid/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/06/springboot-durid/" itemprop="commentCount"></span>
+                <a href="/2018/01/16/springboot-war/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/01/16/springboot-war/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -339,12 +339,10 @@
       
 
       
-        <h2 id="为什么要使用durid-SQL-监控"><a href="#为什么要使用durid-SQL-监控" class="headerlink" title="为什么要使用durid SQL 监控"></a>为什么要使用durid SQL 监控</h2><pre><code>1 简单的操作数据库通常涉及datasource,connection,preparedstatement ,ResultSet等东西，如果我要监控这些，必然要建些代理类。
-</code></pre><h2 id="废话不多说，直接上代码"><a href="#废话不多说，直接上代码" class="headerlink" title="废话不多说，直接上代码"></a>废话不多说，直接上代码</h2><p>1： pom.xml。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;!--  Spring Boot  版本--&gt;</div><div class="line">   &lt;parent&gt;</div><div class="line">       &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">       &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</div><div class="line">       &lt;version&gt;1.5.4.RELEASE&lt;/version&gt;</div><div class="line">   &lt;/parent&gt;</div><div class="line">   </div><div class="line">  &lt;!--阿里 Druid Spring Boot Starter依赖--&gt;</div><div class="line">       &lt;dependency&gt;</div><div class="line">           &lt;groupId&gt;com.alibaba&lt;/groupId&gt;</div><div class="line">           &lt;artifactId&gt;druid-spring-boot-starter&lt;/artifactId&gt;</div><div class="line">           &lt;version&gt;1.1.2&lt;/version&gt;</div><div class="line">       &lt;/dependency&gt;</div></pre></td></tr></table></figure>
-<p>2：添加 Druid的StatFilter<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"> 			</div><div class="line"> 			</div><div class="line"> 			<span class="keyword">import</span> javax.servlet.annotation.WebFilter;</div><div class="line"><span class="keyword">import</span> javax.servlet.annotation.WebInitParam;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.alibaba.druid.support.http.WebStatFilter;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Druid的StatFilter</div><div class="line"> *</div><div class="line"> * @author   </div><div class="line"> */</div><div class="line"><span class="meta">@WebFilter(filterName="druidWebStatFilter",urlPatterns="/*",</span></div><div class="line">    initParams=&#123;</div><div class="line"><span class="meta">        @WebInitParam(name="exclusions",value="*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*")// 忽略资源</span></div><div class="line">&#125;)</div><div class="line">public class DruidStatFilter extends WebStatFilter &#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>3：添加 Druid的StatViewServlet<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">import</span> javax.servlet.annotation.WebInitParam;</div><div class="line"><span class="keyword">import</span> javax.servlet.annotation.WebServlet;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.alibaba.druid.support.http.StatViewServlet;</div><div class="line"></div><div class="line">/**</div><div class="line"> * StatViewServlet</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="meta">@SuppressWarnings("serial")</span></div><div class="line"><span class="meta">@WebServlet(urlPatterns = "/druid/*", </span></div><div class="line">    initParams=&#123;</div><div class="line"><span class="meta">            @WebInitParam(name="allow",value="192.168.16.110,127.0.0.1"),// IP白名单 (没有配置或者为空，则允许所有访问)</span></div><div class="line"><span class="meta">            @WebInitParam(name="deny",value="192.168.16.111"),// IP黑名单 (存在共同时，deny优先于allow)</span></div><div class="line"><span class="meta">            @WebInitParam(name="loginUsername",value="admin"),// 用户名</span></div><div class="line"><span class="meta">            @WebInitParam(name="loginPassword",value="admin"),// 密码</span></div><div class="line"><span class="meta">            @WebInitParam(name="resetEnable",value="false")// 禁用HTML页面上的“Reset All”功能</span></div><div class="line">    &#125;)</div><div class="line">public class DruidStatViewServlet extends StatViewServlet &#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="访问http-ip-port-项目名称-druid-sql-html-可以查看"><a href="#访问http-ip-port-项目名称-druid-sql-html-可以查看" class="headerlink" title="访问http://ip:port/项目名称/druid/sql.html 可以查看"></a>访问<a href="http://ip:port/项目名称/druid/sql.html" target="_blank" rel="external">http://ip:port/项目名称/druid/sql.html</a> 可以查看</h2>
+        <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">添加 pom插件</div><div class="line"> 	&lt;finalName&gt;jorden&lt;/finalName&gt;</div><div class="line">			</div><div class="line">			 &lt;plugins&gt;</div><div class="line">            &lt;!-- maven打包的时候告诉maven不需要web.xml,否刚会报找不到web.xml错误 --&gt;</div><div class="line">            &lt;plugin&gt;</div><div class="line">                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</div><div class="line">                &lt;artifactId&gt;maven-war-plugin&lt;/artifactId&gt;</div><div class="line">                &lt;version&gt;2.4&lt;/version&gt;</div><div class="line">                &lt;configuration&gt;</div><div class="line">                    &lt;failOnMissingWebXml&gt;false&lt;/failOnMissingWebXml&gt;</div><div class="line">                &lt;/configuration&gt;</div><div class="line">            &lt;/plugin&gt;</div><div class="line">        &lt;/plugins&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">添加 pom依赖</div><div class="line"> 	&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">		</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;</div><div class="line">			&lt;!--&lt;scope&gt;provided&lt;/scope&gt; --&gt;</div><div class="line">		&lt;/dependency&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">更改启动类</div><div class="line"><span class="meta">@EnableWebMvc</span></div><div class="line"><span class="meta">@MapperScan(basePackages = "com.jorden.li.dao")</span></div><div class="line"><span class="meta">@SpringBootApplication</span></div><div class="line"><span class="meta">@EnableRabbit</span></div><div class="line">public class ApplicationStart extends SpringBootServletInitializer &#123;</div><div class="line"></div><div class="line">	//jar启动</div><div class="line"><span class="meta">	@Override  </span></div><div class="line">    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) &#123;  </div><div class="line">        <span class="keyword">return</span> application.sources(ApplicationStart.<span class="keyword">class</span>);  </div><div class="line">   &#125; </div><div class="line">	</div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		SpringApplication.run(ApplicationStart.<span class="keyword">class</span>, args);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="进入项目跟目录。运行：mvn-clean-package-spring-boot-repackage-会出现war文件，直接放到tomcat里面就好。"><a href="#进入项目跟目录。运行：mvn-clean-package-spring-boot-repackage-会出现war文件，直接放到tomcat里面就好。" class="headerlink" title="进入项目跟目录。运行：mvn clean package spring-boot:repackage 会出现war文件，直接放到tomcat里面就好。"></a>进入项目跟目录。运行：mvn clean package spring-boot:repackage 会出现war文件，直接放到tomcat里面就好。</h2>
       
     </div>
     
@@ -368,8 +366,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/06/spirngBoot全局捕获异常/" rel="next" title="SpringBoot学习——全局异常处理设置（返回JSON）">
-                <i class="fa fa-chevron-left"></i> SpringBoot学习——全局异常处理设置（返回JSON）
+              <a href="/2017/12/20/docker-mysql-slave/" rel="next" title="Docker配置mysql主从配置">
+                <i class="fa fa-chevron-left"></i> Docker配置mysql主从配置
               </a>
             
           </div>
@@ -377,10 +375,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/12/06/springboot-qxlj/" rel="prev" title="SpringBoot 基于拦截器结合redis实现登录token校验">
-                SpringBoot 基于拦截器结合redis实现登录token校验 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -410,8 +404,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/12/06/springboot-durid/"
-           data-title="Springboot配置durid SQL 监控" data-url="https://github.com/jordenlwq/2017/12/06/springboot-durid/">
+      <div class="ds-thread" data-thread-key="2018/01/16/springboot-war/"
+           data-title="关于SpringBoot打包war文件部署到Tomcat" data-url="https://github.com/jordenlwq/2018/01/16/springboot-war/">
       </div>
     
   </div>
@@ -535,7 +529,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要使用durid-SQL-监控"><span class="nav-number">1.</span> <span class="nav-text">为什么要使用durid SQL 监控</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#废话不多说，直接上代码"><span class="nav-number">2.</span> <span class="nav-text">废话不多说，直接上代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#访问http-ip-port-项目名称-druid-sql-html-可以查看"><span class="nav-number">3.</span> <span class="nav-text">访问http://ip:port/项目名称/druid/sql.html 可以查看</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#进入项目跟目录。运行：mvn-clean-package-spring-boot-repackage-会出现war文件，直接放到tomcat里面就好。"><span class="nav-number">1.</span> <span class="nav-text">进入项目跟目录。运行：mvn clean package spring-boot:repackage 会出现war文件，直接放到tomcat里面就好。</span></a></li></ol></div>
             
 
           </div>
