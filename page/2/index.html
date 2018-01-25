@@ -263,6 +263,135 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2017/12/06/repackage/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jorden.lwq">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jorden.lwq">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/06/repackage/" itemprop="url">关于SpringCould 打jar文件 无法运行Application程序</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
+                2017-12-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/06/repackage/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/06/repackage/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">添加 pom plugin</div><div class="line">  &lt;build&gt;</div><div class="line">		&lt;plugins&gt;</div><div class="line">		 &lt;plugin&gt;</div><div class="line">                    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">                    &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</div><div class="line">                    &lt;version&gt;1.5.7.RELEASE&lt;/version&gt;</div><div class="line">                    &lt;executions&gt;</div><div class="line">                        &lt;execution&gt;</div><div class="line">                            &lt;goals&gt;</div><div class="line">                                &lt;goal&gt;repackage&lt;/goal&gt;</div><div class="line">                            &lt;/goals&gt;</div><div class="line">                        &lt;/execution&gt;</div><div class="line">                    &lt;/executions&gt;</div><div class="line">                &lt;/plugin&gt;</div><div class="line">		</div><div class="line">			&lt;plugin&gt;</div><div class="line">				&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</div><div class="line">				&lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;</div><div class="line">				&lt;version&gt;2.3.2&lt;/version&gt;</div><div class="line">				&lt;configuration&gt;</div><div class="line">					&lt;source&gt;1.8&lt;/source&gt;</div><div class="line">					&lt;target&gt;1.8&lt;/target&gt;</div><div class="line">					&lt;encoding&gt;UTF-8&lt;/encoding&gt;</div><div class="line">				&lt;/configuration&gt;</div><div class="line">			&lt;/plugin&gt;</div><div class="line">		&lt;/plugins&gt;</div><div class="line">	&lt;/build&gt;</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2017/12/06/rabbit-springboot/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -812,7 +941,7 @@ $ crontab -e
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">Artikel</span>
               </a>
             </div>

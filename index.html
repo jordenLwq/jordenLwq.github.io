@@ -263,6 +263,140 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2018/01/24/redis-start/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jorden.lwq">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jorden.lwq">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/24/redis-start/" itemprop="url">生成环境redis启动方案</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-24T10:31:15+08:00">
+                2018-01-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/01/24/redis-start/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/01/24/redis-start/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>​                           </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">安装redis依赖包</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">yum clean all</div><div class="line"></div><div class="line">yum makecache</div><div class="line"></div><div class="line">yum install wget</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">安装TCL依赖</div><div class="line"></div><div class="line">wget http://downloads.sourceforge.net/tcl/tcl8<span class="number">.6</span><span class="number">.1</span>-src.tar.gz</div><div class="line">tar -xzvf tcl8<span class="number">.6</span><span class="number">.1</span>-src.tar.gz</div><div class="line">cd  /usr/local/tcl8<span class="number">.6</span><span class="number">.1</span>/unix/</div><div class="line">./configure  </div><div class="line">make &amp;&amp; make install</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">安装 perl</div><div class="line">（为什么要装perl？ java+nginx+lua，需要perl。perl，是一个基础的编程语言的安装，tomcat，跑java web应用）</div><div class="line">yum install -y gcc</div><div class="line">wget http://www.cpan.org/src/<span class="number">5.0</span>/perl<span class="number">-5.16</span><span class="number">.1</span>.tar.gz</div><div class="line">tar -xzf perl<span class="number">-5.16</span><span class="number">.1</span>.tar.gz</div><div class="line">cd perl<span class="number">-5.16</span><span class="number">.1</span></div><div class="line">./Configure -des -Dprefix=/usr/local/perl</div><div class="line">make &amp;&amp; make test &amp;&amp; make install</div><div class="line">perl -v</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">安装redis</div><div class="line">使用redis<span class="number">-3.2</span><span class="number">.8</span>.tar.gz</div><div class="line">tar -zxvf redis<span class="number">-3.2</span><span class="number">.8</span>.tar.gz</div><div class="line">cd redis<span class="number">-3.2</span><span class="number">.8</span></div><div class="line">make &amp;&amp; make test &amp;&amp; make install</div><div class="line"></div><div class="line">redis的生产环境启动方案</div><div class="line">要把redis作为一个系统的daemon进程去运行的，每次系统启动，redis进程一起启动</div><div class="line"></div><div class="line">（<span class="number">1</span>）redis utils目录下，有个redis_init_script脚本</div><div class="line"></div><div class="line">（<span class="number">2</span>）将redis_init_script脚本拷贝到linux的/etc/init.d目录中，将redis_init_script重命名为redis_6379，<span class="number">6379</span>是我们希望这个redis实例监听的端口号</div><div class="line"></div><div class="line">（<span class="number">3</span>）修改redis_6379脚本的第<span class="number">6</span>行的REDISPORT，设置为相同的端口号（默认就是<span class="number">6379</span>）</div><div class="line"></div><div class="line">（<span class="number">4</span>）创建两个目录：/etc/redis（存放redis的配置文件），/var/redis/<span class="number">6379</span>（存放redis的持久化文件）</div><div class="line"></div><div class="line">（<span class="number">5</span>）修改redis配置文件（默认在根目录下，redis.conf），拷贝到/etc/redis目录中，修改名称为<span class="number">6379.</span>conf</div><div class="line"></div><div class="line">（<span class="number">6</span>）修改redis.conf中的部分配置为生产环境</div><div class="line"></div><div class="line">daemonize	yes							让redis以daemon进程运行</div><div class="line"></div><div class="line">pidfile		/var/run/redis_6379.pid 	设置redis的pid文件位置</div><div class="line"></div><div class="line">port		<span class="number">6379</span>						设置redis的监听端口号</div><div class="line"></div><div class="line">dir 		/var/redis/<span class="number">6379</span>				设置持久化文件的存储位置</div><div class="line"></div><div class="line">（<span class="number">7</span>）启动redis，执行cd /etc/init.d, chmod <span class="number">777</span> redis_6379，./redis_6379 start</div><div class="line"></div><div class="line">（<span class="number">8</span>）确认redis进程是否启动，ps -ef | grep redis</div><div class="line"></div><div class="line">（<span class="number">9</span>）让redis跟随系统启动自动启动</div><div class="line"></div><div class="line">在redis_6379脚本中，最上面，加入两行注释</div><div class="line"><span class="comment">#chkconfig:   2345 90 10</span></div><div class="line"><span class="comment">#description:  Redis is a persistent key-value database</span></div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2018/01/16/springboot-war/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1514,135 +1648,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2017/12/06/repackage/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jorden.lwq">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jorden.lwq">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/06/repackage/" itemprop="url">关于SpringCould 打jar文件 无法运行Application程序</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
-                2017-12-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/12/06/repackage/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/06/repackage/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">添加 pom plugin</div><div class="line">  &lt;build&gt;</div><div class="line">		&lt;plugins&gt;</div><div class="line">		 &lt;plugin&gt;</div><div class="line">                    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">                    &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</div><div class="line">                    &lt;version&gt;1.5.7.RELEASE&lt;/version&gt;</div><div class="line">                    &lt;executions&gt;</div><div class="line">                        &lt;execution&gt;</div><div class="line">                            &lt;goals&gt;</div><div class="line">                                &lt;goal&gt;repackage&lt;/goal&gt;</div><div class="line">                            &lt;/goals&gt;</div><div class="line">                        &lt;/execution&gt;</div><div class="line">                    &lt;/executions&gt;</div><div class="line">                &lt;/plugin&gt;</div><div class="line">		</div><div class="line">			&lt;plugin&gt;</div><div class="line">				&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</div><div class="line">				&lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;</div><div class="line">				&lt;version&gt;2.3.2&lt;/version&gt;</div><div class="line">				&lt;configuration&gt;</div><div class="line">					&lt;source&gt;1.8&lt;/source&gt;</div><div class="line">					&lt;target&gt;1.8&lt;/target&gt;</div><div class="line">					&lt;encoding&gt;UTF-8&lt;/encoding&gt;</div><div class="line">				&lt;/configuration&gt;</div><div class="line">			&lt;/plugin&gt;</div><div class="line">		&lt;/plugins&gt;</div><div class="line">	&lt;/build&gt;</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1693,7 +1698,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
