@@ -263,6 +263,143 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2018/01/27/redis-slave-slave/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jorden.lwq">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jorden.lwq">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/27/redis-slave-slave/" itemprop="url">redis 主从架构配置（水平扩展）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-27T22:49:09+08:00">
+                2018-01-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/01/27/redis-slave-slave/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/01/27/redis-slave-slave/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis 主从架构配置（水平扩展）</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">准备redis环境</div><div class="line">  1，prel</div><div class="line">  2，192.168.58.01 （master） 198.168.58.02（slave 01)  198.168.58.02（slave 02)  </div><div class="line">  3，redis端口都是6379 部署到三台物理机上面。（或者docker run 三个redis 服务器 端口不同就行了，）</div></pre></td></tr></table></figure>
+  <figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">redis master 必须开启 RDB 和AOF 持久化。 </div><div class="line">redis默认开启是RDB</div><div class="line">开启AOF appendonly yes aof 策略 fsynexec</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">198.168.58.02 redis slave</div><div class="line">改redis.conf </div><div class="line">slaveof &lt;master&gt; &lt;port&gt;</div><div class="line">改为 198.168.52.01 6379</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">198.168.58.03 redis slave</div><div class="line">改redis.conf </div><div class="line">slaveof &lt;master&gt; &lt;port </div><div class="line">改为 198.168.52.01 6379</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">在部署在redis master的物理机上面测试</div><div class="line">redis-cli</div><div class="line">执行info 出现</div><div class="line"></div><div class="line"></div><div class="line"># Replication</div><div class="line">role:master</div><div class="line">connected_slaves:2</div><div class="line">slave0:ip=192.168.68.01,port=6379,state=online,offset=8892,lag=0</div><div class="line">slave1:ip=192.168.68.02,port=6379,state=online,offset=8892,lag=0</div><div class="line">master_repl_offset:8892</div><div class="line">repl_backlog_active:1</div><div class="line">repl_backlog_size:1048576</div><div class="line">repl_backlog_first_byte_offset:2</div><div class="line">repl_backlog_histlen:8891</div><div class="line"></div><div class="line">可见两个slave 分别为 slave01 slave02</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">在部署在redis slave的物理机上面测试</div><div class="line">redis-cli</div><div class="line">执行info 出现</div><div class="line"></div><div class="line"></div><div class="line"># Replication</div><div class="line">role:slave</div><div class="line">master_host:192.168.58.01</div><div class="line">master_port:6379</div><div class="line">master_link_status:up</div><div class="line">master_last_io_seconds_ago:10</div><div class="line">master_sync_in_progress:0</div><div class="line">slave_repl_offset:9102</div><div class="line">slave_priority:100</div><div class="line">slave_read_only:1</div><div class="line">connected_slaves:0</div><div class="line">master_repl_offset:0</div><div class="line">repl_backlog_active:0</div><div class="line">repl_backlog_size:1048576</div><div class="line">repl_backlog_first_byte_offset:0</div><div class="line">repl_backlog_histlen:0</div><div class="line"></div><div class="line">可见次角色为slave master主机为192.168.58.01 端口6379</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">至此，redis 主从架构实现。可支撑 10w+ QPS</div><div class="line"></div><div class="line">Thanks Look !!!</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2018/01/24/redis-start/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1504,150 +1641,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2017/12/06/spirngBoot全局捕获异常/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jorden.lwq">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jorden.lwq">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/06/spirngBoot全局捕获异常/" itemprop="url">SpringBoot学习——全局异常处理设置（返回JSON）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
-                2017-12-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/12/06/spirngBoot全局捕获异常/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/06/spirngBoot全局捕获异常/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <hr>
-<pre><code>## 需求
-
-现在习惯使用ajax的方式发起请求，所以经常需要服务端返回一个json或者字符串。
-控制全局的异常处理。
-如果在单个方法中使用try，catch把方法包裹起来，工作量大，而且会异常的抛出而导致@Transactional注解的方法事务不会回滚。
-</code></pre><h2 id="说明"><a href="#说明" class="headerlink" title="说明:"></a>说明:</h2><pre><code>使用@ControllerAdvice注解
-使用@ExceptionHandler注解
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@ControllerAdvice</span></div></pre></td></tr></table></figure>
-<h2 id="该注解是spring2-3以后新增的一个注解，主要是用来Controller的一些公共的需求的低侵入性增强提供辅助，作用于-RequestMapping标注的方法上。"><a href="#该注解是spring2-3以后新增的一个注解，主要是用来Controller的一些公共的需求的低侵入性增强提供辅助，作用于-RequestMapping标注的方法上。" class="headerlink" title="该注解是spring2.3以后新增的一个注解，主要是用来Controller的一些公共的需求的低侵入性增强提供辅助，作用于@RequestMapping标注的方法上。"></a>该注解是spring2.3以后新增的一个注解，主要是用来Controller的一些公共的需求的低侵入性增强提供辅助，作用于@RequestMapping标注的方法上。</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@ExceptionHandler</span></div></pre></td></tr></table></figure>
-<h2 id="该注解是配合-ExceptionHandler一起使用的注解，自定义错误处理器，可自己组装json字符串，并返回到页面。"><a href="#该注解是配合-ExceptionHandler一起使用的注解，自定义错误处理器，可自己组装json字符串，并返回到页面。" class="headerlink" title="该注解是配合@ExceptionHandler一起使用的注解，自定义错误处理器，可自己组装json字符串，并返回到页面。"></a>该注解是配合@ExceptionHandler一起使用的注解，自定义错误处理器，可自己组装json字符串，并返回到页面。</h2><h2 id="代码"><a href="#代码" class="headerlink" title="代码:"></a>代码:</h2><p>   创建一个全局异常处理类，如下：<br>如果向实现，不同的异常有不同的操作的话，只需要将 @ExceptionHandler的value的值不一样就可以了，可以同时实现多个不同的异常处理，但不能出现包含状态。</p>
-<p> 第一种方法</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.ControllerAdvice;</div><div class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.ExceptionHandler;</div><div class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.ResponseBody;</div><div class="line"></div><div class="line"><span class="meta">@ControllerAdvice</span></div><div class="line"><span class="meta">@ResponseBody</span></div><div class="line">public class GlobalExceptionHandler &#123;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 所有异常报错</div><div class="line">     * @param request</div><div class="line">     * @param exception</div><div class="line">     * @<span class="keyword">return</span></div><div class="line">     * @throws Exception</div><div class="line">     */</div><div class="line"><span class="meta">    @ExceptionHandler(value=Exception.class)  </span></div><div class="line">    public String allExceptionHandler(HttpServletRequest request,  </div><div class="line">            Exception exception) throws Exception  </div><div class="line">    &#123;  </div><div class="line">        exception.printStackTrace();</div><div class="line">        System.out.println(<span class="string">"我报错了："</span>+exception.getLocalizedMessage());</div><div class="line">        System.out.println(<span class="string">"我报错了："</span>+exception.getCause());</div><div class="line">        System.out.println(<span class="string">"我报错了："</span>+exception.getSuppressed());</div><div class="line">        System.out.println(<span class="string">"我报错了："</span>+exception.getMessage());</div><div class="line">        System.out.println(<span class="string">"我报错了："</span>+exception.getStackTrace());</div><div class="line">        <span class="keyword">return</span> <span class="string">"服务器异常，请联系管理员！"</span>;  </div><div class="line">    &#125;  </div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>第二种方法（也是我现在用的）</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSON;</div><div class="line"><span class="keyword">import</span> com.alibaba.fastjson.serializer.SerializerFeature;</div><div class="line"><span class="keyword">import</span> com.alibaba.fastjson.support.config.FastJsonConfig;</div><div class="line"><span class="keyword">import</span> com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter4;</div><div class="line"><span class="keyword">import</span> com.company.project.core.Result;</div><div class="line"><span class="keyword">import</span> com.company.project.core.ResultCode;</div><div class="line"><span class="keyword">import</span> com.company.project.core.ServiceException;</div><div class="line"><span class="keyword">import</span> org.apache.commons.codec.digest.DigestUtils;</div><div class="line"><span class="keyword">import</span> org.apache.commons.lang3.StringUtils;</div><div class="line"><span class="keyword">import</span> org.slf4j.Logger;</div><div class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</div><div class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Value;</div><div class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</div><div class="line"><span class="keyword">import</span> org.springframework.http.converter.HttpMessageConverter;</div><div class="line"><span class="keyword">import</span> org.springframework.web.method.HandlerMethod;</div><div class="line"><span class="keyword">import</span> org.springframework.web.servlet.HandlerExceptionResolver;</div><div class="line"><span class="keyword">import</span> org.springframework.web.servlet.ModelAndView;</div><div class="line"><span class="keyword">import</span> org.springframework.web.servlet.NoHandlerFoundException;</div><div class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.CorsRegistry;</div><div class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.InterceptorRegistry;</div><div class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;</div><div class="line"><span class="keyword">import</span> org.springframework.web.servlet.handler.HandlerInterceptorAdapter;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.servlet.ServletException;</div><div class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</div><div class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.nio.charset.Charset;</div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.Collections;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="meta">@Configuration</span></div><div class="line">public class WebMvcConfigurer extends WebMvcConfigurerAdapter &#123;</div><div class="line"></div><div class="line">    private final Logger logger = LoggerFactory.getLogger(WebMvcConfigurer.<span class="keyword">class</span>);</div><div class="line"><span class="meta">    @Value("$&#123;spring.profiles.active&#125;")</span></div><div class="line">    private String env;//当前激活的配置文件</div><div class="line"></div><div class="line">    //使用阿里 FastJson 作为JSON MessageConverter</div><div class="line"><span class="meta">    @Override</span></div><div class="line">    public void configureMessageConverters(List&lt;HttpMessageConverter&lt;?&gt;&gt; converters) &#123;</div><div class="line">        FastJsonHttpMessageConverter4 converter = new FastJsonHttpMessageConverter4();</div><div class="line">        FastJsonConfig config = new FastJsonConfig();</div><div class="line">        config.setSerializerFeatures(SerializerFeature.WriteMapNullValue,//保留空的字段</div><div class="line">                SerializerFeature.WriteNullStringAsEmpty,//String null -&gt; ""</div><div class="line">                SerializerFeature.WriteNullNumberAsZero);//Number null -&gt; 0</div><div class="line">        converter.setFastJsonConfig(config);</div><div class="line">        converter.setDefaultCharset(Charset.forName(<span class="string">"UTF-8"</span>));</div><div class="line">        converters.add(converter);</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    //统一异常处理</div><div class="line"><span class="meta">    @Override</span></div><div class="line">    public void configureHandlerExceptionResolvers(List&lt;HandlerExceptionResolver&gt; exceptionResolvers) &#123;</div><div class="line">        exceptionResolvers.add(new HandlerExceptionResolver() &#123;</div><div class="line">            public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception e) &#123;</div><div class="line">                Result result = new Result();</div><div class="line">                <span class="keyword">if</span> (e instanceof ServiceException) &#123;//业务失败的异常，如“账号或密码错误”</div><div class="line">                    result.setCode(ResultCode.FAIL).setMessage(e.getMessage());</div><div class="line">                    logger.info(e.getMessage());</div><div class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (e instanceof NoHandlerFoundException) &#123;</div><div class="line">                    result.setCode(ResultCode.NOT_FOUND).setMessage(<span class="string">"接口 ["</span> + request.getRequestURI() + <span class="string">"] 不存在"</span>);</div><div class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (e instanceof ServletException) &#123;</div><div class="line">                    result.setCode(ResultCode.FAIL).setMessage(e.getMessage());</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    result.setCode(ResultCode.INTERNAL_SERVER_ERROR).setMessage(<span class="string">"接口 ["</span> + request.getRequestURI() + <span class="string">"] 内部错误，请联系管理员"</span>);</div><div class="line">                    String message;</div><div class="line">                    <span class="keyword">if</span> (handler instanceof HandlerMethod) &#123;</div><div class="line">                        HandlerMethod handlerMethod = (HandlerMethod) handler;</div><div class="line">                        message = String.format(<span class="string">"接口 [%s] 出现异常，方法：%s.%s，异常摘要：%s"</span>,</div><div class="line">                                request.getRequestURI(),</div><div class="line">                                handlerMethod.getBean().getClass().getName(),</div><div class="line">                                handlerMethod.getMethod().getName(),</div><div class="line">                                e.getMessage());</div><div class="line">                    &#125; <span class="keyword">else</span> &#123;</div><div class="line">                        message = e.getMessage();</div><div class="line">                    &#125;</div><div class="line">                    logger.error(message, e);</div><div class="line">                &#125;</div><div class="line">                responseResult(response, result);</div><div class="line">                <span class="keyword">return</span> new ModelAndView();</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //解决跨域问题</div><div class="line"><span class="meta">    @Override</span></div><div class="line">    public void addCorsMappings(CorsRegistry registry) &#123;</div><div class="line">        //registry.addMapping(<span class="string">"/**"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //添加拦截器</div><div class="line"><span class="meta">    @Override</span></div><div class="line">    public void addInterceptors(InterceptorRegistry registry) &#123;</div><div class="line">        //接口签名认证拦截器，该签名认证比较简单，实际项目中可以使用Json Web Token或其他更好的方式替代。</div><div class="line">        <span class="keyword">if</span> (!<span class="string">"dev"</span>.equals(env)) &#123; //开发环境忽略签名认证</div><div class="line">            registry.addInterceptor(new HandlerInterceptorAdapter() &#123;</div><div class="line"><span class="meta">                @Override</span></div><div class="line">                public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception &#123;</div><div class="line">                    //验证签名</div><div class="line">                    boolean <span class="keyword">pass</span> = validateSign(request);</div><div class="line">                    <span class="keyword">if</span> (<span class="keyword">pass</span>) &#123;</div><div class="line">                        <span class="keyword">return</span> true;</div><div class="line">                    &#125; <span class="keyword">else</span> &#123;</div><div class="line">                        logger.warn(<span class="string">"签名认证失败，请求接口：&#123;&#125;，请求IP：&#123;&#125;，请求参数：&#123;&#125;"</span>,</div><div class="line">                                request.getRequestURI(), getIpAddress(request), JSON.toJSONString(request.getParameterMap()));</div><div class="line"></div><div class="line">                        Result result = new Result();</div><div class="line">                        result.setCode(ResultCode.UNAUTHORIZED).setMessage(<span class="string">"签名认证失败"</span>);</div><div class="line">                        responseResult(response, result);</div><div class="line">                        <span class="keyword">return</span> false;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private void responseResult(HttpServletResponse response, Result result) &#123;</div><div class="line">        response.setCharacterEncoding(<span class="string">"UTF-8"</span>);</div><div class="line">        response.setHeader(<span class="string">"Content-type"</span>, <span class="string">"application/json;charset=UTF-8"</span>);</div><div class="line">        response.setStatus(<span class="number">200</span>);</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            response.getWriter().write(JSON.toJSONString(result));</div><div class="line">        &#125; catch (IOException ex) &#123;</div><div class="line">            logger.error(ex.getMessage());</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 一个简单的签名认证，规则：</div><div class="line">     * <span class="number">1.</span> 将请求参数按ascii码排序</div><div class="line">     * <span class="number">2.</span> 拼接为a=value&amp;b=value...这样的字符串（不包含sign）</div><div class="line">     * <span class="number">3.</span> 混合密钥（secret）进行md5获得签名，与请求的签名进行比较</div><div class="line">     */</div><div class="line">    private boolean validateSign(HttpServletRequest request) &#123;</div><div class="line">        String requestSign = request.getParameter(<span class="string">"sign"</span>);//获得请求签名，如sign=<span class="number">19e907700</span>db7ad91318424a97c54ed57</div><div class="line">        <span class="keyword">if</span> (StringUtils.isEmpty(requestSign)) &#123;</div><div class="line">            <span class="keyword">return</span> false;</div><div class="line">        &#125;</div><div class="line">        List&lt;String&gt; keys = new ArrayList&lt;String&gt;(request.getParameterMap().keySet());</div><div class="line">        keys.remove(<span class="string">"sign"</span>);//排除sign参数</div><div class="line">        Collections.sort(keys);//排序</div><div class="line"></div><div class="line">        StringBuilder sb = new StringBuilder();</div><div class="line">        <span class="keyword">for</span> (String key : keys) &#123;</div><div class="line">            sb.append(key).append(<span class="string">"="</span>).append(request.getParameter(key)).append(<span class="string">"&amp;"</span>);//拼接字符串</div><div class="line">        &#125;</div><div class="line">        String linkString = sb.toString();</div><div class="line">        linkString = StringUtils.substring(linkString, <span class="number">0</span>, linkString.length() - <span class="number">1</span>);//去除最后一个<span class="string">'&amp;'</span></div><div class="line"></div><div class="line">        String secret = <span class="string">"Potato"</span>;//密钥，自己修改</div><div class="line">        String sign = DigestUtils.md5Hex(linkString + secret);//混合密钥md5</div><div class="line"></div><div class="line">        <span class="keyword">return</span> StringUtils.equals(sign, requestSign);//比较</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private String getIpAddress(HttpServletRequest request) &#123;</div><div class="line">        String ip = request.getHeader(<span class="string">"x-forwarded-for"</span>);</div><div class="line">        <span class="keyword">if</span> (ip == null || ip.length() == <span class="number">0</span> || <span class="string">"unknown"</span>.equalsIgnoreCase(ip)) &#123;</div><div class="line">            ip = request.getHeader(<span class="string">"Proxy-Client-IP"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (ip == null || ip.length() == <span class="number">0</span> || <span class="string">"unknown"</span>.equalsIgnoreCase(ip)) &#123;</div><div class="line">            ip = request.getHeader(<span class="string">"WL-Proxy-Client-IP"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (ip == null || ip.length() == <span class="number">0</span> || <span class="string">"unknown"</span>.equalsIgnoreCase(ip)) &#123;</div><div class="line">            ip = request.getHeader(<span class="string">"HTTP_CLIENT_IP"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (ip == null || ip.length() == <span class="number">0</span> || <span class="string">"unknown"</span>.equalsIgnoreCase(ip)) &#123;</div><div class="line">            ip = request.getHeader(<span class="string">"HTTP_X_FORWARDED_FOR"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (ip == null || ip.length() == <span class="number">0</span> || <span class="string">"unknown"</span>.equalsIgnoreCase(ip)) &#123;</div><div class="line">            ip = request.getRemoteAddr();</div><div class="line">        &#125;</div><div class="line">        // 如果是多级代理，那么取第一个ip为客户端ip</div><div class="line">        <span class="keyword">if</span> (ip != null &amp;&amp; ip.indexOf(<span class="string">","</span>) != <span class="number">-1</span>) &#123;</div><div class="line">            ip = ip.substring(<span class="number">0</span>, ip.indexOf(<span class="string">","</span>)).trim();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> ip;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="随时扣作者QQ-23-9549-9549"><a href="#随时扣作者QQ-23-9549-9549" class="headerlink" title="随时扣作者QQ:23 9549 9549"></a><a href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=2395499549&amp;website=www.oicqzone.com" target="_blank" rel="external">随时扣作者QQ:23 9549 9549</a></h3><h3 id="在线聊天作者"><a href="#在线聊天作者" class="headerlink" title="在线聊天作者"></a><a href="tencent://message/?Menu=yes&amp;uin=2395499549&amp;Service=300&amp;sigT=45a1e5847943b64c6ff3990f8a9e644d2b31356cb0b4ac6b24663a3c8dd0f8aa12a595b1714f9d45" target="_blank" rel="external">在线聊天作者</a></h3>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1698,7 +1691,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
