@@ -118,7 +118,7 @@
     motion: true,
     duoshuo: {
       userId: '0',
-      author: 'Author'
+      author: 'Autore'
     },
     algolia: {
       applicationID: '',
@@ -206,7 +206,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -216,7 +216,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Archivi
           </a>
         </li>
       
@@ -263,6 +263,140 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2017/12/06/springboot-durid/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jorden.lwq">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jorden.lwq">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/06/springboot-durid/" itemprop="url">Springboot配置durid SQL 监控</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Scritto il</span>
+              
+              <time title="Post creato" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
+                2017-12-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/06/springboot-durid/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/06/springboot-durid/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="为什么要使用durid-SQL-监控"><a href="#为什么要使用durid-SQL-监控" class="headerlink" title="为什么要使用durid SQL 监控"></a>为什么要使用durid SQL 监控</h2><pre><code>1 简单的操作数据库通常涉及datasource,connection,preparedstatement ,ResultSet等东西，如果我要监控这些，必然要建些代理类。
+</code></pre><h2 id="废话不多说，直接上代码"><a href="#废话不多说，直接上代码" class="headerlink" title="废话不多说，直接上代码"></a>废话不多说，直接上代码</h2><p>1： pom.xml。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;!--  Spring Boot  版本--&gt;</div><div class="line">   &lt;parent&gt;</div><div class="line">       &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">       &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</div><div class="line">       &lt;version&gt;1.5.4.RELEASE&lt;/version&gt;</div><div class="line">   &lt;/parent&gt;</div><div class="line">   </div><div class="line">  &lt;!--阿里 Druid Spring Boot Starter依赖--&gt;</div><div class="line">       &lt;dependency&gt;</div><div class="line">           &lt;groupId&gt;com.alibaba&lt;/groupId&gt;</div><div class="line">           &lt;artifactId&gt;druid-spring-boot-starter&lt;/artifactId&gt;</div><div class="line">           &lt;version&gt;1.1.2&lt;/version&gt;</div><div class="line">       &lt;/dependency&gt;</div></pre></td></tr></table></figure>
+<p>2：添加 Druid的StatFilter<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"> 			</div><div class="line"> 			</div><div class="line"> 			<span class="keyword">import</span> javax.servlet.annotation.WebFilter;</div><div class="line"><span class="keyword">import</span> javax.servlet.annotation.WebInitParam;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.alibaba.druid.support.http.WebStatFilter;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Druid的StatFilter</div><div class="line"> *</div><div class="line"> * @author   </div><div class="line"> */</div><div class="line"><span class="meta">@WebFilter(filterName="druidWebStatFilter",urlPatterns="/*",</span></div><div class="line">    initParams=&#123;</div><div class="line"><span class="meta">        @WebInitParam(name="exclusions",value="*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*")// 忽略资源</span></div><div class="line">&#125;)</div><div class="line">public class DruidStatFilter extends WebStatFilter &#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>3：添加 Druid的StatViewServlet<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">import</span> javax.servlet.annotation.WebInitParam;</div><div class="line"><span class="keyword">import</span> javax.servlet.annotation.WebServlet;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.alibaba.druid.support.http.StatViewServlet;</div><div class="line"></div><div class="line">/**</div><div class="line"> * StatViewServlet</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="meta">@SuppressWarnings("serial")</span></div><div class="line"><span class="meta">@WebServlet(urlPatterns = "/druid/*", </span></div><div class="line">    initParams=&#123;</div><div class="line"><span class="meta">            @WebInitParam(name="allow",value="192.168.16.110,127.0.0.1"),// IP白名单 (没有配置或者为空，则允许所有访问)</span></div><div class="line"><span class="meta">            @WebInitParam(name="deny",value="192.168.16.111"),// IP黑名单 (存在共同时，deny优先于allow)</span></div><div class="line"><span class="meta">            @WebInitParam(name="loginUsername",value="admin"),// 用户名</span></div><div class="line"><span class="meta">            @WebInitParam(name="loginPassword",value="admin"),// 密码</span></div><div class="line"><span class="meta">            @WebInitParam(name="resetEnable",value="false")// 禁用HTML页面上的“Reset All”功能</span></div><div class="line">    &#125;)</div><div class="line">public class DruidStatViewServlet extends StatViewServlet &#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="访问http-ip-port-项目名称-druid-sql-html-可以查看"><a href="#访问http-ip-port-项目名称-druid-sql-html-可以查看" class="headerlink" title="访问http://ip:port/项目名称/druid/sql.html 可以查看"></a>访问<a href="http://ip:port/项目名称/druid/sql.html" target="_blank" rel="external">http://ip:port/项目名称/druid/sql.html</a> 可以查看</h2>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2017/12/06/spirngBoot全局捕获异常/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -292,9 +426,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Scritto il</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
+              <time title="Post creato" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
                 2017-12-06
               </time>
             
@@ -436,9 +570,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Scritto il</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
+              <time title="Post creato" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
                 2017-12-06
               </time>
             
@@ -565,9 +699,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Scritto il</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
+              <time title="Post creato" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
                 2017-12-06
               </time>
             
@@ -708,9 +842,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Scritto il</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
+              <time title="Post creato" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
                 2017-12-06
               </time>
             
@@ -893,9 +1027,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Scritto il</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
+              <time title="Post creato" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
                 2017-12-06
               </time>
             
@@ -1085,8 +1219,8 @@ $ crontab -e
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">15</span>
-                <span class="site-state-item-name">Artikel</span>
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">posts</span>
               </a>
             </div>
           
@@ -1175,11 +1309,11 @@ $ crontab -e
 
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
-  Theme -
+  Tema -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Gemini
   </a>

@@ -118,7 +118,7 @@
     motion: true,
     duoshuo: {
       userId: '0',
-      author: 'Author'
+      author: 'Autore'
     },
     algolia: {
       applicationID: '',
@@ -206,7 +206,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -216,7 +216,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Archivi
           </a>
         </li>
       
@@ -263,6 +263,158 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2018/03/08/redis-mianshi/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jorden.lwq">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jorden.lwq">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/08/redis-mianshi/" itemprop="url">redis面试</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Scritto il</span>
+              
+              <time title="Post creato" itemprop="dateCreated datePublished" datetime="2018-03-08T09:34:12+08:00">
+                2018-03-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/08/redis-mianshi/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/03/08/redis-mianshi/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1、什么是Redis？<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis 就是一种NOSQL型内存缓存数据库，可以支持redis 集群 主从复制 读写分离，支持大数据量存储，高并发！</div></pre></td></tr></table></figure></p>
+<p>2、redis和memcached的区别是什么？<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="number">1.</span> 都是内存数据库，redis不仅支持K/V形式，还可以存储 String Map List Set 类型。 memcached 不仅可以存储 String Map List Set 类型 还可以存储 视频 图片等</div><div class="line"><span class="number">2.</span> 都有自己的缓存过期策略。redis 可以使用expired设置 过期时间，memcached 可以 set <span class="number">1008</span> 设置永不过期</div><div class="line"><span class="number">3</span>，都可以做集群和分布式存储。支持一主多从</div><div class="line"><span class="number">4</span>，redis可以设置持久化（rdb和aof）在数据容灾的时候可以通过rdb文件进行数据库恢复，但是memcahed 一但但是memcahed挂掉以后就不能恢复数据了</div><div class="line"><span class="number">5</span>，redis 支持数据备份可以通过 master-slave进行数据备份</div><div class="line"><span class="number">6</span> 应用场景不一样，redis 不仅仅可以做完NOSQL存错数据以外，还要做消息队列。memached适合存储一些SQL语句。数据集，用户的临时性的数据和sessin等。</div></pre></td></tr></table></figure></p>
+<p>3、Redis支持哪几种数据类型？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">存储 String Map List Set</div></pre></td></tr></table></figure>
+<p>4、Redis主要消耗什么物理资源？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">主要消耗物理机的内存和物理磁盘</div></pre></td></tr></table></figure>
+<p>5、为什么Redis需要把所有数据放到内存中？<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Redis NOSQL型内存缓存数据库 当然是把所有的数据放到内存，不会redis可以定时进行fsyn操作把数据放到物理磁盘中</div></pre></td></tr></table></figure></p>
+<p>6、Redis集群方案应该怎么做？都有哪些方案？<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"> <span class="number">1</span>、 redis Cluster  集群</div><div class="line">    	其实redis官方的方案就是，一个master node 配置多个slave node 然后通过 redis 哨兵集群 监控redis master </div><div class="line">    	存储的key是根据 CRC16 <span class="number">16384</span>取模 ，每一个redis slave  node 都会分担<span class="number">16384</span> 个solt 的一部分。 也就是说，</div><div class="line">    	每一个slave node 都会处理对应分配的 solt 。如果当redis slave node 添加或者减少 会重新分配每一个redis slave node 的solt。 </div><div class="line">    	当redis master node 挂掉以后 这个redis 哨兵集群会选出一个redis 哨兵，然后通过选出来的这个redis 哨兵来 </div><div class="line">    	选出一个redis master node </div><div class="line"></div><div class="line">    <span class="number">2</span>、 redis Shareding 集群</div><div class="line">	</div><div class="line">不了解。哈哈</div></pre></td></tr></table></figure></p>
+<p>7、Redis集群方案什么情况下会导致整个集群不可用？</p>
+<pre><code class="python"><span class="number">1.</span> 假设   在多台物理机集群的时候， 假设 redis master 部署在server<span class="number">-1</span> 和redis 哨兵集群 部署 在 server<span class="number">-2</span> 
+        其他的redis slave node 部署在 server<span class="number">-3</span> server<span class="number">-4</span> server<span class="number">-5</span> server<span class="number">-6</span> ....
+        这个时候  server<span class="number">-1</span>   server<span class="number">-2</span>  之间的网络断了 ping 不通了，这个时候 redis 哨兵 就会觉得redis master 死掉了
+      其实redis master 没有死掉。于此，redis 哨兵就会选举一个新的master node ，这个时候导致redis 集群有两个master 
+    导致集群数据不可用
+
+ <span class="number">2.</span>断电。
+
+ <span class="number">3</span> .。。。
+</code></pre>
+<p>8、Redis提供了哪几种持久化方式？</p>
+<pre><code class="python">AOF 和rdb
+如何 AOF和rdb 同时配置 优先是AOF
+</code></pre>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2018/01/27/redis-slave-slave/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -292,9 +444,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Scritto il</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-27T22:49:09+08:00">
+              <time title="Post creato" itemprop="dateCreated datePublished" datetime="2018-01-27T22:49:09+08:00">
                 2018-01-27
               </time>
             
@@ -429,9 +581,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Scritto il</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-24T10:31:15+08:00">
+              <time title="Post creato" itemprop="dateCreated datePublished" datetime="2018-01-24T10:31:15+08:00">
                 2018-01-24
               </time>
             
@@ -563,9 +715,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Scritto il</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-16T15:12:52+08:00">
+              <time title="Post creato" itemprop="dateCreated datePublished" datetime="2018-01-16T15:12:52+08:00">
                 2018-01-16
               </time>
             
@@ -695,9 +847,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Scritto il</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-20T15:41:12+08:00">
+              <time title="Post creato" itemprop="dateCreated datePublished" datetime="2017-12-20T15:41:12+08:00">
                 2017-12-20
               </time>
             
@@ -843,9 +995,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Scritto il</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-06T15:26:14+08:00">
+              <time title="Post creato" itemprop="dateCreated datePublished" datetime="2017-12-06T15:26:14+08:00">
                 2017-12-06
               </time>
             
@@ -990,9 +1142,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Scritto il</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
+              <time title="Post creato" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
                 2017-12-06
               </time>
             
@@ -1136,9 +1288,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Scritto il</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
+              <time title="Post creato" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
                 2017-12-06
               </time>
             
@@ -1265,9 +1417,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Scritto il</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
+              <time title="Post creato" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
                 2017-12-06
               </time>
             
@@ -1398,9 +1550,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Scritto il</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
+              <time title="Post creato" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
                 2017-12-06
               </time>
             
@@ -1507,140 +1659,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2017/12/06/springboot-durid/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jorden.lwq">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jorden.lwq">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/06/springboot-durid/" itemprop="url">Springboot配置durid SQL 监控</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
-                2017-12-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/12/06/springboot-durid/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/06/springboot-durid/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="为什么要使用durid-SQL-监控"><a href="#为什么要使用durid-SQL-监控" class="headerlink" title="为什么要使用durid SQL 监控"></a>为什么要使用durid SQL 监控</h2><pre><code>1 简单的操作数据库通常涉及datasource,connection,preparedstatement ,ResultSet等东西，如果我要监控这些，必然要建些代理类。
-</code></pre><h2 id="废话不多说，直接上代码"><a href="#废话不多说，直接上代码" class="headerlink" title="废话不多说，直接上代码"></a>废话不多说，直接上代码</h2><p>1： pom.xml。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;!--  Spring Boot  版本--&gt;</div><div class="line">   &lt;parent&gt;</div><div class="line">       &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">       &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</div><div class="line">       &lt;version&gt;1.5.4.RELEASE&lt;/version&gt;</div><div class="line">   &lt;/parent&gt;</div><div class="line">   </div><div class="line">  &lt;!--阿里 Druid Spring Boot Starter依赖--&gt;</div><div class="line">       &lt;dependency&gt;</div><div class="line">           &lt;groupId&gt;com.alibaba&lt;/groupId&gt;</div><div class="line">           &lt;artifactId&gt;druid-spring-boot-starter&lt;/artifactId&gt;</div><div class="line">           &lt;version&gt;1.1.2&lt;/version&gt;</div><div class="line">       &lt;/dependency&gt;</div></pre></td></tr></table></figure>
-<p>2：添加 Druid的StatFilter<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"> 			</div><div class="line"> 			</div><div class="line"> 			<span class="keyword">import</span> javax.servlet.annotation.WebFilter;</div><div class="line"><span class="keyword">import</span> javax.servlet.annotation.WebInitParam;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.alibaba.druid.support.http.WebStatFilter;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Druid的StatFilter</div><div class="line"> *</div><div class="line"> * @author   </div><div class="line"> */</div><div class="line"><span class="meta">@WebFilter(filterName="druidWebStatFilter",urlPatterns="/*",</span></div><div class="line">    initParams=&#123;</div><div class="line"><span class="meta">        @WebInitParam(name="exclusions",value="*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*")// 忽略资源</span></div><div class="line">&#125;)</div><div class="line">public class DruidStatFilter extends WebStatFilter &#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>3：添加 Druid的StatViewServlet<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">import</span> javax.servlet.annotation.WebInitParam;</div><div class="line"><span class="keyword">import</span> javax.servlet.annotation.WebServlet;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.alibaba.druid.support.http.StatViewServlet;</div><div class="line"></div><div class="line">/**</div><div class="line"> * StatViewServlet</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="meta">@SuppressWarnings("serial")</span></div><div class="line"><span class="meta">@WebServlet(urlPatterns = "/druid/*", </span></div><div class="line">    initParams=&#123;</div><div class="line"><span class="meta">            @WebInitParam(name="allow",value="192.168.16.110,127.0.0.1"),// IP白名单 (没有配置或者为空，则允许所有访问)</span></div><div class="line"><span class="meta">            @WebInitParam(name="deny",value="192.168.16.111"),// IP黑名单 (存在共同时，deny优先于allow)</span></div><div class="line"><span class="meta">            @WebInitParam(name="loginUsername",value="admin"),// 用户名</span></div><div class="line"><span class="meta">            @WebInitParam(name="loginPassword",value="admin"),// 密码</span></div><div class="line"><span class="meta">            @WebInitParam(name="resetEnable",value="false")// 禁用HTML页面上的“Reset All”功能</span></div><div class="line">    &#125;)</div><div class="line">public class DruidStatViewServlet extends StatViewServlet &#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="访问http-ip-port-项目名称-druid-sql-html-可以查看"><a href="#访问http-ip-port-项目名称-druid-sql-html-可以查看" class="headerlink" title="访问http://ip:port/项目名称/druid/sql.html 可以查看"></a>访问<a href="http://ip:port/项目名称/druid/sql.html" target="_blank" rel="external">http://ip:port/项目名称/druid/sql.html</a> 可以查看</h2>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1691,8 +1709,8 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">15</span>
-                <span class="site-state-item-name">Artikel</span>
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">posts</span>
               </a>
             </div>
           
@@ -1781,11 +1799,11 @@
 
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
-  Theme -
+  Tema -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Gemini
   </a>
