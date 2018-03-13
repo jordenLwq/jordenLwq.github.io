@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Jorder, lWQ" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989910010110210">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建 WordPress 个人博客">
+<meta property="og:url" content="https://github.com/jordenlwq/2018/03/09/wordpress/index.html">
+<meta property="og:site_name" content="Jorden.lwq">
+<meta property="og:description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989910010110210">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-09T09:07:53.764Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="搭建 WordPress 个人博客">
+<meta name="twitter:description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989910010110210">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":1},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/jordenlwq/2018/03/09/wordpress/"/>
+
+
+
+
+
+  <title>搭建 WordPress 个人博客 | Jorden.lwq</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0fbab8ad941a9e1e764d62ba7d722af3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jorden.lwq</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Success is never final. Failure is never fatal. Courage is what counts. -Sir Winston Churchill。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2018/03/09/wordpress/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jorden.lwq">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jorden.lwq">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">搭建 WordPress 个人博客</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-09T17:01:50+08:00">
+                2018-03-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/09/wordpress/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/03/09/wordpress/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article</span>
+                
+                <span title="Words count in article">
+	     1,491 字
+	    </span>
+	              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time</span>
+                
+     <span title="Reading time">
+   7 分钟
+ </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">搭建 WordPress 个人博客</div><div class="line">准备 LNMP 环境</div><div class="line">任务时间：<span class="number">30</span>min ~ <span class="number">60</span>min</div><div class="line"></div><div class="line">LNMP 是 Linux、Nginx、MySQL 和 PHP 的缩写，是 WordPress 博客系统依赖的基础运行环境。我们先来准备 LNMP 环境</div><div class="line"></div><div class="line">安装 Nginx</div><div class="line">使用 yum 安装 Nginx：</div><div class="line"></div><div class="line">yum install nginx -y</div><div class="line">修改 /etc/nginx/conf.d/default.conf，去除对 IPv6 地址的监听[?]，可参考下面的示例：</div><div class="line"></div><div class="line">示例代码：/etc/nginx/conf.d/default.conf</div><div class="line">server &#123;</div><div class="line">    listen       <span class="number">80</span> default_server;</div><div class="line">    <span class="comment"># listen       [::]:80 default_server;</span></div><div class="line">    server_name  _;</div><div class="line">    root         /usr/share/nginx/html;</div><div class="line"></div><div class="line">    <span class="comment"># Load configuration files for the default server block.</span></div><div class="line">    include /etc/nginx/default.d/*.conf;</div><div class="line"></div><div class="line">    location / &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    error_page <span class="number">404</span> /<span class="number">404.</span>html;</div><div class="line">        location = /<span class="number">40</span>x.html &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    error_page <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span> /<span class="number">50</span>x.html;</div><div class="line">        location = /<span class="number">50</span>x.html &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line">修改完成后，启动 Nginx：</div><div class="line"></div><div class="line">nginx</div><div class="line">此时，可访问实验机器外网 HTTP 服务（http://&lt;您的 CVM IP 地址&gt;）来确认是否已经安装成功。</div><div class="line"></div><div class="line">将 Nginx 设置为开机自动启动：</div><div class="line"></div><div class="line">chkconfig nginx on</div><div class="line"></div><div class="line">CentOS <span class="number">6</span> 不支持 IPv6，需要取消对 IPv6 地址的监听，否则 Nginx 不能成功启动。</div><div class="line"></div><div class="line">安装 MySQL</div><div class="line">使用 yum 安装 MySQL：</div><div class="line"></div><div class="line">yum install mysql-server -y</div><div class="line">安装完成后，启动 MySQL 服务：</div><div class="line"></div><div class="line">service mysqld restart</div><div class="line">设置 MySQL 账户 root 密码：[?]</div><div class="line"></div><div class="line">/usr/bin/mysqladmin -u root password <span class="string">'MyPas$word4Word_Press'</span></div><div class="line">将 MySQL 设置为开机自动启动：</div><div class="line"></div><div class="line">chkconfig mysqld on</div><div class="line"></div><div class="line">下面命令中的密码是教程为您自动生成的，为了方便实验的进行，不建议使用其它密码。如果设置其它密码，请把密码记住，在后续的步骤会使用到。</div><div class="line"></div><div class="line">安装 PHP</div><div class="line">使用 yum 安装 PHP：[?]</div><div class="line"></div><div class="line">yum install php-fpm php-mysql -y</div><div class="line">安装之后，启动 PHP-FPM 进程：</div><div class="line"></div><div class="line">service php-fpm start</div><div class="line">启动之后，可以使用下面的命令查看 PHP-FPM 进程监听哪个端口 [?]</div><div class="line"></div><div class="line">netstat -nlpt | grep php-fpm</div><div class="line">把 PHP-FPM 也设置成开机自动启动：</div><div class="line"></div><div class="line">chkconfig php-fpm on</div><div class="line"></div><div class="line">CentOs <span class="number">6</span> 默认已经安装了 PHP-FPM 及 PHP-MYSQL，下面命令执行的可能会提示已经安装。</div><div class="line"></div><div class="line"></div><div class="line">PHP-FPM 默认监听 <span class="number">9000</span> 端口</div><div class="line"></div><div class="line">安装并配置 WordPress</div><div class="line">任务时间：<span class="number">30</span>min ~ <span class="number">60</span>min</div><div class="line"></div><div class="line">安装 WordPress</div><div class="line">配置好 LNMP 环境后，继续使用 yum 来安装 WordPress：</div><div class="line"></div><div class="line">yum install wordpress -y</div><div class="line">安装完成后，就可以在 /usr/share/wordpress 看到 WordPress 的源代码了。</div><div class="line"></div><div class="line">配置数据库</div><div class="line">进入 MySQL：[?]</div><div class="line"></div><div class="line">mysql -uroot --password=<span class="string">'MyPas$word4Word_Press'</span></div><div class="line">为 WordPress 创建一个数据库：</div><div class="line"></div><div class="line">CREATE DATABASE wordpress;</div><div class="line">MySQL 部分设置完了，我们退出 MySQL 环境：</div><div class="line"></div><div class="line">exit</div><div class="line">把上述的 DB 配置同步到 WordPress 的配置文件中，可参考下面的配置：</div><div class="line"></div><div class="line">示例代码：/etc/wordpress/wp-config.php</div><div class="line">&lt;?php</div><div class="line">/**</div><div class="line"> * The base configuration <span class="keyword">for</span> WordPress</div><div class="line"> *</div><div class="line"> * The wp-config.php creation script uses this file during the</div><div class="line"> * installation. You don<span class="string">'t have to use the web site, you can</span></div><div class="line"><span class="string"> * copy this file to "wp-config.php" and fill in the values.</span></div><div class="line"><span class="string"> *</span></div><div class="line"><span class="string"> * This file contains the following configurations:</span></div><div class="line"><span class="string"> *</span></div><div class="line"><span class="string"> * * MySQL settings</span></div><div class="line"><span class="string"> * * Secret keys</span></div><div class="line"><span class="string"> * * Database table prefix</span></div><div class="line"><span class="string"> * * ABSPATH</span></div><div class="line"><span class="string"> *</span></div><div class="line"><span class="string"> * @link https://codex.wordpress.org/Editing_wp-config.php</span></div><div class="line"><span class="string"> *</span></div><div class="line"><span class="string"> * @package WordPress</span></div><div class="line"><span class="string"> */</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">// ** MySQL settings - You can get this info from your web host ** //</span></div><div class="line"><span class="string">/** The name of the database for WordPress */</span></div><div class="line"><span class="string">define('</span>DB_NAME<span class="string">', '</span>wordpress<span class="string">');</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">/** MySQL database username */</span></div><div class="line"><span class="string">define('</span>DB_USER<span class="string">', '</span>root<span class="string">');</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">/** MySQL database password */</span></div><div class="line"><span class="string">define('</span>DB_PASSWORD<span class="string">', '</span>MyPas$word4Word_Press<span class="string">');</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">/** MySQL hostname */</span></div><div class="line"><span class="string">define('</span>DB_HOST<span class="string">', '</span>localhost<span class="string">');</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">/** Database Charset to use in creating database tables. */</span></div><div class="line"><span class="string">define('</span>DB_CHARSET<span class="string">', '</span>utf8<span class="string">');</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">/** The Database Collate type. Don'</span>t change this <span class="keyword">if</span> <span class="keyword">in</span> doubt. */</div><div class="line">define(<span class="string">'DB_COLLATE'</span>, <span class="string">''</span>);</div><div class="line"></div><div class="line">/**<span class="comment">#@+</span></div><div class="line"> * Authentication Unique Keys <span class="keyword">and</span> Salts.</div><div class="line"> *</div><div class="line"> * Change these to different unique phrases!</div><div class="line"> * You can generate these using the &#123;@link https://api.wordpress.org/secret-key/<span class="number">1.1</span>/salt/ WordPress.org secret-key service&#125;</div><div class="line"> * You can change these at any point <span class="keyword">in</span> time to invalidate all existing cookies. This will force all users to have to log <span class="keyword">in</span> again.</div><div class="line"> *</div><div class="line"> * @since <span class="number">2.6</span><span class="number">.0</span></div><div class="line"> */</div><div class="line">define(<span class="string">'AUTH_KEY'</span>,         <span class="string">'put your unique phrase here'</span>);</div><div class="line">define(<span class="string">'SECURE_AUTH_KEY'</span>,  <span class="string">'put your unique phrase here'</span>);</div><div class="line">define(<span class="string">'LOGGED_IN_KEY'</span>,    <span class="string">'put your unique phrase here'</span>);</div><div class="line">define(<span class="string">'NONCE_KEY'</span>,        <span class="string">'put your unique phrase here'</span>);</div><div class="line">define(<span class="string">'AUTH_SALT'</span>,        <span class="string">'put your unique phrase here'</span>);</div><div class="line">define(<span class="string">'SECURE_AUTH_SALT'</span>, <span class="string">'put your unique phrase here'</span>);</div><div class="line">define(<span class="string">'LOGGED_IN_SALT'</span>,   <span class="string">'put your unique phrase here'</span>);</div><div class="line">define(<span class="string">'NONCE_SALT'</span>,       <span class="string">'put your unique phrase here'</span>);</div><div class="line"></div><div class="line">/**<span class="comment">#@-*/</span></div><div class="line"></div><div class="line">/**</div><div class="line"> * WordPress Database Table prefix.</div><div class="line"> *</div><div class="line"> * You can have multiple installations <span class="keyword">in</span> one database <span class="keyword">if</span> you give each</div><div class="line"> * a unique prefix. Only numbers, letters, <span class="keyword">and</span> underscores please!</div><div class="line"> */</div><div class="line">$table_prefix  = <span class="string">'wp_'</span>;</div><div class="line"></div><div class="line">/**</div><div class="line"> * See http://make.wordpress.org/core/<span class="number">2013</span>/<span class="number">10</span>/<span class="number">25</span>/the-definitive-guide-to-disabling-auto-updates-<span class="keyword">in</span>-wordpress<span class="number">-3</span><span class="number">-7</span></div><div class="line"> */</div><div class="line"></div><div class="line">/* Disable all file change, <span class="keyword">as</span> RPM base installation are read-only */</div><div class="line">define(<span class="string">'DISALLOW_FILE_MODS'</span>, true);</div><div class="line"></div><div class="line">/* Disable automatic updater, <span class="keyword">in</span> case you want to allow</div><div class="line">   above FILE_MODS <span class="keyword">for</span> plugins, themes, ... */</div><div class="line">define(<span class="string">'AUTOMATIC_UPDATER_DISABLED'</span>, true);</div><div class="line"></div><div class="line">/* Core update <span class="keyword">is</span> always disabled, WP_AUTO_UPDATE_CORE value <span class="keyword">is</span> ignore */</div><div class="line"></div><div class="line">/**</div><div class="line"> * For developers: WordPress debugging mode.</div><div class="line"> *</div><div class="line"> * Change this to true to enable the display of notices during development.</div><div class="line"> * It <span class="keyword">is</span> strongly recommended that plugin <span class="keyword">and</span> theme developers use WP_DEBUG</div><div class="line"> * <span class="keyword">in</span> their development environments.</div><div class="line"> *</div><div class="line"> * For information on other constants that can be used <span class="keyword">for</span> debugging,</div><div class="line"> * visit the Codex.</div><div class="line"> *</div><div class="line"> * @link https://codex.wordpress.org/Debugging_in_WordPress</div><div class="line"> */</div><div class="line">define(<span class="string">'WP_DEBUG'</span>, false);</div><div class="line"></div><div class="line">/* That<span class="string">'s all, stop editing! Happy blogging. */</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">/** Absolute path to the WordPress directory. */</span></div><div class="line"><span class="string">if ( !defined('</span>ABSPATH<span class="string">') )</span></div><div class="line"><span class="string">    define('</span>ABSPATH<span class="string">', '</span>/usr/share/wordpress<span class="string">');</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">/** Sets up WordPress vars and included files. */</span></div><div class="line"><span class="string">require_once(ABSPATH . '</span>wp-settings.php<span class="string">');</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">如果你上面的步骤没有使用教程创建的密码，请修改下面命令中的密码登录</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">配置 Nginx</span></div><div class="line"><span class="string">WordPress 已经安装完毕，我们配置 Nginx 把请求转发给 PHP-FPM 来处理</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">首先，重命名默认的配置文件：[?]</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">cd /etc/nginx/conf.d/</span></div><div class="line"><span class="string">mv default.conf defaut.conf.bak</span></div><div class="line"><span class="string">在 /etc/nginx/conf.d 创建 wordpress.conf 配置，参考下面的内容：</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">示例代码：/etc/nginx/conf.d/wordpress.conf</span></div><div class="line"><span class="string">server &#123;</span></div><div class="line"><span class="string">    listen 80;</span></div><div class="line"><span class="string">    root /usr/share/wordpress;</span></div><div class="line"><span class="string">    location / &#123;</span></div><div class="line"><span class="string">        index index.php index.html index.htm;</span></div><div class="line"><span class="string">        try_files $uri $uri/ /index.php index.php;</span></div><div class="line"><span class="string">    &#125;</span></div><div class="line"><span class="string">    # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000</span></div><div class="line"><span class="string">    location ~ .php$ &#123;</span></div><div class="line"><span class="string">        fastcgi_pass   127.0.0.1:9000;</span></div><div class="line"><span class="string">        fastcgi_index  index.php;</span></div><div class="line"><span class="string">        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;</span></div><div class="line"><span class="string">        include        fastcgi_params;</span></div><div class="line"><span class="string">    &#125;</span></div><div class="line"><span class="string">&#125;</span></div><div class="line"><span class="string">配置后，通知 Nginx 进程重新加载：</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">nginx -s reload</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">默认的 Server 监听 80 端口，与 WordPress 的服务端口冲突，将其重命名为 .bak 后缀以禁用默认配置</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">准备域名和解析</span></div><div class="line"><span class="string">任务时间：15min ~ 30min</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">如果您还没有域名，可以在腾讯云上选购，过程可以参考下面的视频。</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">视频 - 在腾讯云上购买域名</span></div><div class="line"><span class="string">域名解析</span></div><div class="line"><span class="string">域名购买完成后, 需要将域名解析到实验云主机上，实验云主机的 IP 为：</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">视频 - 如何在腾讯云上解析域名</span></div><div class="line"><span class="string">域名设置解析后需要过一段时间才会生效，通过 ping 命令检查域名是否生效 [?]，如：</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">ping www.yourdomain.com</span></div><div class="line"><span class="string">如果 ping 命令返回的信息中含有你设置的解析的 IP 地址，说明解析成功。</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">注意替换下面命令中的 www.yourmpdomain.com 为您自己的注册的域名</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">大功告成！</span></div><div class="line"><span class="string">恭喜，您的 WordPress 博客已经部署完成，您可以通过浏览器访问博客查看效果。</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">通过IP地址查看：</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">博客访问地址：http://&lt;您的域名&gt;/wp-admin/install.php</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">通过域名查看：</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">博客访问地址：http://www.yourdomain.com/wp-admin/install.php，其中替换 www.yourdomain.com 为之前申请的域名。</span></div></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/08/redis-mianshi/" rel="next" title="redis面试">
+                <i class="fa fa-chevron-left"></i> redis面试
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/12/spring-could-my/" rel="prev" title="我对SpringCould理解">
+                我对SpringCould理解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2018/03/09/wordpress/"
+           data-title="搭建 WordPress 个人博客" data-url="https://github.com/jordenlwq/2018/03/09/wordpress/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Jorden.lwq" />
+          <p class="site-author-name" itemprop="name">Jorden.lwq</p>
+           
+              <p class="site-description motion-element" itemprop="description">有风雨能够扎得住，有压力能够顶得住， 有责任能够扛得住，有诱惑能够忍得住。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jordenlwq" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=2395499549&website=www.oicqzone.com" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      QQ
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.sojson.com/" target="_blank" title="JSON在线解析">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      JSON在线解析
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jorden.lwq</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Gemini
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
