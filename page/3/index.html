@@ -94,17 +94,16 @@
 
 
 
-<meta name="description" content="DataX 是阿里巴巴集团内被广泛使用的离线数据同步工具/平台，实现包括MySQL、Oracle、HDFS、Hive、OceanBase、HBase、OTS、ODPS等各种异构数据源之间高效的数据同步功能。    点击进入 先请配置DataX 环境变量Linux、Windows JDK(1.8) Python(推荐Python2.6.X) Apache Maven 3.x (Compile D">
-<meta property="og:type" content="article">
-<meta property="og:title" content="使用阿里巴巴开源数据库同步工具DATAX实现跨数据库同步">
-<meta property="og:url" content="https://github.com/jordenlwq/2017/12/06/datax/index.html">
+<meta name="description" content="有风雨能够扎得住，有压力能够顶得住， 有责任能够扛得住，有诱惑能够忍得住。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jorden.lwq">
+<meta property="og:url" content="https://github.com/jordenlwq/page/3/index.html">
 <meta property="og:site_name" content="Jorden.lwq">
-<meta property="og:description" content="DataX 是阿里巴巴集团内被广泛使用的离线数据同步工具/平台，实现包括MySQL、Oracle、HDFS、Hive、OceanBase、HBase、OTS、ODPS等各种异构数据源之间高效的数据同步功能。    点击进入 先请配置DataX 环境变量Linux、Windows JDK(1.8) Python(推荐Python2.6.X) Apache Maven 3.x (Compile D">
+<meta property="og:description" content="有风雨能够扎得住，有压力能够顶得住， 有责任能够扛得住，有诱惑能够忍得住。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-12T09:20:09.794Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用阿里巴巴开源数据库同步工具DATAX实现跨数据库同步">
-<meta name="twitter:description" content="DataX 是阿里巴巴集团内被广泛使用的离线数据同步工具/平台，实现包括MySQL、Oracle、HDFS、Hive、OceanBase、HBase、OTS、ODPS等各种异构数据源之间高效的数据同步功能。    点击进入 先请配置DataX 环境变量Linux、Windows JDK(1.8) Python(推荐Python2.6.X) Apache Maven 3.x (Compile D">
+<meta name="twitter:title" content="Jorden.lwq">
+<meta name="twitter:description" content="有风雨能够扎得住，有压力能够顶得住， 有责任能够扛得住，有诱惑能够忍得住。">
 
 
 
@@ -133,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/jordenlwq/2017/12/06/datax/"/>
+  <link rel="canonical" href="https://github.com/jordenlwq/page/3/"/>
 
 
 
 
 
-  <title>使用阿里巴巴开源数据库同步工具DATAX实现跨数据库同步 | Jorden.lwq</title>
+  <title>Jorden.lwq</title>
   
 
 
@@ -174,7 +173,9 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left 
+   page-home 
+ ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -257,9 +258,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
 
@@ -289,7 +290,9 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">使用阿里巴巴开源数据库同步工具DATAX实现跨数据库同步</h1>
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/06/datax/" itemprop="url">使用阿里巴巴开源数据库同步工具DATAX实现跨数据库同步</a></h1>
         
 
         <div class="post-meta">
@@ -380,7 +383,9 @@
       
 
       
-        <blockquote>
+        
+          
+            <blockquote>
 <ul>
 <li>DataX 是阿里巴巴集团内被广泛使用的离线数据同步工具/平台，实现包括<br>MySQL、Oracle、HDFS、Hive、OceanBase、HBase、OTS、ODPS<br>等各种异构数据源之间高效的数据同步功能。</li>
 </ul>
@@ -436,6 +441,8 @@ $ crontab -e
 </code></pre><p>（2）重启crontab服务</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">$</span> sudo /etc/init.d/crond restart Stopping crond: [ OK ] Starting crond: [ OK ] ``` （3）用crontab -l 命令检查是否添加成功</div><div class="line"></div><div class="line"><span class="meta"> $</span> crontab -l</div><div class="line">5  13 * * *  python /home/admin/datax3/bin/datax.py /home/admin/mysql2odps.json  &gt;&gt;/home/hanfa.shf/log.`date +\%Y\%m\%d\%H\%M\%S`  2&gt;&amp;1</div><div class="line">0,10,20,30,40,50 * * * *  python /home/admin/datax3/bin/datax.py /home/admin/mysql2odps.json  &gt;&gt;/home/hanfa.shf/log.</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">接下来请根据您所需要的插件完成配置，并完成同步。</div><div class="line"></div><div class="line">所有数据源配置指南，请参考：DataX数据源指南</div><div class="line">附录：</div><div class="line"></div><div class="line">安装crond服务</div><div class="line">yum install crontabs</div><div class="line">服务操作说明：</div><div class="line">/sbin/service crond start //启动服务</div><div class="line">/sbin/service crond stop //关闭服务</div><div class="line">/sbin/service crond restart //重启服务</div><div class="line">/sbin/service crond reload //重新载入配置</div><div class="line">加入开机自动启动：</div><div class="line">/sbin/chkconfig --level 35 crond on</div></pre></td></tr></table></figure>
 
+          
+        
       
     </div>
     
@@ -452,28 +459,12 @@ $ crontab -e
       
 
       
-      
+
       
 
       
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/12/06/hello-world/" rel="prev" title="MySql数据主从同步(Liunx)">
-                MySql数据主从同步(Liunx) <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
       
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -483,11 +474,14 @@ $ crontab -e
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-    </div>
-  </div>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
+
 
 
           </div>
@@ -495,14 +489,6 @@ $ crontab -e
 
 
           
-  <div class="comments" id="comments">
-    
-      <div class="ds-thread" data-thread-key="2017/12/06/datax/"
-           data-title="使用阿里巴巴开源数据库同步工具DATAX实现跨数据库同步" data-url="https://github.com/jordenlwq/2017/12/06/datax/">
-      </div>
-    
-  </div>
-
 
         </div>
         
@@ -523,17 +509,8 @@ $ crontab -e
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Inhaltsverzeichnis
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            Übersicht
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -612,22 +589,6 @@ $ crontab -e
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#先请配置DataX-环境变量"><span class="nav-number">1.</span> <span class="nav-text">先请配置DataX 环境变量</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -748,10 +709,10 @@ $ crontab -e
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
 
-
+  
 
   
 

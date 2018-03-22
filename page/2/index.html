@@ -273,6 +273,361 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2017/12/06/Ribbon-001/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jorden.lwq">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jorden.lwq">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/06/Ribbon-001/" itemprop="url">SpringCould Ribbon负载均衡和Eureka集群</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-06T15:26:14+08:00">
+                2017-12-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/06/Ribbon-001/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/06/Ribbon-001/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article</span>
+                
+                <span title="Words count in article">
+	     2,218 字
+	    </span>
+	              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time</span>
+                
+     <span title="Reading time">
+   12 分钟
+ </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"> 本文主要介绍 SpringCould 组件   Ribbon , Eureka 实现负载均衡 </div><div class="line">其实实现负载均衡方式有很多</div><div class="line">比如，Nginx LVS ....等</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">概述：</div><div class="line">服务消费端 <span class="number">80</span>（端口）</div><div class="line">服务提供者 <span class="number">8001</span>，<span class="number">8002</span> ，<span class="number">8003</span>  （端口）</div><div class="line">服务注册中心 <span class="number">7001</span>，<span class="number">7003</span>，<span class="number">7003</span>  （端口）</div></pre></td></tr></table></figure>
+<h2 id="微服务架构-建立maven统一管理项目pom项目（springcolud-parent）-追加pom文件-，dependencyManagement进行统一dependencies版本管理"><a href="#微服务架构-建立maven统一管理项目pom项目（springcolud-parent）-追加pom文件-，dependencyManagement进行统一dependencies版本管理" class="headerlink" title="微服务架构 建立maven统一管理项目pom项目（springcolud_parent） 追加pom文件 ，dependencyManagement进行统一dependencies版本管理"></a>微服务架构 建立maven统一管理项目pom项目（springcolud_parent） 追加pom文件 ，dependencyManagement进行统一dependencies版本管理</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div></pre></td><td class="code"><pre><div class="line">	&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</div><div class="line">	xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</div><div class="line">	&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</div><div class="line">	&lt;groupId&gt;springcolud_parent&lt;/groupId&gt;</div><div class="line">	&lt;artifactId&gt;springcolud_parent&lt;/artifactId&gt;</div><div class="line">	&lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</div><div class="line">	&lt;packaging&gt;pom&lt;/packaging&gt;</div><div class="line"></div><div class="line">	&lt;!--规定木jdk 和字符编码 --&gt;</div><div class="line">	&lt;properties&gt;</div><div class="line">		&lt;jdk.version&gt;1.8&lt;/jdk.version&gt;</div><div class="line">		&lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;</div><div class="line">	&lt;/properties&gt;</div><div class="line"></div><div class="line"></div><div class="line">	&lt;dependencyManagement&gt;</div><div class="line">		&lt;dependencies&gt;</div><div class="line">			&lt;!-- 进行SpringCloud依赖包的导入处理 --&gt;</div><div class="line">			&lt;dependency&gt; </div><div class="line">				&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</div><div class="line">				&lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;</div><div class="line">				&lt;version&gt;Dalston.SR1&lt;/version&gt;</div><div class="line">				&lt;type&gt;pom&lt;/type&gt;</div><div class="line">				&lt;scope&gt;import&lt;/scope&gt;</div><div class="line">			&lt;/dependency&gt;</div><div class="line">			&lt;!-- SpringCloud离不开SpringBoot，所以必须要配置此依赖包 --&gt;</div><div class="line">			&lt;dependency&gt; </div><div class="line">				&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">				&lt;artifactId&gt;spring-boot-dependencies&lt;/artifactId&gt;</div><div class="line">				&lt;version&gt;1.5.4.RELEASE&lt;/version&gt;</div><div class="line">				&lt;type&gt;pom&lt;/type&gt;</div><div class="line">				&lt;scope&gt;import&lt;/scope&gt;</div><div class="line">			&lt;/dependency&gt;</div><div class="line">			</div><div class="line">			&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;microcloud-api&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;microcloud-api&lt;/artifactId&gt;</div><div class="line">			&lt;version&gt;0.0.1&lt;/version&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">		</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;com.alibaba&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;druid&lt;/artifactId&gt;</div><div class="line">			    &lt;version&gt;1.1.6&lt;/version&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">		</div><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;1.2.2&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div><div class="line">		</div><div class="line">		</div><div class="line">		&lt;/dependencies&gt;</div><div class="line">	&lt;/dependencyManagement&gt;</div><div class="line">	&lt;build&gt;</div><div class="line">		&lt;finalName&gt;springcolud_parent&lt;/finalName&gt;</div><div class="line">		&lt;plugins&gt;</div><div class="line">			&lt;plugin&gt;</div><div class="line">				&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</div><div class="line">				&lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;</div><div class="line">				&lt;configuration&gt;</div><div class="line">					&lt;!-- 源代码使用的开发版本 --&gt;</div><div class="line">					&lt;source&gt;$&#123;jdk.version&#125;&lt;/source&gt;</div><div class="line">					&lt;!-- 需要生成的目标class文件的编译版本 --&gt;</div><div class="line">					&lt;target&gt;$&#123;jdk.version&#125;&lt;/target&gt;</div><div class="line">					&lt;encode&gt;$&#123;project.build.sourceEncoding&#125;&lt;/encode&gt;</div><div class="line">				&lt;/configuration&gt;</div><div class="line">			&lt;/plugin&gt;</div><div class="line">			&lt;!-- -关于SpringCould 打jar文件 无法运行Application程序 --&gt;</div><div class="line">					 &lt;plugin&gt;</div><div class="line">                    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">                    &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</div><div class="line">                    &lt;version&gt;1.5.7.RELEASE&lt;/version&gt;</div><div class="line">                    &lt;executions&gt;</div><div class="line">                        &lt;execution&gt;</div><div class="line">                            &lt;goals&gt;</div><div class="line">                                &lt;goal&gt;repackage&lt;/goal&gt;</div><div class="line">                            &lt;/goals&gt;</div><div class="line">                        &lt;/execution&gt;</div><div class="line">                    &lt;/executions&gt;</div><div class="line">                &lt;/plugin&gt;</div><div class="line">		</div><div class="line">			&lt;plugin&gt;</div><div class="line">				&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</div><div class="line">				&lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;</div><div class="line">				&lt;version&gt;2.3.2&lt;/version&gt;</div><div class="line">				&lt;configuration&gt;</div><div class="line">					&lt;source&gt;1.8&lt;/source&gt;</div><div class="line">					&lt;target&gt;1.8&lt;/target&gt;</div><div class="line">					&lt;encoding&gt;UTF-8&lt;/encoding&gt;</div><div class="line">				&lt;/configuration&gt;</div><div class="line">			&lt;/plugin&gt;</div><div class="line">		&lt;/plugins&gt;</div><div class="line">	&lt;/build&gt;</div><div class="line">	&lt;modules&gt;</div><div class="line">		&lt;module&gt;microcloud-api&lt;/module&gt;</div><div class="line">		&lt;module&gt;microcloud-provider-dept-8001&lt;/module&gt;</div><div class="line">		&lt;module&gt;microcloud-provider-dept-8002&lt;/module&gt;</div><div class="line">		&lt;module&gt;microcloud-consumer-80&lt;/module&gt;</div><div class="line">		&lt;module&gt;microcloud-eureka-7001&lt;/module&gt;</div><div class="line">		&lt;module&gt;microcloud-eureka-7002&lt;/module&gt;</div><div class="line">		&lt;module&gt;microcloud-eureka-7003&lt;/module&gt;</div><div class="line">		&lt;module&gt;microcloud-eureka-7004&lt;/module&gt;</div><div class="line">	&lt;/modules&gt;</div><div class="line">&lt;/project&gt;</div><div class="line"></div><div class="line">## 新建   服务器注册中心项目》》Eureka(7001,7003,7004)  追加pom文件 </div><div class="line">```python</div><div class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</div><div class="line">  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</div><div class="line">  &lt;parent&gt;</div><div class="line">    &lt;groupId&gt;springcolud_parent&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;springcolud_parent&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</div><div class="line">  &lt;/parent&gt;</div><div class="line">  &lt;artifactId&gt;microcloud-eureka-7004&lt;/artifactId&gt;</div><div class="line">  </div><div class="line">	&lt;dependencies&gt;</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;spring-cloud-starter-eureka-server&lt;/artifactId&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;spring-cloud-starter-config&lt;/artifactId&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">	&lt;/dependencies&gt;</div><div class="line">&lt;/project&gt;</div></pre></td></tr></table></figure>
+<p>新建   EurekaApplicationStart 服务器启动  @EnableEurekaServer     代表是EurekaServer端<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">package com.jorden.server.eureka;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</div><div class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</div><div class="line"><span class="keyword">import</span> org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;</div><div class="line"></div><div class="line">/**</div><div class="line"> * </div><div class="line">* @ClassName: EurekaApplicationStart</div><div class="line">* @Description: eureka服务注册</div><div class="line">* @author liwenqiang	</div><div class="line">* @date <span class="number">2017</span>年<span class="number">12</span>月<span class="number">5</span>日 下午<span class="number">1</span>:<span class="number">02</span>:<span class="number">32</span></div><div class="line">*</div><div class="line"> */</div><div class="line"><span class="meta">@SpringBootApplication</span></div><div class="line"><span class="meta">@EnableEurekaServer	</span></div><div class="line">public class EurekaApplicationStart &#123;</div><div class="line"></div><div class="line">	public static void main(String[] args) throws Exception &#123;</div><div class="line">		SpringApplication.run(EurekaApplicationStart.<span class="keyword">class</span>, args);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="EnableEurekaServer配置"><a href="#EnableEurekaServer配置" class="headerlink" title="EnableEurekaServer配置"></a>EnableEurekaServer配置</h2><p>  EnableEurekaServer 配置文件 application.yml （eureka-700X.com 为hosts文件127.0.01）<br> spring.application.name 为 Eureka服务注册中心名字 不可重复 其他的 2个 EnableEurekaServer 都一样 改端口就行<br>  defaultZone 这个就是 Eureka集群配置。注册到其他的Eureka服务注册中心<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">server:</div><div class="line">  port: <span class="number">7004</span></div><div class="line">  </div><div class="line">spring:</div><div class="line">  application:</div><div class="line">    name: eureka<span class="number">-7004.</span>com</div><div class="line">  </div><div class="line"><span class="comment">##  eureak实例定义 </span></div><div class="line">eureka:</div><div class="line">  instance:</div><div class="line">  <span class="comment">## 定义 Eureka 实例所在的主机名称 </span></div><div class="line">    hostname: eureka<span class="number">-7004.</span>com</div><div class="line">    </div><div class="line">  client:</div><div class="line">      service-url: </div><div class="line">       defaultZone: http://eureka<span class="number">-7001.</span>com:<span class="number">7001</span>/eureka,http://eureka<span class="number">-7003.</span>com:<span class="number">7003</span>/eureka</div><div class="line">      register-<span class="keyword">with</span>-eureka: false  <span class="comment"># 当前的微服务不注册到eureka之中 </span></div><div class="line">      fetch-registry: false  <span class="comment"># 不通过eureka获取注册信息</span></div></pre></td></tr></table></figure></p>
+<h2 id="服务提供-8001-8002-8003-（端口）"><a href="#服务提供-8001-8002-8003-（端口）" class="headerlink" title="服务提供 8001 8002 8003 （端口）"></a>服务提供 8001 8002 8003 （端口）</h2><p>和之前springMCV 一样 提供restful端口<br>@RestController</p>
+<h2 id="配置文件-application-yml-我的orm是mybatis"><a href="#配置文件-application-yml-我的orm是mybatis" class="headerlink" title="配置文件 application.yml  我的orm是mybatis"></a>配置文件 application.yml  我的orm是mybatis</h2><h3 id="如果要做负载均衡-application-name-（-8001-8002-8003）必须一样"><a href="#如果要做负载均衡-application-name-（-8001-8002-8003）必须一样" class="headerlink" title="如果要做负载均衡 application.name  （ 8001 8002 8003）必须一样"></a>如果要做负载均衡 application.name  （ 8001 8002 8003）必须一样</h3><p>instance-id 为是此微服务实例id<br>prefer-ip-address :true 是在服务注册中心是否显示ip<br>eureka.client.defaultZone 为服务注册中心地址</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">server:</div><div class="line">  port: <span class="number">8001</span></div><div class="line">mybatis:</div><div class="line">  config-location: classpath:mybatis/mybatis.cfg.xml    <span class="comment"># mybatis配置文件所在路径</span></div><div class="line">  type-aliases-package: com.jorden.li.domain            <span class="comment"># 定义所有操作类的别名所在包</span></div><div class="line">  mapper-locations:                                     <span class="comment"># 所有的mapper映射文件</span></div><div class="line">  - classpath:mybatis/mapper/*.xml</div><div class="line">spring:</div><div class="line">  datasource:</div><div class="line">    type: com.alibaba.druid.pool.DruidDataSource    <span class="comment"># 配置当前要使用的数据源的操作类型</span></div><div class="line">    driver-<span class="class"><span class="keyword">class</span>-<span class="title">name</span>:</span> org.gjt.mm.mysql.Driver      <span class="comment"># 配置MySQL的驱动程序类</span></div><div class="line">    url: jdbc:mysql://localhost:<span class="number">3306</span>/mldn8001           <span class="comment"># 数据库连接地址</span></div><div class="line">    username: root                                  <span class="comment"># 数据库用户名</span></div><div class="line">    password: <span class="number">123456</span>                            <span class="comment"># 数据库连接密码</span></div><div class="line">    dbcp2:                                          <span class="comment"># 进行数据库连接池的配置</span></div><div class="line">      min-idle: <span class="number">5</span>                                   <span class="comment"># 数据库连接池的最小维持连接数    </span></div><div class="line">      initial-size: <span class="number">5</span>                               <span class="comment"># 初始化提供的连接数</span></div><div class="line">      max-total: <span class="number">5</span>                                  <span class="comment"># 最大的连接数</span></div><div class="line">      max-wait-millis: <span class="number">200</span>                          <span class="comment"># 等待连接获取的最大超时时间</span></div><div class="line">  application:</div><div class="line">    name: microcloud-provider-dept  </div><div class="line"></div><div class="line"><span class="comment">## # 客户端进行Eureka注册的配置 </span></div><div class="line">eureka:</div><div class="line">  client:</div><div class="line">     service-url: </div><div class="line">       defaultZone: http://eureka<span class="number">-7001.</span>com:<span class="number">7001</span>/eureka,http://eureka<span class="number">-7003.</span>com:<span class="number">7003</span>/eureka ,http://eureka<span class="number">-7004.</span>com:<span class="number">7004</span>/eureka </div><div class="line">  instance:</div><div class="line">    instance-id: dept<span class="number">-8001.</span>com </div><div class="line">    prefer-ip-address: true</div><div class="line">    lease-renewal-interval-<span class="keyword">in</span>-seconds: <span class="number">2</span> <span class="comment"># 设置心跳的时间间隔（默认是30秒）   </span></div><div class="line">    lease-expiration-duration-<span class="keyword">in</span>-seconds: <span class="number">5</span> <span class="comment"># 如果现在超过了5秒的间隔（默认是90秒）</span></div></pre></td></tr></table></figure>
+<h2 id="服务提供-8002-8003-（端口）的项目都一样-改一个-server-port-instance-id-其他的不变"><a href="#服务提供-8002-8003-（端口）的项目都一样-改一个-server-port-instance-id-其他的不变" class="headerlink" title="服务提供  8002 8003 （端口）的项目都一样 改一个  server.port  instance-id 其他的不变"></a>服务提供  8002 8003 （端口）的项目都一样 改一个  server.port  instance-id 其他的不变</h2><p>作者的 rest接口</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">package com.jorden.li.web;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.annotation.Resource;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.PathVariable;</div><div class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestBody;</div><div class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</div><div class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMethod;</div><div class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.jorden.li.dao.service.IDeptService;</div><div class="line"><span class="keyword">import</span> com.jorden.li.domain.Dept;</div><div class="line"></div><div class="line">/**</div><div class="line"> * </div><div class="line">* @ClassName: DeptRest</div><div class="line">* @Description: TODO(这里用一句话描述这个类的作用)</div><div class="line">* @author liwenqiang	</div><div class="line">* @date <span class="number">2017</span>年<span class="number">12</span>月<span class="number">5</span>日 上午<span class="number">11</span>:<span class="number">20</span>:<span class="number">10</span></div><div class="line">*</div><div class="line"> */</div><div class="line"><span class="meta">@RestController</span></div><div class="line">public class DeptRest &#123;</div><div class="line"><span class="meta">	@Resource</span></div><div class="line">	private IDeptService deptService;</div><div class="line"></div><div class="line"><span class="meta">	@RequestMapping(value = "/dept/get/&#123;id&#125;", method = RequestMethod.GET)</span></div><div class="line">	public Object get(@PathVariable(<span class="string">"id"</span>) long id) &#123;</div><div class="line">		<span class="keyword">return</span> this.deptService.get(id);</div><div class="line">	&#125;</div><div class="line"></div><div class="line"><span class="meta">	@RequestMapping(value = "/dept/add", method = RequestMethod.GET)</span></div><div class="line">	public Object add(@RequestBody Dept dept) &#123;</div><div class="line">		<span class="keyword">return</span> this.deptService.add(dept);</div><div class="line">	&#125;</div><div class="line"></div><div class="line"><span class="meta">	@RequestMapping(value = "/dept/list", method = RequestMethod.GET)</span></div><div class="line">	public Object list() &#123;</div><div class="line">		<span class="keyword">return</span> this.deptService.list();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="服务提供服务启动-EnableEurekaClient-必加上"><a href="#服务提供服务启动-EnableEurekaClient-必加上" class="headerlink" title="服务提供服务启动 @EnableEurekaClient 必加上"></a>服务提供服务启动 @EnableEurekaClient 必加上</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">package com.jorden.li;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</div><div class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</div><div class="line"><span class="keyword">import</span> org.springframework.cloud.netflix.eureka.EnableEurekaClient;</div><div class="line"></div><div class="line">/**</div><div class="line"> * microcloud-provider-dept<span class="number">-8001</span></div><div class="line"> * </div><div class="line"> * 启动配置类</div><div class="line"> * @author  wqli</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="meta">@SpringBootApplication</span></div><div class="line"><span class="meta">@EnableEurekaClient</span></div><div class="line">public class ApplicationStart &#123;</div><div class="line"></div><div class="line">	public static void main(String[] args) throws Exception &#123;</div><div class="line">		SpringApplication.run(ApplicationStart.<span class="keyword">class</span>, args);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	</div><div class="line">	</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="服务提供服务pom文件"><a href="#服务提供服务pom文件" class="headerlink" title="服务提供服务pom文件"></a>服务提供服务pom文件</h2><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre></td><td class="code"><pre><div class="line">&lt;project xmlns=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> xmlns:xsi=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></div><div class="line">	xsi:schemaLocation=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</div><div class="line">	&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</div><div class="line">	&lt;parent&gt;</div><div class="line">		&lt;groupId&gt;springcolud_parent&lt;/groupId&gt;</div><div class="line">		&lt;artifactId&gt;springcolud_parent&lt;/artifactId&gt;</div><div class="line">		&lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</div><div class="line">	&lt;/parent&gt;</div><div class="line">	&lt;artifactId&gt;microcloud-provider-dept-8001&lt;/artifactId&gt;</div><div class="line"></div><div class="line">	&lt;dependencies&gt;</div><div class="line">	&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;spring-cloud-starter-config&lt;/artifactId&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">		</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;spring-cloud-starter-eureka&lt;/artifactId&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">		</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;microcloud-api&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;microcloud-api&lt;/artifactId&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;junit&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;junit&lt;/artifactId&gt;</div><div class="line">			&lt;scope&gt;test&lt;/scope&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;mysql&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;com.alibaba&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;druid&lt;/artifactId&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;ch.qos.logback&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;logback-core&lt;/artifactId&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;spring-boot-starter-jetty&lt;/artifactId&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</div><div class="line"></div><div class="line">		&lt;/dependency&gt;</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;</div><div class="line">			&lt;scope&gt;test&lt;/scope&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;org.springframework&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;springloaded&lt;/artifactId&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">	&lt;/dependencies&gt;</div><div class="line">&lt;/project&gt;</div></pre></td></tr></table></figure>
+<h2 id="消费者-80"><a href="#消费者-80" class="headerlink" title="消费者 80"></a>消费者 80</h2><p>application.yml 配置</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">server:</div><div class="line">  port: <span class="number">80</span></div><div class="line"></div><div class="line"><span class="comment">## 服务注册</span></div><div class="line">eureka: </div><div class="line">  client: </div><div class="line">    register-<span class="keyword">with</span>-eureka: false </div><div class="line">    service-url: </div><div class="line">      defaultZone: http://eureka<span class="number">-7001.</span>com:<span class="number">7001</span>/eureka,</div><div class="line">      http://eureka<span class="number">-7003.</span>com:<span class="number">7003</span>/eureka, </div><div class="line">      http://eureka<span class="number">-7004.</span>com:<span class="number">7004</span>/eureka</div></pre></td></tr></table></figure>
+<p>注册到Eureka中心</p>
+<h2 id="消费者-80-rest-配置-LoadBalanced-是为负载均衡注解"><a href="#消费者-80-rest-配置-LoadBalanced-是为负载均衡注解" class="headerlink" title="消费者 80  rest 配置  @LoadBalanced 是为负载均衡注解"></a>消费者 80  rest 配置  @LoadBalanced 是为负载均衡注解</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">package com.jorden.config;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.springframework.cloud.client.loadbalancer.LoadBalanced;</div><div class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</div><div class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</div><div class="line"><span class="keyword">import</span> org.springframework.web.client.RestTemplate;</div><div class="line"></div><div class="line">/**</div><div class="line"> * </div><div class="line">* @ClassName: RestConfig</div><div class="line">* @Description: TODO(这里用一句话描述这个类的作用)</div><div class="line">* @author liwenqiang	</div><div class="line">* @date <span class="number">2017</span>年<span class="number">12</span>月<span class="number">5</span>日 上午<span class="number">11</span>:<span class="number">13</span>:<span class="number">50</span></div><div class="line">*</div><div class="line"> */</div><div class="line"><span class="meta">@Configuration</span></div><div class="line">public class RestConfig &#123;</div><div class="line">	</div><div class="line">	/**</div><div class="line">	 * </div><div class="line">	* @Title: getRestTemplate</div><div class="line">	* @Description: TODO(负载均衡配置) @LoadBalanced</div><div class="line">	* @param @<span class="keyword">return</span>    设定文件</div><div class="line">	* @<span class="keyword">return</span> RestTemplate    返回类型</div><div class="line">	* @throws</div><div class="line">	* </div><div class="line">	 */</div><div class="line"><span class="meta">	@Bean</span></div><div class="line"><span class="meta">	@LoadBalanced</span></div><div class="line">	public RestTemplate getRestTemplate() &#123;</div><div class="line">		<span class="keyword">return</span> new RestTemplate();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="消费者-80-rest接口调用-MICROCLOUD-PROVIDER-DEPT-为微服务-在eureka-注册的名字"><a href="#消费者-80-rest接口调用-MICROCLOUD-PROVIDER-DEPT-为微服务-在eureka-注册的名字" class="headerlink" title="消费者 80  rest接口调用  MICROCLOUD-PROVIDER-DEPT 为微服务 在eureka 注册的名字"></a>消费者 80  rest接口调用  MICROCLOUD-PROVIDER-DEPT 为微服务 在eureka 注册的名字</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">package com.jorden.web;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</div><div class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.PathVariable;</div><div class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</div><div class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</div><div class="line"><span class="keyword">import</span> org.springframework.web.client.RestTemplate;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.jorden.li.domain.Dept;</div><div class="line"></div><div class="line">/**</div><div class="line"> * </div><div class="line"> * @ClassName: ConsumerDeptController</div><div class="line"> * @Description: TODO(这里用一句话描述这个类的作用)</div><div class="line"> * @author liwenqiang</div><div class="line"> * @date <span class="number">2017</span>年<span class="number">12</span>月<span class="number">5</span>日 上午<span class="number">11</span>:<span class="number">21</span>:<span class="number">23</span></div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="meta">@RestController</span></div><div class="line">public class ConsumerDeptController &#123;</div><div class="line">	private static String url = <span class="string">"MICROCLOUD-PROVIDER-DEPT"</span>;</div><div class="line"><span class="meta">	@Autowired</span></div><div class="line">	private RestTemplate restTemplate;</div><div class="line">	public static final String DEPT_GET_URL = <span class="string">"http://"</span> + url + <span class="string">"/dept/get/"</span>;</div><div class="line">	public static final String DEPT_GETLISGT_URL = <span class="string">"http://"</span> + url + <span class="string">"/dept/list"</span>;</div><div class="line"></div><div class="line"><span class="meta">	@RequestMapping(value = "/consumer/dept/&#123;id&#125;")</span></div><div class="line">	public Object getDept(@PathVariable(<span class="string">"id"</span>) Long id) &#123;</div><div class="line">		Dept dept = this.restTemplate.getForObject(DEPT_GET_URL + id, Dept.<span class="keyword">class</span>);</div><div class="line">		<span class="keyword">return</span> dept;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="消费者-80-pom文件"><a href="#消费者-80-pom文件" class="headerlink" title="消费者 80 pom文件"></a>消费者 80 pom文件</h2><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;project xmlns=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> xmlns:xsi=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></div><div class="line">	xsi:schemaLocation=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</div><div class="line">	&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</div><div class="line">	&lt;parent&gt;</div><div class="line">		&lt;groupId&gt;springcolud_parent&lt;/groupId&gt;</div><div class="line">		&lt;artifactId&gt;springcolud_parent&lt;/artifactId&gt;</div><div class="line">		&lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</div><div class="line">	&lt;/parent&gt;</div><div class="line">	&lt;artifactId&gt;microcloud-consumer-80&lt;/artifactId&gt;</div><div class="line"></div><div class="line">	&lt;dependencies&gt;</div><div class="line"></div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;spring-cloud-starter-eureka&lt;/artifactId&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</div><div class="line"></div><div class="line">			&lt;artifactId&gt;spring-cloud-starter-config&lt;/artifactId&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;spring-cloud-starter-ribbon&lt;/artifactId&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;microcloud-api&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;microcloud-api&lt;/artifactId&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;junit&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;junit&lt;/artifactId&gt;</div><div class="line">			&lt;scope&gt;test&lt;/scope&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;spring-boot-starter-jetty&lt;/artifactId&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;</div><div class="line">			&lt;scope&gt;test&lt;/scope&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;org.springframework&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;springloaded&lt;/artifactId&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">	&lt;/dependencies&gt;</div><div class="line"></div><div class="line">&lt;/project&gt;</div></pre></td></tr></table></figure>
+<h2 id="消费者-80-启动-EnableEurekaClient-注解-不要忘记"><a href="#消费者-80-启动-EnableEurekaClient-注解-不要忘记" class="headerlink" title="消费者 80 启动  @EnableEurekaClient 注解 不要忘记"></a>消费者 80 启动  @EnableEurekaClient 注解 不要忘记</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">@SpringBootApplication</span></div><div class="line"><span class="meta">@EnableEurekaClient</span></div><div class="line">public class ApplicationStart &#123;</div><div class="line"></div><div class="line">	public static void main(String[] args) throws Exception &#123;</div><div class="line">		SpringApplication.run(ApplicationStart.<span class="keyword">class</span>, args);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2017/12/06/SQL-001/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jorden.lwq">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jorden.lwq">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/06/SQL-001/" itemprop="url">数据库面试相关题目</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
+                2017-12-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/06/SQL-001/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/06/SQL-001/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article</span>
+                
+                <span title="Words count in article">
+	     552 字
+	    </span>
+	              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time</span>
+                
+     <span title="Reading time">
+   2 分钟
+ </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p> 一： 什么是存储过程？有哪些优缺点？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">* 存储过程是一个预编译的代码块，执行效率比较高</div><div class="line">* 一个存储过程替代大量T_SQL语句 ，可以降低网络通信量，提高通信速率</div><div class="line">* 可以一定程度上确保数据安全</div></pre></td></tr></table></figure>
+<p> 二： 什么事务？</p>
+<pre><code>事务是数据库维护数据一致性的单位，在每个事务结束时，都能保持数据一致性。
+</code></pre><p> 三： 什么是存储过程？有哪些优缺点？</p>
+<pre><code>MySQL数据库几个基本的索引类型：普通索引、唯一索引、主键索引（最常用的索引）、全文索引
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">* 索引加快数据库的检索速度</div><div class="line">* 索引降低了插入、删除、修改等维护任务的速度</div><div class="line">* 唯一索引可以确保每一行数据的唯一性 比如说:主键索引</div></pre></td></tr></table></figure>
+<p>四：数据库的函数</p>
+<pre><code>1：聚合函数 --- 以下五个
+ 一 SUM（）求和 
+ 二 MAX() 求最大
+ 三 MIN() 求最小
+ 四 AVG() 求平均数
+ 五 COUNT() 求总和
+</code></pre><p>  如果问起其他的函数。就回答这个：<br>    二：日期时间函数<br>        一 CURDATE(),CURRENT_DATE() 返回当前日期</p>
+<p>五： 数据库优化问题。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">一：硬件优化，提高机器性能，增加硬件等; </div><div class="line">二：优化查询语句，将限定性强的where条件放前</div><div class="line">三：优化索引，建立有效的索引</div><div class="line"></div><div class="line"></div><div class="line">如何继续问这个优化问题，你就说不怎么了解，你知道一个大数据下</div><div class="line">数据库分库分表的问题</div><div class="line">可以举一个最简单的问题：</div><div class="line">上海的公交卡的信息记录</div><div class="line">上海假设就 两千万的人做公交，每天上下班也算上</div><div class="line"></div><div class="line">那么日积月累一个月就是<span class="number">30</span>*两千万。一个数据库根本就不可能</div><div class="line">，你就可以这么说。按照每天分表。</div><div class="line">昨天是<span class="number">20170921</span>一个数据库</div><div class="line">今天是<span class="number">20170921</span>一个数据库</div><div class="line">每天是<span class="number">20170922</span>一个数据库</div><div class="line">这个就是分库。</div><div class="line">  </div><div class="line">分表也是同样的道理</div><div class="line">分表就是表拆开：</div><div class="line"> 经常用的字段一个表 不经常用的放另外一个表。用id关联</div></pre></td></tr></table></figure>
+<h3 id="随时扣作者QQ-23-9549-9549"><a href="#随时扣作者QQ-23-9549-9549" class="headerlink" title="随时扣作者QQ:23 9549 9549"></a><a href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=2395499549&amp;website=www.oicqzone.com" target="_blank" rel="external">随时扣作者QQ:23 9549 9549</a></h3><h3 id="在线聊天作者"><a href="#在线聊天作者" class="headerlink" title="在线聊天作者"></a><a href="tencent://message/?Menu=yes&amp;uin=2395499549&amp;Service=300&amp;sigT=45a1e5847943b64c6ff3990f8a9e644d2b31356cb0b4ac6b24663a3c8dd0f8aa12a595b1714f9d45" target="_blank" rel="external">在线聊天作者</a></h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2017/12/06/springScurity/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1656,226 +2011,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2017/12/06/datax/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jorden.lwq">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jorden.lwq">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/06/datax/" itemprop="url">使用阿里巴巴开源数据库同步工具DATAX实现跨数据库同步</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-06T15:24:22+08:00">
-                2017-12-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/12/06/datax/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/06/datax/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article</span>
-                
-                <span title="Words count in article">
-	     1,374 字
-	    </span>
-	              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time</span>
-                
-     <span title="Reading time">
-   6 分钟
- </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<ul>
-<li>DataX 是阿里巴巴集团内被广泛使用的离线数据同步工具/平台，实现包括<br>MySQL、Oracle、HDFS、Hive、OceanBase、HBase、OTS、ODPS<br>等各种异构数据源之间高效的数据同步功能。</li>
-</ul>
-</blockquote>
-<p> <a href="https://github.com/alibaba/DataX/">点击进入</a></p>
-<h1 id="先请配置DataX-环境变量"><a href="#先请配置DataX-环境变量" class="headerlink" title="先请配置DataX 环境变量"></a>先请配置DataX 环境变量</h1><pre><code>Linux、Windows
-JDK(1.8)
-Python(推荐Python2.6.X)
-Apache Maven 3.x (Compile DataX)
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">下面演示dataX </div><div class="line">配置示例：从MySQL读取数据 写入MYSQL</div><div class="line">（liunx/centos7） 各位学习的童鞋可以自己安装一个VM安装一个liunx系统</div><div class="line"></div><div class="line">演示条件</div><div class="line">mysql_reader <span class="number">47.93</span><span class="number">.226</span><span class="number">.82</span>:<span class="number">3606</span></div><div class="line">mysql_writer <span class="number">47.93</span><span class="number">.226</span><span class="number">.82</span>:<span class="number">3605</span></div><div class="line">安装mysql (作者docker安装mysql )</div><div class="line">docker run -p ip:ip --name mymysql -v $PWD/conf/my.cnf:/etc/mysql/my.cnf -v $PWD/logs:/logs -v $PWD/data:/mysql_data -e MYSQL_ROOT_PASSWORD=<span class="number">123456</span> -d imageid </div><div class="line">-v 是挂载目录</div><div class="line">-p 是开放端口</div></pre></td></tr></table></figure>
-<p>一、工具下载以及部署</p>
-<pre><code>方法一、直接下载DataX工具包(如果仅是使用，推荐直接下载)：DataX下载地址（http://datax-opensource.oss-cn-hangzhou.aliyuncs.com/datax.tar.gz）
-
-下载后解压至本地某个目录，修改权限为755，进入bin目录，即可运行样例同步作业：
-
-$ tar zxvf datax.tar.gz
-$ sudo chmod -R 755 {YOUR_DATAX_HOME}
-$ cd  {YOUR_DATAX_HOME}/bin
-$ python datax.py ../job/job.json
-</code></pre><p>​<br>    二、配置示例：从MySQL读取数据 写入MYSQL</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line">   &#123;</div><div class="line">    <span class="string">"job"</span>: &#123;</div><div class="line">        <span class="string">"content"</span>: [</div><div class="line">            &#123;</div><div class="line">                <span class="string">"reader"</span>: &#123;</div><div class="line">                    <span class="string">"name"</span>: <span class="string">"mysqlreader"</span>, </div><div class="line">                    <span class="string">"parameter"</span>: &#123;</div><div class="line">                        <span class="string">"column"</span>: [<span class="string">"id"</span>,<span class="string">"real_name"</span>], </div><div class="line">                        <span class="string">"connection"</span>: [</div><div class="line">                            &#123;</div><div class="line">                    </div><div class="line">							 <span class="string">"jdbcUrl"</span>: [</div><div class="line">                                    <span class="string">"jdbc:mysql://47.93.226.82:3306/test"</span></div><div class="line">                                ],</div><div class="line">                                <span class="string">"table"</span>: [<span class="string">"t_ur_user_m"</span>]</div><div class="line">                            &#125;</div><div class="line">                        ], </div><div class="line">                        <span class="string">"password"</span>: <span class="string">"####"</span>, </div><div class="line">                        <span class="string">"username"</span>: <span class="string">"dev@####"</span></div><div class="line">                    &#125;</div><div class="line">                &#125;, </div><div class="line">                <span class="string">"writer"</span>: &#123;</div><div class="line">                    <span class="string">"name"</span>: <span class="string">"mysqlwriter"</span>, </div><div class="line">                    <span class="string">"parameter"</span>: &#123;</div><div class="line">                         <span class="string">"column"</span>: [<span class="string">"id"</span>,<span class="string">"real_name"</span>], </div><div class="line">                        <span class="string">"connection"</span>: [</div><div class="line">                            &#123;</div><div class="line">								<span class="string">"jdbcUrl"</span>: <span class="string">"jdbc:mysql://47.93.226.82:3307/test?characterEncoding=utf-8"</span>,</div><div class="line">                                <span class="string">"table"</span>: [<span class="string">"datax_user"</span>]</div><div class="line">                            &#125;</div><div class="line">                        ], </div><div class="line">                        <span class="string">"password"</span>: <span class="string">"####"</span>, </div><div class="line">                        <span class="string">"username"</span>: <span class="string">"dev@####"</span></div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">           </div><div class="line">            </div><div class="line">        ], </div><div class="line">        <span class="string">"setting"</span>: &#123;</div><div class="line">            <span class="string">"speed"</span>: &#123;</div><div class="line">                <span class="string">"channel"</span>: <span class="string">"2"</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>第三步：启动DataX<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">$ cd &#123;YOUR_DATAX_DIR_BIN&#125;</div><div class="line">$ python datax.py ./mysql2odps.json </div><div class="line"></div><div class="line">同步结束，显示日志如下：</div><div class="line"></div><div class="line">...</div><div class="line"><span class="number">2015</span><span class="number">-12</span><span class="number">-17</span> <span class="number">11</span>:<span class="number">20</span>:<span class="number">25.263</span> [job<span class="number">-0</span>] INFO  JobContainer - </div><div class="line">任务启动时刻                    : <span class="number">2015</span><span class="number">-12</span><span class="number">-17</span> <span class="number">11</span>:<span class="number">20</span>:<span class="number">15</span></div><div class="line">任务结束时刻                    : <span class="number">2015</span><span class="number">-12</span><span class="number">-17</span> <span class="number">11</span>:<span class="number">20</span>:<span class="number">25</span></div><div class="line">任务总计耗时                    :                 <span class="number">10</span>s</div><div class="line">任务平均流量                    :              <span class="number">205</span>B/s</div><div class="line">记录写入速度                    :              <span class="number">5</span>rec/s</div><div class="line">读出记录总数                    :                  <span class="number">50</span></div><div class="line">读写失败总数                    :                   <span class="number">0</span></div></pre></td></tr></table></figure></p>
-<p>###三、配置定时任务（Linux环境）：从MySQL读取数据 写入ODPS，通过crontab命令实现</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">前置条件：安装crond服务,并已启动</div><div class="line"></div><div class="line"><span class="comment">#查看crond服务是否启动，出现以下日志表示已启动</span></div><div class="line">$/sbin/service crond status</div><div class="line"> crond (pid  <span class="number">30742</span>) <span class="keyword">is</span> running...</div></pre></td></tr></table></figure>
-<pre><code> crond (pid  30742) is running...
-
-第一步：创建作业的配置文件（json格式） 参考上节内容。这里假设已配置好MySQL到ODPS的配置文件mysql2odps.json
-
-第二步：列出列出crontab文件，命令： crontab -l
-（1）若出现以下日志，表示当前用户没有定时任务，用户需要新建crontab文件，并提交crontab文件，参考第三步。
-
-$crontab -l
- no crontab for xxx
-</code></pre><p>（2）若出现以下日志，表示当前用户已经有正在运行的定时任务，用户只需用命令crontab -e 来编辑crontab文件，参考第四步。 shell $ crontab -l 0,10,20,35,44,50 <em> </em> <em> </em> python /home/admin/datax3/bin/datax.py /home/admin/mysql2odps.json &gt;&gt;/home/hanfa.shf/log.<code>date +\%Y\%m\%d\%H\%M\%S</code> 2&gt;&amp;1</p>
-<pre><code>第三步：若当前用户没有定时任务（之前从未创建过crontab任务)
-（1）创建一个新的crontab文件，如取名crondatax
-示例1：每天13点5分进行同步作业，并把运行日志输出到目录/home/hanfa.shf/下log.运行时间 文件中,如定时运行是在2016-3-26 13:10:13运行的，产生的日志文件名为：log.20160326131023
-
-$ vim crondatax
-#输入以下内容
-5  13 * * *  python /home/admin/datax3/bin/datax.py /home/admin/mysql2odps.json  &gt;&gt;/home/hanfa.shf/log.`date +\%Y\%m\%d\%H\%M\%S`  2&gt;&amp;1
-#/home/admin/datax3/bin/datax.py 表示你安装的DataX datax.py所在目录（请替换为您真实的绝对路径目录）；
-#/home/admin/mysql2odps.json  表示作业的配置文件目录（请替换为您真实的绝对路径目录）；
-#/home/hanfa.shf/log.`date +\%Y\%m\%d\%H\%M\%S` 表示日志输出位置，并以log.当前时间 命名（请替换为您真实的绝对路径目录）
-</code></pre><p>（2）提交你刚刚创建的crontab文件 shell $ crontab crondatax #crondatax 你创建的crontab文件名 （3）重启crontab服务 shell $ sudo /etc/init.d/crond restart Stopping crond: [ OK ] Starting crond: [ OK ] （4）在13点5分过后，在日志目录会看到对应的日文件 shell $ ls -al /home/hanfa.shf/ -rw-r–r– 1 hanfa.shf users 12062 Mar 26 13:05 log.20160326130501</p>
-<pre><code>第四步：若当前用户已有定时任务（想继续增加定时任务）
-（1）编辑已有crontab文件
-示例2：每10分钟运行一次同步任务,并把运行日志输出到目录/home/hanfa.shf/下log.运行时间 文件中，如定时运行是在2016-3-26 13:10:13运行的，产生的日志文件名为：log.20160326131023
-
-$ crontab -e
-#会进入已有crontab文件编辑界面，继续增加定时任务即可，本示例增加以下内容,并保存
-0,10,20,30,40,50 * * * *  python /home/admin/datax3/bin/datax.py /home/admin/mysql2odps.json  &gt;&gt;/home/hanfa.shf/log.`date +\%Y\%m\%d\%H\%M\%S`  2&gt;&amp;1
-</code></pre><p>（2）重启crontab服务</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">$</span> sudo /etc/init.d/crond restart Stopping crond: [ OK ] Starting crond: [ OK ] ``` （3）用crontab -l 命令检查是否添加成功</div><div class="line"></div><div class="line"><span class="meta"> $</span> crontab -l</div><div class="line">5  13 * * *  python /home/admin/datax3/bin/datax.py /home/admin/mysql2odps.json  &gt;&gt;/home/hanfa.shf/log.`date +\%Y\%m\%d\%H\%M\%S`  2&gt;&amp;1</div><div class="line">0,10,20,30,40,50 * * * *  python /home/admin/datax3/bin/datax.py /home/admin/mysql2odps.json  &gt;&gt;/home/hanfa.shf/log.</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">接下来请根据您所需要的插件完成配置，并完成同步。</div><div class="line"></div><div class="line">所有数据源配置指南，请参考：DataX数据源指南</div><div class="line">附录：</div><div class="line"></div><div class="line">安装crond服务</div><div class="line">yum install crontabs</div><div class="line">服务操作说明：</div><div class="line">/sbin/service crond start //启动服务</div><div class="line">/sbin/service crond stop //关闭服务</div><div class="line">/sbin/service crond restart //重启服务</div><div class="line">/sbin/service crond reload //重新载入配置</div><div class="line">加入开机自动启动：</div><div class="line">/sbin/chkconfig --level 35 crond on</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1921,7 +2061,7 @@ $ crontab -e
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">Artikel</span>
               </a>
             </div>

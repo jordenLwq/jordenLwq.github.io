@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Jorder, lWQ" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="CentOS7安装MySQL  在CentOS中默认安装有MariaDB，这个是MySQL的分支，但为了需要，还是要在系统中安装MySQL，而且安装完成之后可以直接覆盖掉MariaDB。 1 下载并安装MySQL官方的 Yum Repository1[root@localhost ~]# wget -i -c http://dev.mysql.com/get/mysql57-community-r">
+<meta property="og:type" content="article">
+<meta property="og:title" content="centos7+ 安装mysql">
+<meta property="og:url" content="https://github.com/jordenlwq/2018/03/22/centos-mysql/index.html">
+<meta property="og:site_name" content="Jorden.lwq">
+<meta property="og:description" content="CentOS7安装MySQL  在CentOS中默认安装有MariaDB，这个是MySQL的分支，但为了需要，还是要在系统中安装MySQL，而且安装完成之后可以直接覆盖掉MariaDB。 1 下载并安装MySQL官方的 Yum Repository1[root@localhost ~]# wget -i -c http://dev.mysql.com/get/mysql57-community-r">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://images2017.cnblogs.com/blog/1079354/201707/1079354-20170726201927328-459165254.png">
+<meta property="og:image" content="https://images2017.cnblogs.com/blog/1079354/201707/1079354-20170726202441687-1168874203.png">
+<meta property="og:image" content="http://www.laozuo.org/wp-content/uploads/2015/08/mysql56-waring-1.jpg">
+<meta property="og:updated_time" content="2018-03-22T02:11:28.149Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="centos7+ 安装mysql">
+<meta name="twitter:description" content="CentOS7安装MySQL  在CentOS中默认安装有MariaDB，这个是MySQL的分支，但为了需要，还是要在系统中安装MySQL，而且安装完成之后可以直接覆盖掉MariaDB。 1 下载并安装MySQL官方的 Yum Repository1[root@localhost ~]# wget -i -c http://dev.mysql.com/get/mysql57-community-r">
+<meta name="twitter:image" content="https://images2017.cnblogs.com/blog/1079354/201707/1079354-20170726201927328-459165254.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":1},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/jordenlwq/2018/03/22/centos-mysql/"/>
+
+
+
+
+
+  <title>centos7+ 安装mysql | Jorden.lwq</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0fbab8ad941a9e1e764d62ba7d722af3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jorden.lwq</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Success is never final. Failure is never fatal. Courage is what counts. -Sir Winston Churchill。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2018/03/22/centos-mysql/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jorden.lwq">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jorden.lwq">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">centos7+ 安装mysql</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-22T10:09:56+08:00">
+                2018-03-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/22/centos-mysql/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/03/22/centos-mysql/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article</span>
+                
+                <span title="Words count in article">
+	     1,731 字
+	    </span>
+	              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time</span>
+                
+     <span title="Reading time">
+   7 分钟
+ </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="CentOS7安装MySQL"><a href="#CentOS7安装MySQL" class="headerlink" title="CentOS7安装MySQL"></a><a href="http://www.cnblogs.com/bigbrotherer/p/7241845.html" target="_blank" rel="external">CentOS7安装MySQL</a></h1><p>  在CentOS中默认安装有MariaDB，这个是MySQL的分支，但为了需要，还是要在系统中安装MySQL，而且安装完成之后可以直接覆盖掉MariaDB。</p>
+<h3 id="1-下载并安装MySQL官方的-Yum-Repository"><a href="#1-下载并安装MySQL官方的-Yum-Repository" class="headerlink" title="1 下载并安装MySQL官方的 Yum Repository"></a>1 下载并安装MySQL官方的 Yum Repository</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]# wget -i -c http://dev.mysql.com/get/mysql57-community-release-el7-10.noarch.rpm</div></pre></td></tr></table></figure>
+<p>  使用上面的命令就直接下载了安装用的Yum Repository，大概25KB的样子，然后就可以直接yum安装了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]# yum -y install mysql57-community-release-el7-10.noarch.rpm</div></pre></td></tr></table></figure>
+<p>  之后就开始安装MySQL服务器。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]# yum -y install mysql-community-server</div></pre></td></tr></table></figure>
+<p>  这步可能会花些时间，安装完成后就会覆盖掉之前的mariadb。</p>
+<p><img src="https://images2017.cnblogs.com/blog/1079354/201707/1079354-20170726201927328-459165254.png" alt="img"></p>
+<p>至此MySQL就安装完成了，然后是对MySQL的一些设置。</p>
+<h3 id="2-MySQL数据库设置"><a href="#2-MySQL数据库设置" class="headerlink" title="2 MySQL数据库设置"></a>2 MySQL数据库设置</h3><p>  首先启动MySQL</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]# systemctl start  mysqld.service</div></pre></td></tr></table></figure>
+<p>  查看MySQL运行状态，运行状态如图：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]# systemctl status mysqld.service</div></pre></td></tr></table></figure>
+<p><img src="https://images2017.cnblogs.com/blog/1079354/201707/1079354-20170726202441687-1168874203.png" alt="img"></p>
+<p>  此时MySQL已经开始正常运行，不过要想进入MySQL还得先找出此时root用户的密码，通过如下命令可以在日志文件中找出密码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]# grep &quot;password&quot; /var/log/mysqld.log</div></pre></td></tr></table></figure>
+<p>用该密码登录到服务端后，必须马上修改密码，不然会报如下错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; select user();</div><div class="line">ERROR 1820 (HY000): You must reset your password using ALTER USER statement before executing this statement.</div></pre></td></tr></table></figure>
+<p>如果只是修改为一个简单的密码，会报以下错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt;  ALTER USER USER() IDENTIFIED BY &apos;12345678&apos;;</div><div class="line">ERROR 1819 (HY000): Your password does not satisfy the current policy requirements</div></pre></td></tr></table></figure>
+<p>这个其实与validate_password_policy的值有关。</p>
+<p>validate_password_policy有以下取值：</p>
+<table>
+<thead>
+<tr>
+<th>Policy</th>
+<th>Tests Performed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code> or <code>LOW</code></td>
+<td>Length</td>
+</tr>
+<tr>
+<td><code>1</code> or <code>MEDIUM</code></td>
+<td>Length; numeric, lowercase/uppercase, and special characters</td>
+</tr>
+<tr>
+<td><code>2</code> or <code>STRONG</code></td>
+<td>Length; numeric, lowercase/uppercase, and special characters; dictionary file</td>
+</tr>
+</tbody>
+</table>
+<p>默认是1，即MEDIUM，所以刚开始设置的密码必须符合长度，且必须含有数字，小写或大写字母，特殊字符。</p>
+<p>有时候，只是为了自己测试，不想密码设置得那么复杂，譬如说，我只想设置root的密码为123456。</p>
+<p>必须修改两个全局参数：</p>
+<p>首先，修改validate_password_policy参数的值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; set global validate_password_policy=0;</div><div class="line">Query OK, 0 rows affected (0.00 sec)</div></pre></td></tr></table></figure>
+<p> 密码的长度是由validate_password_length决定的，而validate_password_length的计算公式是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">validate_password_length = validate_password_number_count + validate_password_special_char_count + (2 * validate_password_mixed_case_count)</div></pre></td></tr></table></figure>
+<p>我的是已经修改过的，初始情况下第一个的值是ON，validate_password_length是8。可以通过如下命令修改：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; set global validate_password_policy=0;</div><div class="line">mysql&gt; set global validate_password_length=1;</div></pre></td></tr></table></figure>
+<p>  但此时还有一个问题，就是因为安装了Yum Repository，以后每次yum操作都会自动更新，需要把这个卸载掉：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]# yum -y remove mysql57-community-release-el7-10.noarch</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">定时备份mysql</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line">db_user=&quot;root&quot;</div><div class="line">db_passwd=&quot;123456&quot;</div><div class="line">db_name=&quot;test_db&quot;</div><div class="line">#进入备份目录将之前的移动到old目录</div><div class="line">cd /mnt/backup/bakmysql</div><div class="line">echo &quot;you are in bakmysql directory now&quot;</div><div class="line">mv test_db* /mnt/backup/bakmysqlold</div><div class="line">echo &quot;Old databases are moved to bakmysqlold folder&quot;</div><div class="line">#备份目录</div><div class="line">backup_dir=&quot;/mnt/backup/bakmysql&quot;</div><div class="line">#时间格式</div><div class="line">time=$(date +&quot;%Y-%m-%d&quot;)</div><div class="line">#mysql 备份的命令，注意有空格和没有空格</div><div class="line">mysqldump -u$db_user -p$db_passwd $db_name  &gt; &quot;$backup_dir/$db_name&quot;-&quot;$time.sql&quot;</div><div class="line">echo &quot;your database backup successfully completed&quot;</div><div class="line">#这里将7天之前的备份文件删掉</div><div class="line">SevenDays=$(date -d -7day  +&quot;%Y-%m-%d&quot;)</div><div class="line">if [ -f /mnt/backup/bakmysqlold/pashanhu-$SevenDays.sql ]</div><div class="line">then</div><div class="line">rm -rf /mnt/backup/bakmysqlold/pashanhu-$SevenDays.sql</div><div class="line">echo &quot;you have delete 7days ago bak sql file &quot;</div><div class="line">else</div><div class="line">echo &quot;7days ago bak sql file not exist &quot;</div><div class="line">echo &quot;bash complete&quot;</div><div class="line">fi</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">er=&quot;root&quot;</div><div class="line">db_passwd=&quot;12345678&quot;</div><div class="line">db_name=&quot;test&quot;</div><div class="line">#进入备份目录将之前的移动到old目录</div><div class="line">cd /var/backup/bakmysql</div><div class="line">echo &quot;you are in bakmysql directory now&quot;</div><div class="line">mv test_db* /var/backup/bakmysqlold</div><div class="line">echo &quot;Old databases are moved to bakmysqlold folder&quot;</div><div class="line">#备份目录</div><div class="line">backup_dir=&quot;/mnt/backup/bakmysql&quot;</div><div class="line">#时间格式</div><div class="line">time=$(date +&quot;%Y-%m-%d&quot;)</div><div class="line">#mysql 备份的命令，注意有空格和没有空格</div><div class="line">#mysqldump -u$db_user -p$db_passwd $db_name  &gt; &quot;$backup_dir/$db_name&quot;-&quot;$time.sql&quot;</div><div class="line">mysqldump --defaults-extra-file=/etc/my.cnf $db_name &gt; &quot;$backup_dir/$db_name&quot;-&quot;$time.sql&quot;</div><div class="line">echo &quot;your database backup successfully completed&quot;</div><div class="line">echo &quot;$backup_dir/$db_name&quot;-&quot;$time.sql&quot;</div><div class="line"></div><div class="line">#这里将7天之前的备份文件删掉</div><div class="line">SevenDays=$(date -d -7day  +&quot;%Y-%m-%d&quot;)</div><div class="line">if [ -f /var/backup/bakmysqlold/pashanhu-$SevenDays.sql ]</div><div class="line">then</div><div class="line">rm -rf /var/backup/bakmysqlold/pashanhu-$SevenDays.sql</div><div class="line">echo &quot;you have delete 7days ago bak sql file &quot;</div><div class="line">else</div><div class="line">echo &quot;7days ago bak sql file not exist &quot;</div><div class="line">echo &quot;bash complete&quot;</div><div class="line">fi</div></pre></td></tr></table></figure>
+<h4 id="然后通过下面命令将脚步加入系统的计划任务"><a href="#然后通过下面命令将脚步加入系统的计划任务" class="headerlink" title="然后通过下面命令将脚步加入系统的计划任务"></a>然后通过下面命令将脚步加入系统的计划任务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line">crontab -e</div><div class="line"></div><div class="line">0 2 * * * cd /usr/sbin/ &amp;&amp; ./bakmysql.sh</div></pre></td></tr></table></figure>
+<h1 id="解决MySQL5-6出现”Using-a-password-on-the-command-line-interface…”"><a href="#解决MySQL5-6出现”Using-a-password-on-the-command-line-interface…”" class="headerlink" title="解决MySQL5.6出现”Using a password on the command line interface…”"></a>解决MySQL5.6出现”Using a password on the command line interface…”</h1><p>​                                转载                                2016年09月07日 11:17:25            </p>
+<ul>
+<li>标签：</li>
+<li><a href="http://so.csdn.net/so/search/s.do?q=mysql&amp;t=blog" target="_blank" rel="external">mysql</a> /</li>
+<li><a href="http://so.csdn.net/so/search/s.do?q=数据库&amp;t=blog" target="_blank" rel="external">数据库</a> </li>
+</ul>
+<ul>
+<li>​</li>
+</ul>
+<p>今天老左有在帮一个网友搬家网站过程中，习惯导出MySQL数据库的时候采用mysqldump命令，但是意外发生了出现”Warning: Using a password on the command line interface can be insecure.”的错误提示，当然数据库肯定也没有能备份下来。这个问题应该是在<a href="http://www.laozuo.org/tag/mysql5-6" target="_blank" rel="external">MySQL5.6</a>+版本的时候就有出现，可能是为了确保数据库的安全性采用的保护机制。</p>
+<p>遇到问题那就去解决问题，大概搜索到国内的一些网站，大部分都是复制的，也没有讲的明白，于是还是找老外的信息，于是老左就整理到下面比较全的方法且经过验证是没有问题的。</p>
+<p>第一种方法、修改数据库配置文件</p>
+<p>1、我们需要修改数据库配置文件，这个要看我们数据库的配置的，有些是在/etc/my.cnf，有些是/etc/my.conf</p>
+<p><img src="http://www.laozuo.org/wp-content/uploads/2015/08/mysql56-waring-1.jpg" alt="Warning: Using a password on the command line interface can be insecure."></p>
+<p>我们需要在[client]部分添加脚本：</p>
+<blockquote>
+<p>host=localhost<br>user=数据库用户<br>password=’数据库密码’</p>
+</blockquote>
+<p>这里参数要修改成我们自己的。</p>
+<p>2、采用命令导出和导入数据库</p>
+<p>其实在这个时候，我们如果采用”<a href="http://www.laozuo.org/5047.html" target="_blank" rel="external">详解使用mysqldump命令备份还原MySQL数据用法整理</a>“介绍的方法也是可以使用的，虽然依旧有错误提示，但是数据库还是可以导出的。您肯定和老左一样是追求细节的人，一点点问题都不能有，但我们可以用下面的命令导出和导入，就没有错误提示。</p>
+<p>#导出数据库</p>
+<blockquote>
+<p>mysqldump –defaults-extra-file=/etc/my.cnf database &gt; database.sql</p>
+</blockquote>
+<p>#导入数据库</p>
+<blockquote>
+<p>mysql –defaults-extra-file=/etc/my.cnf database &lt; database.sql</p>
+</blockquote>
+<p>这里我们可以看到上面的命令和以前常用的快速导入和导入命令有所不同了，需要加载我们配置的MYSQL配置文件，这个红色部分要根据我们实际的路径修改。用这样的命令导出备份和导入是没有错误提示的。</p>
+<p>第二种方法、利用mysql_config_editor</p>
+<p>1、设置加密模式</p>
+<p>mysql_config_editor set –login-path=local –host=localhost –user=db_user –password</p>
+<p>红色部分是需要修改成我们自己数据库用户名的，回车之后会提示我们输入数据库密码，我们照样输入。</p>
+<p>2、执行备份</p>
+<p>mysqldump -u db_user -pInsecurePassword my_database | gzip &gt; backup.tar.gz</p>
+<p>根据我们数据信息修改用户和用户名和数据库密码，执行备份，这里老左测试还是有错误提示，但数据库是可以备份的。</p>
+<p>总之，我们只要实现结果，可以选择以上2种方法其一操作，当然老左也有看到其他的方法，这里就不多分享了，如果有兴趣的可以搜索其他解决方法。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/22/centos-gitlab/" rel="next" title="基于 CentOS 7 搭建 GitLab">
+                <i class="fa fa-chevron-left"></i> 基于 CentOS 7 搭建 GitLab
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2018/03/22/centos-mysql/"
+           data-title="centos7+ 安装mysql" data-url="https://github.com/jordenlwq/2018/03/22/centos-mysql/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Jorden.lwq" />
+          <p class="site-author-name" itemprop="name">Jorden.lwq</p>
+           
+              <p class="site-description motion-element" itemprop="description">有风雨能够扎得住，有压力能够顶得住， 有责任能够扛得住，有诱惑能够忍得住。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jordenlwq" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=2395499549&website=www.oicqzone.com" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      QQ
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.sojson.com/" target="_blank" title="JSON在线解析">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      JSON在线解析
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CentOS7安装MySQL"><span class="nav-number">1.</span> <span class="nav-text">CentOS7安装MySQL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-下载并安装MySQL官方的-Yum-Repository"><span class="nav-number">1.0.1.</span> <span class="nav-text">1 下载并安装MySQL官方的 Yum Repository</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-MySQL数据库设置"><span class="nav-number">1.0.2.</span> <span class="nav-text">2 MySQL数据库设置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#然后通过下面命令将脚步加入系统的计划任务"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">然后通过下面命令将脚步加入系统的计划任务</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决MySQL5-6出现”Using-a-password-on-the-command-line-interface…”"><span class="nav-number">2.</span> <span class="nav-text">解决MySQL5.6出现”Using a password on the command line interface…”</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jorden.lwq</span>
+</div>
+
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Gemini
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

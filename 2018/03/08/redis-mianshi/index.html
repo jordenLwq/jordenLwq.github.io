@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jorden.lwq">
 <meta property="og:description" content="1、什么是Redis？1redis 就是一种NOSQL型内存缓存数据库，可以支持redis 集群 主从复制 读写分离，支持大数据量存储，高并发！ 2、redis和memcached的区别是什么？1234561. 都是内存数据库，redis不仅支持K/V形式，还可以存储 String Map List Set 类型。 memcached 不仅可以存储 String Map List Set 类型 还">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-08T02:46:37.836Z">
+<meta property="og:updated_time" content="2018-03-15T02:49:16.912Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis面试">
 <meta name="twitter:description" content="1、什么是Redis？1redis 就是一种NOSQL型内存缓存数据库，可以支持redis 集群 主从复制 读写分离，支持大数据量存储，高并发！ 2、redis和memcached的区别是什么？1234561. 都是内存数据库，redis不仅支持K/V形式，还可以存储 String Map List Set 类型。 memcached 不仅可以存储 String Map List Set 类型 还">
@@ -387,7 +387,7 @@
 <p>4、Redis主要消耗什么物理资源？</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">主要消耗物理机的内存和物理磁盘</div></pre></td></tr></table></figure>
 <p>5、为什么Redis需要把所有数据放到内存中？<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Redis NOSQL型内存缓存数据库 当然是把所有的数据放到内存，不会redis可以定时进行fsyn操作把数据放到物理磁盘中</div></pre></td></tr></table></figure></p>
-<p>6、Redis集群方案应该怎么做？都有哪些方案？<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"> <span class="number">1</span>、 redis Cluster  集群</div><div class="line">    	其实redis官方的方案就是，一个master node 配置多个slave node 然后通过 redis 哨兵集群 监控redis master </div><div class="line">    	存储的key是根据 CRC16 <span class="number">16384</span>取模 ，每一个redis slave  node 都会分担<span class="number">16384</span> 个solt 的一部分。 也就是说，</div><div class="line">    	每一个slave node 都会处理对应分配的 solt 。如果当redis slave node 添加或者减少 会重新分配每一个redis slave node 的solt。 </div><div class="line">    	当redis master node 挂掉以后 这个redis 哨兵集群会选出一个redis 哨兵，然后通过选出来的这个redis 哨兵来 </div><div class="line">    	选出一个redis master node </div><div class="line"></div><div class="line">    <span class="number">2</span>、 redis Shareding 集群</div><div class="line">	</div><div class="line">不了解。哈哈</div></pre></td></tr></table></figure></p>
+<p>6、Redis集群方案应该怎么做？都有哪些方案？<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"> <span class="number">1</span>、 redis Cluster  集群</div><div class="line">    	其实redis官方的方案就是，一个master node 配置多个slave node 然后通过 redis 哨兵集群 监控redis master </div><div class="line">    	存储的key是根据 CRC16 <span class="number">16384</span>取模 ，每一个redis slave  node 都会分担<span class="number">16384</span> 个solt 的一部分。 也就是说，</div><div class="line">    	每一个slave node 都会处理对应分配的 solt 。如果当redis slave node 添加或者减少 会重新分配每一个redis slave node 的solt。 </div><div class="line">    	当redis master node 挂掉以后 这个redis 哨兵集群会选出一个redis 哨兵，然后通过选出来的这个redis 哨兵来 </div><div class="line">    	选出一个redis master node</div><div class="line">    <span class="number">2</span>、 redis Shareding 集群</div><div class="line">	</div><div class="line">不了解。哈哈</div></pre></td></tr></table></figure></p>
 <p>7、Redis集群方案什么情况下会导致整个集群不可用？</p>
 <pre><code class="python"><span class="number">1.</span> 假设   在多台物理机集群的时候， 假设 redis master 部署在server<span class="number">-1</span> 和redis 哨兵集群 部署 在 server<span class="number">-2</span> 
         其他的redis slave node 部署在 server<span class="number">-3</span> server<span class="number">-4</span> server<span class="number">-5</span> server<span class="number">-6</span> ....
@@ -511,7 +511,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
