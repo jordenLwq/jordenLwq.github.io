@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Jorder, lWQ" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="redis集群介绍121，多个redis节点数据共享2，通过redis分区来减轻解决单Redis服务器压力。 ##Redis 集群的数据分片1234567Redis 集群没有使用一致性hash, 而是引入了 哈希槽的概念.Redis 集群有16384个哈希槽,每个key通过CRC16校验后对16384取模来决定放置哪个槽.集群的每个节点负责一部分hash槽,举个例子,比如当前集群有3个节点,那么:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis高可用集群搭建">
+<meta property="og:url" content="https://github.com/jordenlwq/2018/04/11/redis-cluster/index.html">
+<meta property="og:site_name" content="Jorden.lwq">
+<meta property="og:description" content="redis集群介绍121，多个redis节点数据共享2，通过redis分区来减轻解决单Redis服务器压力。 ##Redis 集群的数据分片1234567Redis 集群没有使用一致性hash, 而是引入了 哈希槽的概念.Redis 集群有16384个哈希槽,每个key通过CRC16校验后对16384取模来决定放置哪个槽.集群的每个节点负责一部分hash槽,举个例子,比如当前集群有3个节点,那么:">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-04-11T01:52:03.554Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis高可用集群搭建">
+<meta name="twitter:description" content="redis集群介绍121，多个redis节点数据共享2，通过redis分区来减轻解决单Redis服务器压力。 ##Redis 集群的数据分片1234567Redis 集群没有使用一致性hash, 而是引入了 哈希槽的概念.Redis 集群有16384个哈希槽,每个key通过CRC16校验后对16384取模来决定放置哪个槽.集群的每个节点负责一部分hash槽,举个例子,比如当前集群有3个节点,那么:">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":1},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/jordenlwq/2018/04/11/redis-cluster/"/>
+
+
+
+
+
+  <title>Redis高可用集群搭建 | Jorden.lwq</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0fbab8ad941a9e1e764d62ba7d722af3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jorden.lwq</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Success is never final. Failure is never fatal. Courage is what counts. -Sir Winston Churchill。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/jordenlwq/2018/04/11/redis-cluster/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jorden.lwq">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jorden.lwq">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Redis高可用集群搭建</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-11T09:08:59+08:00">
+                2018-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/04/11/redis-cluster/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/04/11/redis-cluster/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article</span>
+                
+                <span title="Words count in article">
+	     803 字
+	    </span>
+	              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time</span>
+                
+     <span title="Reading time">
+   3 分钟
+ </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="redis集群介绍"><a href="#redis集群介绍" class="headerlink" title="redis集群介绍"></a>redis集群介绍</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="number">1</span>，多个redis节点数据共享</div><div class="line"><span class="number">2</span>，通过redis分区来减轻解决单Redis服务器压力。</div></pre></td></tr></table></figure>
+<p>##Redis 集群的数据分片<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Redis 集群没有使用一致性hash, 而是引入了 哈希槽的概念.</div><div class="line"></div><div class="line">Redis 集群有<span class="number">16384</span>个哈希槽,每个key通过CRC16校验后对<span class="number">16384</span>取模来决定放置哪个槽.集群的每个节点负责一部分hash槽,举个例子,比如当前集群有<span class="number">3</span>个节点,那么:</div><div class="line"></div><div class="line">    节点 A 包含 <span class="number">0</span> 到 <span class="number">5500</span>号哈希槽.</div><div class="line">    节点 B 包含<span class="number">5501</span> 到 <span class="number">11000</span> 号哈希槽.</div><div class="line">    节点 C 包含<span class="number">11001</span> 到 <span class="number">16384</span>号哈希槽.</div></pre></td></tr></table></figure></p>
+<h2 id="准备两台Liunx服务器"><a href="#准备两台Liunx服务器" class="headerlink" title="准备两台Liunx服务器"></a>准备两台Liunx服务器</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">用两台虚拟机模拟<span class="number">6</span>个节点，一台机器<span class="number">3</span>个节点，创建出<span class="number">3</span> master、<span class="number">3</span> salve 环境。</div></pre></td></tr></table></figure>
+<h2 id="1-安装redis"><a href="#1-安装redis" class="headerlink" title="1 安装redis"></a>1 安装redis</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="number">1.</span> 下载并解压</div><div class="line">cd /usr/local/</div><div class="line">wget http://download.redis.io/releases/redis<span class="number">-3.2</span><span class="number">.4</span>.tar.gz</div><div class="line">tar -zxvf redis<span class="number">-3.2</span><span class="number">.4</span>.tar.gz　</div><div class="line"></div><div class="line"><span class="number">2.</span> 编译安装</div><div class="line">cd redis<span class="number">-3.2</span><span class="number">.4</span></div><div class="line">make &amp;&amp; make install</div><div class="line"></div><div class="line">在执行上面的步骤之后进入redis目录下面有一个utils文件夹下面有一个redis_init_script脚本 </div><div class="line">创建文件夹  执行此命令 mkdir /etc/init.d/redis -p    改名字 mv redis<span class="number">-3.2</span><span class="number">.4</span> redis</div><div class="line">然后复制 cp /usr/local/redis/redis.conf /etc/redis_7001.conf </div><div class="line">然后vim redis_7001.conf  开启rdb持久化 pid改成对应的端口，日志文件改成对应的日志文件目录</div><div class="line"></div><div class="line"></div><div class="line">mkdir -p /etc/redis-cluster</div><div class="line"></div><div class="line">mkdir -p /var/log/redis</div><div class="line"></div><div class="line">mkdir -p /var/redis/$&#123;自己的redis端口&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">进入redis utils 目录下面 执行此命令  cp  redis_init_script   /etc/init/redis/ redis_init_script_7001</div><div class="line">redis_init_script_7001 就是redis <span class="number">7001</span> 端口的redis 启动脚本。</div><div class="line">vim /etc/init/redis/ redis_init_script_7001  可以看到</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">#大致浏览下该启动脚本，发现redis习惯性用监听的端口名作为配置文件等命名，我们后面也遵循这个约定。</span></div><div class="line"><span class="comment">#redis服务器监听的端口</span></div><div class="line">REDISPORT=<span class="number">7001</span></div><div class="line"><span class="comment">#服务端所处位置，在make install后默认存放与`/usr/local/bin/redis-server`，如果未make install则需要修改该路径，下同。</span></div><div class="line">EXEC=/usr/local/bin/redis-server</div><div class="line"><span class="comment">#客户端位置</span></div><div class="line">CLIEXEC=/usr/local/bin/redis-cli</div><div class="line"><span class="comment">#Redis的PID文件位置</span></div><div class="line">PIDFILE=/var/run/redis_$&#123;REDISPORT&#125;.pid</div><div class="line"><span class="comment">#配置文件位置，需要修改</span></div><div class="line">CONF=<span class="string">"/etc/redis/$&#123;REDISPORT&#125;.conf"</span></div></pre></td></tr></table></figure>
+<h2 id="搭建redis集群配置"><a href="#搭建redis集群配置" class="headerlink" title="搭建redis集群配置"></a>搭建redis集群配置</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">port  <span class="number">7001</span> <span class="comment">## 你的当前redis端口</span></div><div class="line"><span class="comment">## 开启集群 重要配置</span></div><div class="line">cluster-enabled yes</div><div class="line"><span class="comment">## redis集群的配置文件 自动创建</span></div><div class="line">cluster-config-file /etc/redis-cluster/node<span class="number">-7001.</span>conf</div><div class="line"><span class="comment">## redis集群中节点的超时时间</span></div><div class="line">cluster-node-timeout <span class="number">15000</span></div></pre></td></tr></table></figure>
+<h2 id="将上面的配置文件，在-etc-redis下放6个，分别为-7001-conf，7002-conf，-第二台机子-7003-conf，7004-conf，7005-conf，7006-conf"><a href="#将上面的配置文件，在-etc-redis下放6个，分别为-7001-conf，7002-conf，-第二台机子-7003-conf，7004-conf，7005-conf，7006-conf" class="headerlink" title="将上面的配置文件，在/etc/redis下放6个，分别为: 7001.conf，7002.conf，   第二台机子   7003.conf，7004.conf，7005.conf，7006.conf"></a>将上面的配置文件，在/etc/redis下放6个，分别为: 7001.conf，7002.conf，   第二台机子   7003.conf，7004.conf，7005.conf，7006.conf</h2><h2 id="关闭各自物理机的防火墙。相互ping-一下"><a href="#关闭各自物理机的防火墙。相互ping-一下" class="headerlink" title="关闭各自物理机的防火墙。相互ping 一下"></a>关闭各自物理机的防火墙。相互ping 一下</h2><p>#在/etc/init.d下，放6个启动脚本，分别为: redis_7001, redis_7002, redis_7003,    第二台机子  redis_7004, redis_7005, redis_7006</p>
+<h2 id="3、创建集群"><a href="#3、创建集群" class="headerlink" title="3、创建集群"></a>3、创建集群</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">在第一台服务器上面安装 ruby</div><div class="line">cp /usr/local/redis<span class="number">-3.2</span><span class="number">.8</span>/src/redis-trib.rb /usr/local/bin</div><div class="line"></div><div class="line">redis-trib.rb create --replicas <span class="number">1</span> <span class="number">192.168</span><span class="number">.31</span><span class="number">.187</span>:<span class="number">7001</span> <span class="number">192.168</span><span class="number">.31</span><span class="number">.187</span>:<span class="number">7002</span> <span class="number">192.168</span><span class="number">.31</span><span class="number">.19</span>:<span class="number">7003</span> <span class="number">192.168</span><span class="number">.31</span><span class="number">.19</span>:<span class="number">7004</span> <span class="number">192.168</span><span class="number">.31</span><span class="number">.227</span>:<span class="number">7005</span> <span class="number">192.168</span><span class="number">.31</span><span class="number">.227</span>:<span class="number">7006</span></div><div class="line">--replicas: 每个master有几个slave</div><div class="line"></div><div class="line"></div><div class="line">检查 redis-trib.rb check <span class="number">192.168</span><span class="number">.31</span><span class="number">.187</span>:<span class="number">7001</span></div></pre></td></tr></table></figure>
+<h2 id="读写分离-高可用-多master"><a href="#读写分离-高可用-多master" class="headerlink" title="读写分离+高可用+多master"></a>读写分离+高可用+多master</h2><p>读写分离：每个master都有一个slave</p>
+<p>高可用：master宕机，slave自动被切换过去</p>
+<p>多master：横向扩容支持更大数据量</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/22/centos-mysql/" rel="next" title="centos7+ 安装mysql">
+                <i class="fa fa-chevron-left"></i> centos7+ 安装mysql
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2018/04/11/redis-cluster/"
+           data-title="Redis高可用集群搭建" data-url="https://github.com/jordenlwq/2018/04/11/redis-cluster/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Jorden.lwq" />
+          <p class="site-author-name" itemprop="name">Jorden.lwq</p>
+           
+              <p class="site-description motion-element" itemprop="description">有风雨能够扎得住，有压力能够顶得住， 有责任能够扛得住，有诱惑能够忍得住。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jordenlwq" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=2395499549&website=www.oicqzone.com" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      QQ
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.sojson.com/" target="_blank" title="JSON在线解析">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      JSON在线解析
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#redis集群介绍"><span class="nav-number">1.</span> <span class="nav-text">redis集群介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备两台Liunx服务器"><span class="nav-number">2.</span> <span class="nav-text">准备两台Liunx服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-安装redis"><span class="nav-number">3.</span> <span class="nav-text">1 安装redis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#搭建redis集群配置"><span class="nav-number">4.</span> <span class="nav-text">搭建redis集群配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将上面的配置文件，在-etc-redis下放6个，分别为-7001-conf，7002-conf，-第二台机子-7003-conf，7004-conf，7005-conf，7006-conf"><span class="nav-number">5.</span> <span class="nav-text">将上面的配置文件，在/etc/redis下放6个，分别为: 7001.conf，7002.conf，   第二台机子   7003.conf，7004.conf，7005.conf，7006.conf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关闭各自物理机的防火墙。相互ping-一下"><span class="nav-number">6.</span> <span class="nav-text">关闭各自物理机的防火墙。相互ping 一下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、创建集群"><span class="nav-number">7.</span> <span class="nav-text">3、创建集群</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读写分离-高可用-多master"><span class="nav-number">8.</span> <span class="nav-text">读写分离+高可用+多master</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jorden.lwq</span>
+</div>
+
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Gemini
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
